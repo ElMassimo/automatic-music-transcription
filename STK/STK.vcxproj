@@ -327,6 +327,9 @@
       <OutputFile>.\demo.exe</OutputFile>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;dsound.lib;winmm.lib;Wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;dsound.lib;winmm.lib;Wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

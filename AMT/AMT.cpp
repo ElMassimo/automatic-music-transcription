@@ -10,7 +10,7 @@ This example shows how to do multiple populations on a single CPU.
 #include <ga/GA1DBinStrGenome.h>
 #include <ga/GADemeGA.h>
 #include <ga/std_stream.h>
-#include "MusicNoteLib.h"
+#include <MusicNoteLib.h>
 
 #define cout STD_COUT
 #define endl STD_ENDL
@@ -24,7 +24,7 @@ int
 		cout << endl;
 
 		MusicNoteLib::PlayMusicStringWithOpts(_T("K[MELA_22]S[3] S R G M P D N S'"), -1, 20);
-
+		
 		// See if we've been given a seed to use (for testing purposes).  When you
 		// specify a random seed, the evolution will be exactly the same each time
 		// you use that seed number.
