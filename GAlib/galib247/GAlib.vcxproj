@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8639600F-23A7-4C3B-ADFA-663896FEB390}</ProjectGuid>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>GAlib</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>
+    </CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>
+    </CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\galib247;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <IncludePath>..\galib247;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ga\GA1DArrayGenome.C" />
+    <ClCompile Include="ga\GA1DBinStrGenome.C" />
+    <ClCompile Include="ga\GA2DArrayGenome.C" />
+    <ClCompile Include="ga\GA2DBinStrGenome.C" />
+    <ClCompile Include="ga\GA3DArrayGenome.C" />
+    <ClCompile Include="ga\GA3DBinStrGenome.C" />
+    <ClCompile Include="ga\GAAllele.C" />
+    <ClCompile Include="ga\GABaseGA.C" />
+    <ClCompile Include="ga\GABin2DecGenome.C" />
+    <ClCompile Include="ga\gabincvt.C" />
+    <ClCompile Include="ga\GABinStr.C" />
+    <ClCompile Include="ga\GADCrowdingGA.C" />
+    <ClCompile Include="ga\GADemeGA.C" />
+    <ClCompile Include="ga\gaerror.C" />
+    <ClCompile Include="ga\GAGenome.C" />
+    <ClCompile Include="ga\GAIncGA.C" />
+    <ClCompile Include="ga\GAList.C" />
+    <ClCompile Include="ga\GAListBASE.C" />
+    <ClCompile Include="ga\GAListGenome.C" />
+    <ClCompile Include="ga\GAParameter.C" />
+    <ClCompile Include="ga\GAPopulation.C" />
+    <ClCompile Include="ga\garandom.C" />
+    <ClCompile Include="ga\GARealGenome.C" />
+    <ClCompile Include="ga\GAScaling.C" />
+    <ClCompile Include="ga\GASelector.C" />
+    <ClCompile Include="ga\GASimpleGA.C" />
+    <ClCompile Include="ga\GASStateGA.C" />
+    <ClCompile Include="ga\GAStatistics.C" />
+    <ClCompile Include="ga\GAStringGenome.C" />
+    <ClCompile Include="ga\GATree.C" />
+    <ClCompile Include="ga\GATreeBASE.C" />
+    <ClCompile Include="ga\GATreeGenome.C" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ga\ga.h" />
+    <ClInclude Include="ga\GA1DArrayGenome.h" />
+    <ClInclude Include="ga\GA1DBinStrGenome.h" />
+    <ClInclude Include="ga\GA2DArrayGenome.h" />
+    <ClInclude Include="ga\GA2DBinStrGenome.h" />
+    <ClInclude Include="ga\GA3DArrayGenome.h" />
+    <ClInclude Include="ga\GA3DBinStrGenome.h" />
+    <ClInclude Include="ga\GAAllele.h" />
+    <ClInclude Include="ga\GAArray.h" />
+    <ClInclude Include="ga\GABaseGA.h" />
+    <ClInclude Include="ga\GABin2DecGenome.h" />
+    <ClInclude Include="ga\gabincvt.h" />
+    <ClInclude Include="ga\GABinStr.h" />
+    <ClInclude Include="ga\gaconfig.h" />
+    <ClInclude Include="ga\GADCrowdingGA.h" />
+    <ClInclude Include="ga\GADemeGA.h" />
+    <ClInclude Include="ga\gaerror.h" />
+    <ClInclude Include="ga\GAEvalData.h" />
+    <ClInclude Include="ga\GAGenome.h" />
+    <ClInclude Include="ga\gaid.h" />
+    <ClInclude Include="ga\GAIncGA.h" />
+    <ClInclude Include="ga\GAList.h" />
+    <ClInclude Include="ga\GAListBASE.h" />
+    <ClInclude Include="ga\GAListGenome.h" />
+    <ClInclude Include="ga\GAMask.h" />
+    <ClInclude Include="ga\GANode.h" />
+    <ClInclude Include="ga\GAParameter.h" />
+    <ClInclude Include="ga\GAPopulation.h" />
+    <ClInclude Include="ga\garandom.h" />
+    <ClInclude Include="ga\GARealGenome.h" />
+    <ClInclude Include="ga\GAScaling.h" />
+    <ClInclude Include="ga\GASelector.h" />
+    <ClInclude Include="ga\GASimpleGA.h" />
+    <ClInclude Include="ga\GASStateGA.h" />
+    <ClInclude Include="ga\GAStatistics.h" />
+    <ClInclude Include="ga\GAStringGenome.h" />
+    <ClInclude Include="ga\GATree.h" />
+    <ClInclude Include="ga\GATreeBASE.h" />
+    <ClInclude Include="ga\GATreeGenome.h" />
+    <ClInclude Include="ga\gatypes.h" />
+    <ClInclude Include="ga\gaversion.h" />
+    <ClInclude Include="ga\std_stream.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
