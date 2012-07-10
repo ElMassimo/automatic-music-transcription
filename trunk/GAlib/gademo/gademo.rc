@@ -1,0 +1,508 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\gademo.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\gademo.ico"
+IDR_GADEMOTYPE          ICON    DISCARDABLE     "res\\gademoDoc.ico"
+GA_PROG_ICON            ICON    DISCARDABLE     "res\\icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      GA_CNTRL_REWIND
+    BUTTON      GA_CNTRL_STOP
+    BUTTON      GA_CNTRL_STEP
+    BUTTON      GA_CNTRL_SOME
+    BUTTON      GA_CNTRL_EVOLVE
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "Cut",                         ID_EDIT_CUT, INACTIVE
+        MENUITEM "Copy",                        ID_EDIT_COPY, INACTIVE
+        MENUITEM "Paste",                       ID_EDIT_PASTE, INACTIVE
+        MENUITEM SEPARATOR
+        MENUITEM "View &Toolbar",               ID_VIEW_TOOLBAR
+        MENUITEM "View &Status Bar",            ID_VIEW_STATUS_BAR
+        MENUITEM "View &Grid",                  GA_VIEW_GRID
+    END
+    POPUP "Evo&lve"
+    BEGIN
+        MENUITEM "&Reset",                      GA_CNTRL_REWIND
+        MENUITEM SEPARATOR
+        MENUITEM "&One Generation",             GA_CNTRL_STEP
+        MENUITEM "&Some Generations",           GA_CNTRL_SOME
+        MENUITEM "&Continuous",                 GA_CNTRL_EVOLVE
+        MENUITEM "S&top",                       GA_CNTRL_STOP
+        MENUITEM SEPARATOR
+        MENUITEM "&Parameters...",              GA_PARAMETERS
+    END
+    POPUP "Representation"
+    BEGIN
+        MENUITEM "Real",                        GA_MREP_REAL
+        MENUITEM "Binary 4-bit",                GA_MREP_BIN
+        MENUITEM "Binary 8-bit",                GA_MREP_BIN8
+        MENUITEM SEPARATOR
+        MENUITEM "Operators...",                GA_MREP_OPERATORS
+    END
+    POPUP "&Algorithm"
+    BEGIN
+        MENUITEM "&Simple",                     GA_MALG_SIMPLE
+        MENUITEM "S&teady-State",               GA_MALG_SS
+        MENUITEM "Steady-State (w/s&haring)",   GA_MALG_SS_SHARING
+        MENUITEM "&Crowding",                   GA_MALG_CROWDING
+        MENUITEM "&Incremental",                GA_MALG_INCREMENTAL
+        MENUITEM "&Deme",                       GA_MALG_DEME
+    END
+    POPUP "F&unction"
+    BEGIN
+        MENUITEM "&Loaf",                       GA_MFUNC_LOAF
+        MENUITEM "&Foxholes",                   GA_MFUNC_FOXHOLES
+        MENUITEM "&Schwefel",                   GA_MFUNC_SCHWEFEL
+        MENUITEM "&Ripples",                    GA_MFUNC_RIPPLES
+        MENUITEM "Ripples (s&hifted)",          GA_MFUNC_RIPPLE_SHIFT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About gademo...",            ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "E",            GA_CNTRL_EVOLVE,        VIRTKEY, ALT, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "S",            GA_CNTRL_SOME,          VIRTKEY, ALT, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_ESCAPE,      GA_CNTRL_STOP,          VIRTKEY, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    VK_LEFT,        GA_CNTRL_REWIND,        VIRTKEY, ALT, NOINVERT
+    VK_RIGHT,       GA_CNTRL_STEP,          VIRTKEY, ALT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "About this program..."
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,GA_PROG_ICON,11,17,20,20
+    LTEXT           "gademo 1.3",IDC_STATIC,39,13,119,8,SS_NOPREFIX
+    LTEXT           "by Matthew Wall Copyright (C) 1999",IDC_STATIC,39,26,58,
+                    18
+    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
+    LTEXT           "Just a simple little program that illustrates some of the capabilities of GAlib, the C++ genetic algorithms library.",
+                    IDC_STATIC,38,51,172,16
+    LTEXT           "All of the magic in the program happens within the file gademoView.cpp.  Everything else is plain old MSVC++ auto-generated project pieces.  So if you want to do your own stuff, start hacking away on gademoView.cpp.",
+                    IDC_STATIC,38,79,172,40
+END
+
+IDD_PARAMETERS DIALOGEX 0, 0, 213, 90
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Evolution Parameters"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PMUT,98,4,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_PCROSS,98,20,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_NGEN,98,36,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_POPSIZE,98,52,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "&Apply",IDC_APPLY,156,4,50,14
+    PUSHBUTTON      "&Revert",IDC_REVERT,156,22,50,14
+    PUSHBUTTON      "&Close",IDC_CLOSE,156,68,50,14
+    LTEXT           "probability of mutation",IDC_STATIC,25,7,69,8
+    LTEXT           "probability of crossover",IDC_STATIC,21,23,73,8
+    LTEXT           "number of generations",IDC_STATIC,23,39,71,8
+    LTEXT           "population size",IDC_STATIC,46,54,48,8
+    EDITTEXT        IDC_NPOP,98,68,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "number of populations",IDC_STATIC,23,69,70,8
+END
+
+IDD_OPERATORS DIALOGEX 0, 0, 217, 84
+STYLE DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Genetic Operators"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Uniform",IDC_CROSS_UNIFORM,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,13,15,40,10
+    CONTROL         "One-Point",IDC_CROSS_ONEPT,"Button",BS_AUTORADIOBUTTON,
+                    13,26,47,10
+    CONTROL         "Two-Point",IDC_CROSS_TWOPT,"Button",BS_AUTORADIOBUTTON,
+                    13,38,48,10
+    CONTROL         "Averaging",IDC_CROSS_AVERAGE,"Button",
+                    BS_AUTORADIOBUTTON,13,50,48,10
+    CONTROL         "Blend (BLX)",IDC_CROSS_BLX,"Button",BS_AUTORADIOBUTTON,
+                    13,62,53,10
+    CONTROL         "Bit-Flip",IDC_MUT_FLIP,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,85,17,37,10
+    CONTROL         "Uniform",IDC_MUT_UNIFORM,"Button",BS_AUTORADIOBUTTON,85,
+                    29,40,10
+    CONTROL         "Gaussian",IDC_MUT_GAUSSIAN,"Button",BS_AUTORADIOBUTTON,
+                    85,41,45,10
+    CONTROL         "Boundary",IDC_MUT_BOUNDARY,"Button",BS_AUTORADIOBUTTON,
+                    85,53,46,10
+    PUSHBUTTON      "&Apply",IDC_OP_APPLY,160,7,50,14
+    PUSHBUTTON      "&Revert",IDC_OP_REVERT,160,23,50,14
+    PUSHBUTTON      "&Close",IDC_OP_CLOSE,160,63,50,14
+    GROUPBOX        "Crossover",IDC_STATIC,7,7,67,70
+    GROUPBOX        "Mutation",IDC_STATIC,77,7,78,70
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Demo program from GAlib\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "Genetic Algorithm Viewer\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "gademo\0"
+            VALUE "LegalCopyright", "Copyright (C) 1998\0"
+            VALUE "OriginalFilename", "gademo.EXE\0"
+            VALUE "ProductName", "gademo Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 123
+    END
+
+    IDD_PARAMETERS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 206
+        BOTTOMMARGIN, 82
+    END
+
+    IDD_OPERATORS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 77
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "gademo\n\nGademo\n\n\nGademo.Document\nGademo Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "gademo"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout this program"
+    ID_APP_EXIT             "Quit this crazy thing!\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    GA_MALG_SIMPLE          "Goldberg's Simple Genetic Algorithm"
+    GA_MALG_SS              "Steady-State Genetic Algorithm"
+    GA_MALG_CROWDING        "Deterministic Crowding Genetic Algorithm"
+    GA_MFUNC_RIPPLES        "concentric rings with maximum value at the center"
+    GA_MFUNC_LOAF           "four mounds with slight gradient, looks like a loaf of bread"
+    GA_MFUNC_FOXHOLES       "equally spaced spikes with sharp discontinuities"
+    GA_CNTRL_REWIND         "Reset the evolution\nreset evolution"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    GA_CNTRL_STOP           "Interrupt the evolution\nstop evolution"
+    GA_CNTRL_STEP           "Evolve for one generation\nevolve one generation"
+    GA_CNTRL_EVOLVE         "Evolve continuously\nevolve"
+    GA_CNTRL_SOME           "Evolve for a few generations\nevolve for a few generations"
+    GA_MALG_INCREMENTAL     "Incremental Genetic Algorithm (two individuals per generation)"
+    GA_MALG_DEME            "Multiple Population (Deme) Genetic Algorithm"
+    GA_MFUNC_SCHWEFEL       "a rather nasty, discontinuous function courtesy schwefel"
+    GA_PARAMETERS           "Set the parameters for population size, mutation rate, etc."
+    GA_MREP_REAL            "Genome is an array of floating-point numbers"
+    GA_MREP_BIN             "Genome is an array of bits which are converted to floating-point numbers"
+    GA_MALG_SS_SHARING      "Steady-State Algorithm with Fitness Sharing"
+    GA_MFUNC_RIPPLE_SHIFT   "concentric rings with maximum offset from center"
+    GA_VIEW_GRID            "Show/Hide grid"
+    GA_MREP_BIN8            "Genome is an array of bits, 8 bits per floating point value"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    GA_MREP_OPERATORS       "Set the genetic operators (crossover, mutation)"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\gademo.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
