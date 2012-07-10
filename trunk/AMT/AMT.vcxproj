@@ -56,7 +56,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>..\GAlib\galib247;..\CFugue\MusicNote\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\GAlib\galib247;..\CFugue\MusicNote\include;..\STK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -90,6 +90,9 @@
     </ProjectReference>
     <ProjectReference Include="..\GAlib\galib247\GAlib.vcxproj">
       <Project>{8639600f-23a7-4c3b-adfa-663896feb390}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\STK\STK.vcxproj">
+      <Project>{7177c41f-4cf6-2090-10cf-ba5755d9f1c6}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
