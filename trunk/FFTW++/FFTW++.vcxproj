@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D51D36C0-8D4F-44C7-A172-BFEDFF0745D6}</ProjectGuid>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>FFTW</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetExt>.lib</TargetExt>
+    <OutDir>$(SolutionDir)lib\</OutDir>
+    <IntDir>.\build\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>..\FFTW\api;..\FFTW\kernel;..\FFTW\dft;..\FFTW\dft\simd;..\FFTW\dft\scalar;..\FFTW\rdft;..\FFTW\rdft\simd;..\FFTW\rdft\scalar;..\FFTW\reodft;..\FFTW\simd-support;..\FFTW\threads</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Array.cc" />
+    <ClCompile Include="cconv.cc" />
+    <ClCompile Include="cconv2.cc" />
+    <ClCompile Include="cconv3.cc" />
+    <ClCompile Include="conv.cc" />
+    <ClCompile Include="conv2.cc" />
+    <ClCompile Include="conv3.cc" />
+    <ClCompile Include="convolution.cc" />
+    <ClCompile Include="example0.cc" />
+    <ClCompile Include="example0r.cc" />
+    <ClCompile Include="example1.cc" />
+    <ClCompile Include="example1r.cc" />
+    <ClCompile Include="example2.cc" />
+    <ClCompile Include="example2r.cc" />
+    <ClCompile Include="example3.cc" />
+    <ClCompile Include="example3r.cc" />
+    <ClCompile Include="fftw++.cc" />
+    <ClCompile Include="tconv.cc" />
+    <ClCompile Include="tconv2.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Array.h" />
+    <ClInclude Include="cmult-sse2.h" />
+    <ClInclude Include="Complex.h" />
+    <ClInclude Include="convolution.h" />
+    <ClInclude Include="fftw++.h" />
+    <ClInclude Include="getopt.h" />
+    <ClInclude Include="precision.h" />
+    <ClInclude Include="utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FFTW\fftw-3.3-libs\libfftw-3.3\libfftw-3.3.vcxproj">
+      <Project>{ea3dcc95-2423-4ea0-a508-7a427b4c0594}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

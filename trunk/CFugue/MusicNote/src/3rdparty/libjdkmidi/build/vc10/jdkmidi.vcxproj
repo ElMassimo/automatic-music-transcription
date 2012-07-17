@@ -237,9 +237,9 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|x64'">$(SolutionDir)../lib/\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|x64'">$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">$(SolutionDir)lib\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|x64'">$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|Win32'">$(SolutionDir)../lib/\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|x64'">$(SolutionDir)../lib/\</OutDir>
