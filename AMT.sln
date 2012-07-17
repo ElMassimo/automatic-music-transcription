@@ -14,7 +14,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MusicNoteLib", "CFugue\Musi
 		{F8D83713-D3AB-4201-891D-9AF50BBDBA8B} = {F8D83713-D3AB-4201-891D-9AF50BBDBA8B}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jdkmidi", "CFugue\MusicNote\src\3rdparty\libjdkmidi\build\vc10\jdkmidi.vcxproj", "{F8D83713-D3AB-4201-891D-9AF50BBDBA8B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jdkmidi", "CFugue\MusicNote\src\3rdparty\libjdkmidi\jdkmidi.vcxproj", "{F8D83713-D3AB-4201-891D-9AF50BBDBA8B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STK 4.4.3", "STK\STK.vcxproj", "{7177C41F-4CF6-2090-10CF-BA5755D9F1C6}"
 EndProject
