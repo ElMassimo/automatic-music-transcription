@@ -18,32 +18,32 @@ namespace MusicNoteLib
     void MIDIRenderer::WaitTillDone()
     {
 #if defined WIN32 || defined _WIN32
-		while(IsPlaying()) Sleep(500);
+        while(IsPlaying()) Sleep(500);
 #else
         m_MIDIDriver.WaitTillDone();
 #endif
     }
 
     bool MIDIRenderer::SaveToFile(const char* szOutputFilePath)
-	{
-		jdkmidi::MIDIFileWriteStreamFileName outFile(szOutputFilePath);
+    {
+        jdkmidi::MIDIFileWriteStreamFileName outFile(szOutputFilePath);
 
-		if(outFile.IsValid() == false) return false;
+        if(outFile.IsValid() == false) return false;
 
-		jdkmidi::MIDIFileWriteMultiTrack WriterObj(&m_Tracks, &outFile);
+        jdkmidi::MIDIFileWriteMultiTrack WriterObj(&m_Tracks, &outFile);
 
-		return WriterObj.Write();
-	}
+        return WriterObj.Write();
+    }
 
-	void MIDIRenderer::OnChannelPressureEvent(const CParser* pParser, const ChannelPressure* pCP)
-	{
-		AddChannelPressureEvent(pCP->GetPressure());
-	}
+    void MIDIRenderer::OnChannelPressureEvent(const CParser* pParser, const ChannelPressure* pCP)
+    {
+        AddChannelPressureEvent(pCP->GetPressure());
+    }
 
-	void MIDIRenderer::OnControllerEvent(const CParser* pParser, const ControllerEvent* pConEvent)
-	{
-		AddControllerEvent(pConEvent->GetControl(), pConEvent->GetValue());
-	}
+    void MIDIRenderer::OnControllerEvent(const CParser* pParser, const ControllerEvent* pConEvent)
+    {
+        AddControllerEvent(pConEvent->GetControl(), pConEvent->GetValue());
+    }
 
     void MIDIRenderer::OnInstrumentEvent(const CParser* pParser, const Instrument* pInstrument)
     {
@@ -60,15 +60,15 @@ namespace MusicNoteLib
         SetCurrentLayer(pLayer->GetLayer());
     }
 
-	void MIDIRenderer::OnPitchBendEvent(const CParser* pParser, const PitchBend* pPB)
-	{
-		AddPitchBendEvent(pPB->GetLowByte(), pPB->GetHighByte());
-	}
+    void MIDIRenderer::OnPitchBendEvent(const CParser* pParser, const PitchBend* pPB)
+    {
+        AddPitchBendEvent(pPB->GetLowByte(), pPB->GetHighByte());
+    }
 
-	void MIDIRenderer::OnPolyphonicPressureEvent(const CParser* pParser, const PolyphonicPressure* pPressure)
-	{
-		AddPolyphonicPressureEvent(pPressure->GetKey(), pPressure->GetPressure());
-	}
+    void MIDIRenderer::OnPolyphonicPressureEvent(const CParser* pParser, const PolyphonicPressure* pPressure)
+    {
+        AddPolyphonicPressureEvent(pPressure->GetKey(), pPressure->GetPressure());
+    }
 
     void MIDIRenderer::OnTempoEvent(const CParser* pParser, const Tempo* pTempo)
     {

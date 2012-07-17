@@ -23,7 +23,12 @@ int
 		cout << "This example uses a genetic algorithm with multiple populations.\n";
 		cout << endl;
 
-		MusicNoteLib::PlayMusicStringWithOpts(_T("K[MELA_22]S[3] S R G M P D N S'"), -1, 20);
+		// Create the Player Object  
+        MusicNoteLib::Player player; 
+        // Play few Music Notes on MIDI output port
+        player.Play("ci di K[MELA_22] Pa M G R"); 
+        // Now, save that played content to a MIDI output file
+        player.SaveToMidiFile("C:\\Users\\MMx64\\Desktop\\Output.mid"); 
 		
 		// See if we've been given a seed to use (for testing purposes).  When you
 		// specify a random seed, the evolution will be exactly the same each time

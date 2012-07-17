@@ -206,51 +206,51 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</PostBuildEventUseInBuild>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PostBuildEventUseInBuild>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='StaticDebug|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='StaticDebug|Win32'">.\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='StaticDebug|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='StaticDebug|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='StaticDebug|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='StaticDebug|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='StaticDebug|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='StaticDebug|x64'">false</PostBuildEventUseInBuild>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='StaticRelease|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='StaticRelease|Win32'">.\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='StaticRelease|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='StaticRelease|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='StaticRelease|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='StaticRelease|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='StaticRelease|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='StaticRelease|x64'">false</PostBuildEventUseInBuild>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|Win32'">.\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeDebug|x64'">false</PostBuildEventUseInBuild>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">.\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeRelease|x64'">false</PostBuildEventUseInBuild>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">$(SolutionDir)lib\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticDebug|x64'">false</PostBuildEventUseInBuild>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|Win32'">$(SolutionDir)../lib/\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|Win32'">.\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|x64'">$(SolutionDir)../lib/\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|Win32'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|Win32'">.\build\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|x64'">$(Configuration)\tmp_$(ProjectName)\</IntDir>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|Win32'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='UnicodeStaticRelease|x64'">false</PostBuildEventUseInBuild>

@@ -278,17 +278,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Makefile.in">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="include\SKINI.msg">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="include\SKINI.tbl">
-      <Filter>Header Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\ADSR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
