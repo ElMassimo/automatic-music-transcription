@@ -1,12 +1,12 @@
 // $Header$
 /* ----------------------------------------------------------------------------
-  list.C
-  mbwall 25feb95
-  Copyright (c) 1995 Massachusetts Institute of Technology
-                     all rights reserved
+list.C
+mbwall 25feb95
+Copyright (c) 1995 Massachusetts Institute of Technology
+all rights reserved
 
- DESCRIPTION:
-  Source file for the list genome.
+DESCRIPTION:
+Source file for the list genome.
 ---------------------------------------------------------------------------- */
 #ifndef _ga_list_C_
 #define _ga_list_C_
@@ -18,35 +18,28 @@
 #include <ga/garandom.h>
 
 template <class T> int 
-GAListIsHole(const GAListGenome<T>&, const GAListGenome<T>&, int, int, int);
-
-
-
-
-
-
+	GAListIsHole(const GAListGenome<T>&, const GAListGenome<T>&, int, int, int);
 template <class T> const char *
-GAListGenome<T>::className() const {return "GAListGenome";}
+	GAListGenome<T>::className() const {return "GAListGenome";}
 template <class T> int
-GAListGenome<T>::classID() const {return GAID::ListGenome;}
+	GAListGenome<T>::classID() const {return GAID::ListGenome;}
 
 template <class T> 
 GAListGenome<T>::GAListGenome(GAGenome::Evaluator f, void * u) : 
 GAList<T>(),
-GAGenome(DEFAULT_LIST_INITIALIZER,
-	 DEFAULT_LIST_MUTATOR,
-	 DEFAULT_LIST_COMPARATOR) {
-  evaluator(f);
-  userData(u);
-  crossover(DEFAULT_LIST_CROSSOVER);
+	GAGenome(DEFAULT_LIST_INITIALIZER,
+	DEFAULT_LIST_MUTATOR,
+	DEFAULT_LIST_COMPARATOR) {
+		evaluator(f);
+		userData(u);
+		crossover(DEFAULT_LIST_CROSSOVER);
 }
-
 
 template <class T> 
 GAListGenome<T>::GAListGenome(const GAListGenome<T> & orig) : 
 GAList<T>(),
-GAGenome() {
-  GAListGenome<T>::copy(orig);
+	GAGenome() {
+		GAListGenome<T>::copy(orig);
 }
 
 
@@ -55,22 +48,22 @@ GAListGenome<T>::~GAListGenome() { }
 
 
 template <class T> GAGenome *
-GAListGenome<T>::clone(GAGenome::CloneMethod flag) const {
-  GAListGenome<T> *cpy = new GAListGenome<T>();
-  if(flag == (int)CONTENTS){cpy->copy(*this);} // the cast is for metrowerks...
-  else{cpy->GAGenome::copy(*this);}
-  return cpy;
+	GAListGenome<T>::clone(GAGenome::CloneMethod flag) const {
+		GAListGenome<T> *cpy = new GAListGenome<T>();
+		if(flag == (int)CONTENTS){cpy->copy(*this);} // the cast is for metrowerks...
+		else{cpy->GAGenome::copy(*this);}
+		return cpy;
 }
 
 
 template <class T> void
-GAListGenome<T>::copy(const GAGenome & orig){
-  if(&orig == this) return;
-  const GAListGenome<T>* c = DYN_CAST(const GAListGenome<T>*, &orig);
-  if(c) {
-    GAGenome::copy(*c);
-    GAList<T>::copy(*c);
-  }
+	GAListGenome<T>::copy(const GAGenome & orig){
+		if(&orig == this) return;
+		const GAListGenome<T>* c = DYN_CAST(const GAListGenome<T>*, &orig);
+		if(c) {
+			GAGenome::copy(*c);
+			GAList<T>::copy(*c);
+		}
 }
 
 
@@ -79,22 +72,22 @@ GAListGenome<T>::copy(const GAGenome & orig){
 // the stream.  We don't try to write the contents of the nodes - we simply 
 // write a . for each node in the list.
 template <class T> int
-GAListGenome<T>::write(STD_OSTREAM & os) const 
+	GAListGenome<T>::write(STD_OSTREAM & os) const 
 {
-  os << "node       next       prev       contents\n";
-  if(!this->hd) return 0;;
-  os.width(10); os << this->hd << " ";
-  os.width(10); os << this->hd->next << " ";
-  os.width(10); os << this->hd->prev << " ";
-  os.width(10); os << &(DYN_CAST(GANode<T>*, this->hd)->contents) << "\n";
+	os << "node       next       prev       contents\n";
+	if(!this->hd) return 0;;
+	os.width(10); os << this->hd << " ";
+	os.width(10); os << this->hd->next << " ";
+	os.width(10); os << this->hd->prev << " ";
+	os.width(10); os << &(DYN_CAST(GANode<T>*, this->hd)->contents) << "\n";
 
-  for(GANodeBASE * tmp=this->hd->next; tmp && tmp != this->hd; tmp=tmp->next){
-    os.width(10); os << tmp << " ";
-    os.width(10); os << tmp->next << " ";
-    os.width(10); os << tmp->prev << " ";
-    os.width(10); os << &(DYN_CAST(GANode<T>*, tmp)->contents) << "\n";
-  }
-  return 0;
+	for(GANodeBASE * tmp=this->hd->next; tmp && tmp != this->hd; tmp=tmp->next){
+		os.width(10); os << tmp << " ";
+		os.width(10); os << tmp->next << " ";
+		os.width(10); os << tmp->prev << " ";
+		os.width(10); os << &(DYN_CAST(GANode<T>*, tmp)->contents) << "\n";
+	}
+	return 0;
 }
 #endif
 
@@ -106,21 +99,21 @@ GAListGenome<T>::write(STD_OSTREAM & os) const
 //   Neither of these operators affects the internal iterator of either
 // list genome in any way.
 template <class T> int 
-GAListGenome<T>::equal(const GAGenome & c) const
+	GAListGenome<T>::equal(const GAGenome & c) const
 {
-  if(this == &c) return 1;
-  const GAListGenome<T> & b = DYN_CAST(const GAListGenome<T>&, c);
-  if(this->size() != b.size()) return 0;
+	if(this == &c) return 1;
+	const GAListGenome<T> & b = DYN_CAST(const GAListGenome<T>&, c);
+	if(this->size() != b.size()) return 0;
 
-  GAListIter<T> iterA(*this), iterB(b);
-  T *tmpA = iterA.head(), *tmpB = iterB.head();
-  T *head = tmpA;
-  do{
-    if(tmpA && tmpB && *tmpA != *tmpB) return gaFalse;
-    tmpB = iterB.next();
-    tmpA = iterA.next();
-  }while(tmpA && tmpA != head);
-  return 1;
+	GAListIter<T> iterA(*this), iterB(b);
+	T *tmpA = iterA.head(), *tmpB = iterB.head();
+	T *head = tmpA;
+	do{
+		if(tmpA && tmpB && *tmpA != *tmpB) return gaFalse;
+		tmpB = iterB.next();
+		tmpA = iterA.next();
+	}while(tmpA && tmpA != head);
+	return 1;
 }
 
 
@@ -132,7 +125,7 @@ GAListGenome<T>::equal(const GAGenome & c) const
 
 
 /* ----------------------------------------------------------------------------
-   Operator definitions
+Operator definitions
 ---------------------------------------------------------------------------- */
 // Mutate a list by nuking nodes.  Any node has a pmut chance of getting nuked.
 // This is actually kind of bogus for the second part of the if clause (if nMut
@@ -140,32 +133,32 @@ GAListGenome<T>::equal(const GAGenome & c) const
 // probability of getting nuked.
 //   After the mutation the iterator is left at the head of the list.
 template <class T> int
-GAListGenome<T>::DestructiveMutator(GAGenome & c, float pmut)
+	GAListGenome<T>::DestructiveMutator(GAGenome & c, float pmut)
 {
-  GAListGenome<T> &child=DYN_CAST(GAListGenome<T> &, c);
-  register int n, i;
-  if(pmut <= 0.0) return 0;
+	GAListGenome<T> &child=DYN_CAST(GAListGenome<T> &, c);
+	register int n, i;
+	if(pmut <= 0.0) return 0;
 
-  n = child.size();
-  float nMut = pmut * STA_CAST(float, n);
-  if(nMut < 1.0){		// we have to do a flip test for each node
-    nMut = 0;
-    for(i=0; i<n; i++){
-      if(GAFlipCoin(pmut) && child.warp(i)){
-	child.destroy();
-	nMut++;
-      }
-    }
-  }
-  else{				// only nuke the number of nodes we need to
-    for(i=0; i<nMut; i++){
-      if(child.warp(GARandomInt(0, n-1)))
-	child.destroy();
-    }
-  }
-  child.head();		// set iterator to root node
+	n = child.size();
+	float nMut = pmut * STA_CAST(float, n);
+	if(nMut < 1.0){		// we have to do a flip test for each node
+		nMut = 0;
+		for(i=0; i<n; i++){
+			if(GAFlipCoin(pmut) && child.warp(i)){
+				child.destroy();
+				nMut++;
+			}
+		}
+	}
+	else{				// only nuke the number of nodes we need to
+		for(i=0; i<nMut; i++){
+			if(child.warp(GARandomInt(0, n-1)))
+				child.destroy();
+		}
+	}
+	child.head();		// set iterator to root node
 
-  return(STA_CAST(int,nMut));
+	return(STA_CAST(int,nMut));
 }
 
 
@@ -175,31 +168,31 @@ GAListGenome<T>::DestructiveMutator(GAGenome & c, float pmut)
 // which case no swap occurs (we don't check).
 //   After the mutation the iterator is left at the head of the list.
 template <class T> int
-GAListGenome<T>::SwapMutator(GAGenome & c, float pmut)
+	GAListGenome<T>::SwapMutator(GAGenome & c, float pmut)
 {
-  GAListGenome<T> &child=DYN_CAST(GAListGenome<T> &, c);
-  register int n, i;
-  if(pmut <= 0.0) return 0;
+	GAListGenome<T> &child=DYN_CAST(GAListGenome<T> &, c);
+	register int n, i;
+	if(pmut <= 0.0) return 0;
 
-  n = child.size();
-  float nMut = pmut * STA_CAST(float,n);
-  nMut *= 0.5;			// swapping one node swaps another as well
-  if(nMut < 1.0){		// we have to do a flip test for each node
-    nMut = 0;
-    for(i=0; i<n; i++){
-      if(GAFlipCoin(pmut)){
-	child.swap(i,GARandomInt(0,n-1));
-	nMut++;
-      }
-    }
-  }
-  else{				// only nuke the number of nodes we need to
-    for(i=0; i<nMut; i++)
-      child.swap(GARandomInt(0,n-1),GARandomInt(0,n-1));
-  }
-  child.head();		// set iterator to root node
+	n = child.size();
+	float nMut = pmut * STA_CAST(float,n);
+	nMut *= 0.5;			// swapping one node swaps another as well
+	if(nMut < 1.0){		// we have to do a flip test for each node
+		nMut = 0;
+		for(i=0; i<n; i++){
+			if(GAFlipCoin(pmut)){
+				child.swap(i,GARandomInt(0,n-1));
+				nMut++;
+			}
+		}
+	}
+	else{				// only nuke the number of nodes we need to
+		for(i=0; i<nMut; i++)
+			child.swap(GARandomInt(0,n-1),GARandomInt(0,n-1));
+	}
+	child.head();		// set iterator to root node
 
-  return(STA_CAST(int, nMut*2));
+	return(STA_CAST(int, nMut*2));
 }
 
 
@@ -213,26 +206,26 @@ GAListGenome<T>::SwapMutator(GAGenome & c, float pmut)
 // which to compare this diversity measure.  Its kind of hard to define this
 // one in a general way...
 template <class T> float
-GAListGenome<T>::NodeComparator(const GAGenome& a, const GAGenome& b) 
+	GAListGenome<T>::NodeComparator(const GAGenome& a, const GAGenome& b) 
 {
-  if(&a == &b) return 0;
-  const GAListGenome<T>& sis=DYN_CAST(const GAListGenome<T>&, a);
-  const GAListGenome<T>& bro=DYN_CAST(const GAListGenome<T>&, b);
+	if(&a == &b) return 0;
+	const GAListGenome<T>& sis=DYN_CAST(const GAListGenome<T>&, a);
+	const GAListGenome<T>& bro=DYN_CAST(const GAListGenome<T>&, b);
 
-  if(sis.size() > bro.size()) return (float)(sis.size() - bro.size());
-  if(sis.size() < bro.size()) return (float)(bro.size() - sis.size());
-  if(sis.size() == 0) return 0;
+	if(sis.size() > bro.size()) return (float)(sis.size() - bro.size());
+	if(sis.size() < bro.size()) return (float)(bro.size() - sis.size());
+	if(sis.size() == 0) return 0;
 
-  float count = 0;
-  GAListIter<T> biter(bro), siter(sis);
-  T *sptr, *bptr;
-  for(int i=siter.size()-1; i>=0; i--) {
-    sptr = siter.next();
-    bptr = biter.next();
-    if(sptr != 0 && bptr != 0)
-      count += ((*sptr == *bptr) ? 0 : 1);
-  }
-  return count;
+	float count = 0;
+	GAListIter<T> biter(bro), siter(sis);
+	T *sptr, *bptr;
+	for(int i=siter.size()-1; i>=0; i--) {
+		sptr = siter.next();
+		bptr = biter.next();
+		if(sptr != 0 && bptr != 0)
+			count += ((*sptr == *bptr) ? 0 : 1);
+	}
+	return count;
 }
 
 
@@ -264,56 +257,56 @@ GAListGenome<T>::NodeComparator(const GAGenome& a, const GAGenome& b)
 // the mother then proceed to destroy much of the copy we just made.  We could
 // do better by copying only what we need of the mother.
 template <class T> int
-GAListGenome<T>::
-OnePointCrossover(const GAGenome& p1, const GAGenome& p2, 
-		  GAGenome* c1, GAGenome* c2){
-  const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
-  const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
+	GAListGenome<T>::
+	OnePointCrossover(const GAGenome& p1, const GAGenome& p2, 
+	GAGenome* c1, GAGenome* c2){
+		const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
+		const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
 
-  int nc=0;
-  int a = GARandomInt(0, mom.size());
-  int b = GARandomInt(0, dad.size());
-  GAList<T> * list;
+		int nc=0;
+		int a = GARandomInt(0, mom.size());
+		int b = GARandomInt(0, dad.size());
+		GAList<T> * list;
 
-  if(c1){
-    GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
-    sis.GAList<T>::copy(mom);
-    list = dad.GAList<T>::clone(b);
-    if(a < mom.size()){
-      T *site = sis.warp(a);
-      while(sis.tail() != site)
-	sis.destroy();		// delete the tail node
-      sis.destroy();		// trash the trailing node (list[a])
-    }
-    else{
-      sis.tail();		// move to the end of the list
-    }
-    sis.insert(list);		// stick the clone onto the end
-    delete list;
-    sis.head();			// set iterator to head of list
-    nc += 1;
-  }
+		if(c1){
+			GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
+			sis.GAList<T>::copy(mom);
+			list = dad.GAList<T>::clone(b);
+			if(a < mom.size()){
+				T *site = sis.warp(a);
+				while(sis.tail() != site)
+					sis.destroy();		// delete the tail node
+				sis.destroy();		// trash the trailing node (list[a])
+			}
+			else{
+				sis.tail();		// move to the end of the list
+			}
+			sis.insert(list);		// stick the clone onto the end
+			delete list;
+			sis.head();			// set iterator to head of list
+			nc += 1;
+		}
 
-  if(c2){
-    GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
-    bro.GAList<T>::copy(dad);
-    list = mom.GAList<T>::clone(a);
-    if(b < dad.size()){
-      T *site = bro.warp(b);
-      while(bro.tail() != site)
-	bro.destroy();		// delete the tail node
-      bro.destroy();		// trash the trailing node (list[a])
-    }
-    else{
-      bro.tail();		// move to the end of the list
-    }
-    bro.insert(list);		// stick the clone onto the end
-    delete list;
-    bro.head();			// set iterator to head of list
-    nc += 1;
-  }
+		if(c2){
+			GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
+			bro.GAList<T>::copy(dad);
+			list = mom.GAList<T>::clone(a);
+			if(b < dad.size()){
+				T *site = bro.warp(b);
+				while(bro.tail() != site)
+					bro.destroy();		// delete the tail node
+				bro.destroy();		// trash the trailing node (list[a])
+			}
+			else{
+				bro.tail();		// move to the end of the list
+			}
+			bro.insert(list);		// stick the clone onto the end
+			delete list;
+			bro.head();			// set iterator to head of list
+			nc += 1;
+		}
 
-  return nc;
+		return nc;
 }
 
 
@@ -343,60 +336,60 @@ OnePointCrossover(const GAGenome& p1, const GAGenome& p2,
 //   The parents should be the same size as the child (and they should contain
 // the same nodes, but in any order).  We do not check for this!!
 template <class T> int
-GAListGenome<T>::
-PartialMatchCrossover(const GAGenome& p1, const GAGenome& p2,
-		     GAGenome* c1, GAGenome* c2){
-  const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
-  const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
+	GAListGenome<T>::
+	PartialMatchCrossover(const GAGenome& p1, const GAGenome& p2,
+	GAGenome* c1, GAGenome* c2){
+		const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
+		const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
 
-  if(mom.size() != dad.size()){
-    GAErr(GA_LOC, mom.className(), "cross", gaErrBadParentLength);
-    return 0;
-  }
+		if(mom.size() != dad.size()){
+			GAErr(GA_LOC, mom.className(), "cross", gaErrBadParentLength);
+			return 0;
+		}
 
-  int a = GARandomInt(0, mom.size());
-  int b = GARandomInt(0, dad.size());
-  if(b<a) SWAP(a,b);
-  T* index;
-  int i,j,nc=0;
+		int a = GARandomInt(0, mom.size());
+		int b = GARandomInt(0, dad.size());
+		if(b<a) SWAP(a,b);
+		T* index;
+		int i,j,nc=0;
 
-  if(c1){
-    GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
-    sis.GAList<T>::copy(mom);
-    GAListIter<T> diter(dad);
-    index = diter.warp(a);
-    for(i=a; i<b; i++, index=diter.next()){
-      if(*sis.head() == *index){
-	sis.swap(i,0);
-      }
-      else{
-	for(j=1; (j<sis.size()) && (*sis.next() != *index); j++);
-	sis.swap(i,j);  // no op if j>size
-      }
-    }
-    sis.head();         // set iterator to head of list
-    nc += 1;
-  }
+		if(c1){
+			GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
+			sis.GAList<T>::copy(mom);
+			GAListIter<T> diter(dad);
+			index = diter.warp(a);
+			for(i=a; i<b; i++, index=diter.next()){
+				if(*sis.head() == *index){
+					sis.swap(i,0);
+				}
+				else{
+					for(j=1; (j<sis.size()) && (*sis.next() != *index); j++);
+					sis.swap(i,j);  // no op if j>size
+				}
+			}
+			sis.head();         // set iterator to head of list
+			nc += 1;
+		}
 
-  if(c2){
-    GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
-    bro.GAList<T>::copy(dad);
-    GAListIter<T> miter(mom);
-    index = miter.warp(a);
-    for(i=a; i<b; i++, index=miter.next()){
-      if(*bro.head() == *index){
-	bro.swap(i,0);
-      }
-      else{
-	for(j=1; (j<bro.size()) && (*bro.next() != *index); j++);
-	bro.swap(i,j);  // no op if j>size
-      }
-    }
-    bro.head();         // set iterator to head of list
-    nc += 2;
-  }
+		if(c2){
+			GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
+			bro.GAList<T>::copy(dad);
+			GAListIter<T> miter(mom);
+			index = miter.warp(a);
+			for(i=a; i<b; i++, index=miter.next()){
+				if(*bro.head() == *index){
+					bro.swap(i,0);
+				}
+				else{
+					for(j=1; (j<bro.size()) && (*bro.next() != *index); j++);
+					bro.swap(i,j);  // no op if j>size
+				}
+			}
+			bro.head();         // set iterator to head of list
+			nc += 2;
+		}
 
-  return nc;
+		return nc;
 }
 
 
@@ -407,116 +400,116 @@ PartialMatchCrossover(const GAGenome& p1, const GAGenome& p2,
 //   We assume that we'll never get a NULL pointer while iterating through the
 // list.  Also we assume that the lists are the same size and non-NULL.
 template <class T> int
-GAListIsHole(const GAListGenome<T> &child, const GAListGenome<T> &parent,
-	     int index, int a, int b){
-  GAListIter<T> citer(child), piter(parent);
-  citer.warp(index);
-  piter.warp(a);
-  for(int i=a; i<b; i++){
-    if(*citer.current() == *piter.current()) return 1;
-    piter.next();
-  }
-  return 0;
+	GAListIsHole(const GAListGenome<T> &child, const GAListGenome<T> &parent,
+	int index, int a, int b){
+		GAListIter<T> citer(child), piter(parent);
+		citer.warp(index);
+		piter.warp(a);
+		for(int i=a; i<b; i++){
+			if(*citer.current() == *piter.current()) return 1;
+			piter.next();
+		}
+		return 0;
 }
 
 template <class T> int
-GAListGenome<T>::
-OrderCrossover(const GAGenome& p1, const GAGenome& p2,
-	       GAGenome* c1, GAGenome* c2){
-  const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
-  const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
+	GAListGenome<T>::
+	OrderCrossover(const GAGenome& p1, const GAGenome& p2,
+	GAGenome* c1, GAGenome* c2){
+		const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
+		const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
 
-  if(mom.size() != dad.size()){
-    GAErr(GA_LOC, mom.className(), "cross", gaErrBadParentLength);
-    return 0;
-  }
+		if(mom.size() != dad.size()){
+			GAErr(GA_LOC, mom.className(), "cross", gaErrBadParentLength);
+			return 0;
+		}
 
-  int a = GARandomInt(0, mom.size());
-  int b = GARandomInt(0, dad.size());
-  if(b<a) SWAP(a,b);
-  int i,j, index, nc=0;
+		int a = GARandomInt(0, mom.size());
+		int b = GARandomInt(0, dad.size());
+		if(b<a) SWAP(a,b);
+		int i,j, index, nc=0;
 
-  if(c1){
-    GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
-    sis.GAList<T>::copy(mom);
-    GAListIter<T> siter(sis);
-    GAListIter<T> diter(dad);
+		if(c1){
+			GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
+			sis.GAList<T>::copy(mom);
+			GAListIter<T> siter(sis);
+			GAListIter<T> diter(dad);
 
-// Move all the 'holes' into the crossover section and maintain the ordering of
-// the non-hole elements.
-    for(i=0, index=b; i<sis.size(); i++, index++){
-      if(index >= sis.size()) index=0;
-      if(GAListIsHole(sis,dad,index,a,b)) break;
-    }
-    for(; i<sis.size()-b+a; i++, index++){
-      if(index >= sis.size()) index=0;
-      j=index;
-      do{
-	j++;
-	if(j >= sis.size()) j=0;
-      } while(GAListIsHole(sis,dad,j,a,b));
-      sis.swap(index,j);
-    }
+			// Move all the 'holes' into the crossover section and maintain the ordering of
+			// the non-hole elements.
+			for(i=0, index=b; i<sis.size(); i++, index++){
+				if(index >= sis.size()) index=0;
+				if(GAListIsHole(sis,dad,index,a,b)) break;
+			}
+			for(; i<sis.size()-b+a; i++, index++){
+				if(index >= sis.size()) index=0;
+				j=index;
+				do{
+					j++;
+					if(j >= sis.size()) j=0;
+				} while(GAListIsHole(sis,dad,j,a,b));
+				sis.swap(index,j);
+			}
 
-// Now put the 'holes' in the proper order within the crossover section.
-    for(i=a, sis.warp(a), diter.warp(a);
-	i<b; i++, sis.next(), diter.next()){
-      if(*sis.current() != *diter.current()){
-	siter.warp(i);
-	for(j=i+1; j<b; j++)
-	  if(*siter.next() == *diter.current()){
-	    sis.swap(i,j);
-	    sis.warp(siter);	// move iterator back to previous location
-	    break;
-	  }
-      }
-    }
+			// Now put the 'holes' in the proper order within the crossover section.
+			for(i=a, sis.warp(a), diter.warp(a);
+				i<b; i++, sis.next(), diter.next()){
+					if(*sis.current() != *diter.current()){
+						siter.warp(i);
+						for(j=i+1; j<b; j++)
+							if(*siter.next() == *diter.current()){
+								sis.swap(i,j);
+								sis.warp(siter);	// move iterator back to previous location
+								break;
+							}
+					}
+			}
 
-    sis.head();		// set iterator to head of list
-    nc += 1;
-  }
+			sis.head();		// set iterator to head of list
+			nc += 1;
+		}
 
-  if(c2){
-    GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
-    bro.GAList<T>::copy(dad);
-    GAListIter<T> biter(bro);
-    GAListIter<T> miter(mom);
+		if(c2){
+			GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
+			bro.GAList<T>::copy(dad);
+			GAListIter<T> biter(bro);
+			GAListIter<T> miter(mom);
 
-// Move all the 'holes' into the crossover section and maintain the ordering of
-// the non-hole elements.
-    for(i=0, index=b; i<bro.size(); i++, index++){
-      if(index >= bro.size()) index=0;
-      if(GAListIsHole(bro,mom,index,a,b)) break;
-    }
+			// Move all the 'holes' into the crossover section and maintain the ordering of
+			// the non-hole elements.
+			for(i=0, index=b; i<bro.size(); i++, index++){
+				if(index >= bro.size()) index=0;
+				if(GAListIsHole(bro,mom,index,a,b)) break;
+			}
 
-    for(; i<bro.size()-b+a; i++, index++){
-      if(index >= bro.size()) index=0;
-      j=index;
-      do{
-	j++;
-	if(j >= bro.size()) j=0;
-      } while(GAListIsHole(bro,mom,j,a,b));
-      bro.swap(index,j);
-    }
+			for(; i<bro.size()-b+a; i++, index++){
+				if(index >= bro.size()) index=0;
+				j=index;
+				do{
+					j++;
+					if(j >= bro.size()) j=0;
+				} while(GAListIsHole(bro,mom,j,a,b));
+				bro.swap(index,j);
+			}
 
-// Now put the 'holes' in the proper order within the crossover section.
-    for(i=a, bro.warp(a), miter.warp(a);
-	i<b; i++, bro.next(), miter.next()){
-      if(*bro.current() != *miter.current()){
-	biter.warp(i);
-	for(j=i+1; j<b; j++)
-	  if(*biter.next() == *miter.current()){
-	    bro.swap(i,j);
-	    bro.warp(biter);	// move iterator back to previous location
-	    break;
-	  }
-      }
-    }
-    bro.head();		// set iterator to head of list
-    nc += 1;
-  }
+			// Now put the 'holes' in the proper order within the crossover section.
+			for(i=a, bro.warp(a), miter.warp(a);
+				i<b; i++, bro.next(), miter.next()){
+					if(*bro.current() != *miter.current()){
+						biter.warp(i);
+						for(j=i+1; j<b; j++)
+							if(*biter.next() == *miter.current()){
+								bro.swap(i,j);
+								bro.warp(biter);	// move iterator back to previous location
+								break;
+							}
+					}
+			}
+			bro.head();		// set iterator to head of list
+			nc += 1;
+		}
 
-  return nc;
+		return nc;
 }
 
 
@@ -530,83 +523,83 @@ OrderCrossover(const GAGenome& p1, const GAGenome& p2,
 
 
 template <class T> int
-GAListGenome<T>::
-CycleCrossover(const GAGenome& p1, const GAGenome& p2,
-	       GAGenome* c1, GAGenome* c2){
-  const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
-  const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
+	GAListGenome<T>::
+	CycleCrossover(const GAGenome& p1, const GAGenome& p2,
+	GAGenome* c1, GAGenome* c2){
+		const GAListGenome<T> &mom=DYN_CAST(const GAListGenome<T> &, p1);
+		const GAListGenome<T> &dad=DYN_CAST(const GAListGenome<T> &, p2);
 
-  if(mom.size() != dad.size()){
-    GAErr(GA_LOC, mom.className(), "cross", gaErrBadParentLength);
-    return 0;
-  }
+		if(mom.size() != dad.size()){
+			GAErr(GA_LOC, mom.className(), "cross", gaErrBadParentLength);
+			return 0;
+		}
 
-  GAMask mask;
-  mask.size(mom.size());
-  mask.clear();
-  int i, nc=0;
+		GAMask mask;
+		mask.size(mom.size());
+		mask.clear();
+		int i, nc=0;
 
-  if(c1){
-    GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
-    sis.GAList<T>::copy(mom);
-    GAListIter<T> diter(dad);
+		if(c1){
+			GAListGenome<T> &sis=DYN_CAST(GAListGenome<T> &, *c1);
+			sis.GAList<T>::copy(mom);
+			GAListIter<T> diter(dad);
 
-// Cycle through mom & dad to get the cyclic part of the crossover.
-    mask[0] = 1;
-    diter.head();
-    while(*diter.current() != *sis.head()){
-      for(i=0; i<sis.size(); i++, sis.next()){
-	if(*sis.current() == *diter.current()){
-	  mask[i] = 1;
-	  diter.warp(i);
-	  break;
-	}
-      }
-    }
+			// Cycle through mom & dad to get the cyclic part of the crossover.
+			mask[0] = 1;
+			diter.head();
+			while(*diter.current() != *sis.head()){
+				for(i=0; i<sis.size(); i++, sis.next()){
+					if(*sis.current() == *diter.current()){
+						mask[i] = 1;
+						diter.warp(i);
+						break;
+					}
+				}
+			}
 
-// Now fill in the rest of the sis with dad's contents that we didn't use
-// in the cycle.
-    sis.head();
-    diter.head();
-    for(i=0; i<sis.size(); i++){
-      if(mask[i] == 0) *sis.current() = *diter.current();
-      sis.next(); diter.next();
-    }
-    sis.head();		// set iterator to head of list
-    nc += 1;
-  }
+			// Now fill in the rest of the sis with dad's contents that we didn't use
+			// in the cycle.
+			sis.head();
+			diter.head();
+			for(i=0; i<sis.size(); i++){
+				if(mask[i] == 0) *sis.current() = *diter.current();
+				sis.next(); diter.next();
+			}
+			sis.head();		// set iterator to head of list
+			nc += 1;
+		}
 
-  if(c2){
-    GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
-    bro.GAList<T>::copy(dad);
-    GAListIter<T> miter(mom);
+		if(c2){
+			GAListGenome<T> &bro=DYN_CAST(GAListGenome<T> &, *c2);
+			bro.GAList<T>::copy(dad);
+			GAListIter<T> miter(mom);
 
-// Cycle through mom & dad to get the cyclic part of the crossover.
-    mask[0] = 1;
-    miter.head();
-    while(*miter.current() != *bro.head()){
-      for(i=0; i<bro.size(); i++, bro.next()){
-	if(*bro.current() == *miter.current()){
-	  mask[i] = 1;
-	  miter.warp(i);
-	  break;
-	}
-      }
-    }
+			// Cycle through mom & dad to get the cyclic part of the crossover.
+			mask[0] = 1;
+			miter.head();
+			while(*miter.current() != *bro.head()){
+				for(i=0; i<bro.size(); i++, bro.next()){
+					if(*bro.current() == *miter.current()){
+						mask[i] = 1;
+						miter.warp(i);
+						break;
+					}
+				}
+			}
 
-// Now fill in the rest of the bro with dad's contents that we didn't use
-// in the cycle.
-    bro.head();
-    miter.head();
-    for(i=0; i<bro.size(); i++){
-      if(mask[i] == 0) *bro.current() = *miter.current();
-      bro.next(); miter.next();
-    }
-    bro.head();		// set iterator to head of list
-    nc += 1;
-  }
+			// Now fill in the rest of the bro with dad's contents that we didn't use
+			// in the cycle.
+			bro.head();
+			miter.head();
+			for(i=0; i<bro.size(); i++){
+				if(mask[i] == 0) *bro.current() = *miter.current();
+				bro.next(); miter.next();
+			}
+			bro.head();		// set iterator to head of list
+			nc += 1;
+		}
 
-  return nc;
+		return nc;
 }
 
 #endif

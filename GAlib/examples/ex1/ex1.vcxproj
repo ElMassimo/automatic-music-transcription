@@ -38,15 +38,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\Release\</OutDir>
-    <IntDir>.\Release\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>.\build\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>.\Debug\</OutDir>
-    <IntDir>.\Debug\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>.\build\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\AMT\GAlib\galib247;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -58,10 +58,11 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Release\ex1.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Release\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
     </ClCompile>
     <Midl>
       <TypeLibraryName>.\Release\ex1.tlb</TypeLibraryName>
@@ -77,7 +78,7 @@
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <SubSystem>Console</SubSystem>
-      <OutputFile>.\Release\ex1.exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -92,12 +93,13 @@
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\galib247;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Debug\ex1.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Debug\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Midl>
@@ -115,7 +117,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <OutputFile>.\Debug\ex1.exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -123,7 +125,9 @@
     <ClCompile Include="..\..\galib247\examples\ex1.C" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\library\Debug\library.lib" />
+    <ProjectReference Include="..\library\library.vcxproj">
+      <Project>{0c221154-892e-f8f7-0f58-75bfd4047a08}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
