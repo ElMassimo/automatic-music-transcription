@@ -19,9 +19,9 @@ int main()
   for ( i=0; i<4; i++ )
     inputs[i].setFrequency( 220.0 * (i+1) );
 
-  // Define and open a 16-bit, four-channel AIFF formatted output file
+  // Define and open a 16-bit, four-channel WAV formatted output file
   try {
-    output.openFile( "foursine.aif", 4, FileWrite::FILE_AIF, Stk::STK_SINT16 );
+    output.openFile( "foursine.wav", 4, FileWrite::FILE_WAV, Stk::STK_SINT16 );
   }
   catch (StkError &) {
     exit( 1 );
