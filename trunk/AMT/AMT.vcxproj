@@ -85,7 +85,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AMT.cpp" />
+    <ClCompile Include="AmtGA.cpp" />
     <ClCompile Include="AmtRenderer.cpp" />
+    <ClCompile Include="Note.cpp" />
+    <ClCompile Include="NotesGenome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CFugue\MusicNote\vs-build\MusicNoteLib.vcxproj">
@@ -100,7 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Amt.h" />
+    <ClInclude Include="include\AmtGA.h" />
     <ClInclude Include="include\AmtRenderer.h" />
+    <ClInclude Include="include\Note.h" />
+    <ClInclude Include="include\NotesGenome.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

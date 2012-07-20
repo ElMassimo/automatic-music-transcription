@@ -125,8 +125,8 @@
     <ClCompile Include="..\..\galib247\examples\ex8.C" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\library\library.vcxproj">
-      <Project>{0c221154-892e-f8f7-0f58-75bfd4047a08}</Project>
+    <ProjectReference Include="..\..\galib247\GAlib.vcxproj">
+      <Project>{8639600f-23a7-4c3b-adfa-663896feb390}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
