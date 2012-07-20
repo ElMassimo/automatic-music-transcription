@@ -290,6 +290,24 @@ StkFrames& StkFrames :: operator= ( const StkFrames& f )
   return *this;
 }
 
+void StkFrames :: setFrameWindow (unsigned int startingFrame, unsigned int nFrames)
+{
+	oldnFrames_ = nFrames_;
+	oldData_ = data_;
+	nFrames_ = nFrames;
+	size_ = nFrames_ * nChannels_;
+	bufferSize_ = size_;
+	data_ = &data_[startingFrame * nChannels_];	
+}
+
+void StkFrames :: resetFrameWindow ()
+{
+	nFrames_ = oldnFrames_;
+	data_ = oldData_;	
+	size_ = nFrames_ * nChannels_;
+	bufferSize_ = size_;
+}
+
 void StkFrames :: resize( size_t nFrames, unsigned int nChannels )
 {
   nFrames_ = nFrames;

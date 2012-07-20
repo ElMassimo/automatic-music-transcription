@@ -11,25 +11,45 @@ This example shows how to do multiple populations on a single CPU.
 #include <ga/GADemeGA.h>
 #include <ga/std_stream.h>
 #include <MusicNoteLib.h>
+#include "AmtRenderer.h"
 
 #define cout STD_COUT
 #define endl STD_ENDL
 
+using namespace AMT;
+
 float Objective(GAGenome &);
 
-int
-	main(int argc, char** argv) {
-		cout << "Example 25\n\n";
-		cout << "This example uses a genetic algorithm with multiple populations.\n";
-		cout << endl;
+int	main(int argc, char** argv) {
+	
+		AmtRenderer::Initialize();
 
+		AmtRenderer renderer(44100 * 10);
+
+		Note* notes[20];
+		for(int i = 0; i < 20; i++)
+			notes[i] = new Note(40 + i, 22050);
+			
+		renderer.AddNotes(notes, 20);
+
+		for(int i = 0; i < 20; i++)
+			delete notes[i];
+		
+		renderer.SaveFile("Test");
+
+		AmtRenderer::CleanUp();
+				
 		// Create the Player Object  
         MusicNoteLib::Player player; 
         // Play few Music Notes on MIDI output port
         player.Play("ci di K[MELA_22] Pa M G R"); 
         // Now, save that played content to a MIDI output file
         player.SaveToMidiFile("C:\\Users\\MMx64\\Desktop\\Output.mid"); 
-		
+
+		cout << "Example 25\n\n";
+		cout << "This example uses a genetic algorithm with multiple populations.\n";
+		cout << endl;
+			
 		// See if we've been given a seed to use (for testing purposes).  When you
 		// specify a random seed, the evolution will be exactly the same each time
 		// you use that seed number.
