@@ -277,6 +277,9 @@ public:
 
   //! Overloaded constructor that initializes the frame data to the specified size with \c value.
   StkFrames( const StkFloat& value, unsigned int nFrames, unsigned int nChannels );
+    
+  //! Copy constructor, that sets the data from the starting frame
+  StkFrames(const StkFrames& f, unsigned int startingFrame, unsigned int nFrames);
 
   //! The destructor.
   ~StkFrames();
@@ -352,6 +355,12 @@ public:
   //! Returns \e true if the object size is zero and \e false otherwise.
   bool empty() const;
 
+  // It allows to set a frame window, to use the underlying array more efficiently when working with generators.
+  void setFrameWindow(unsigned int startingFrame, unsigned int nFrames);
+
+  // Resets the frame window
+  void resetFrameWindow();
+
   //! Resize self to represent the specified number of channels and frames.
   /*!
     Changes the size of self based on the number of frames and
@@ -401,6 +410,9 @@ private:
   size_t size_;
   size_t bufferSize_;
 
+  // For setting frame windows
+  StkFloat *oldData_;
+  size_t oldnFrames_;
 };
 
 inline bool StkFrames :: empty() const

@@ -66,7 +66,7 @@ int main( int argc, char *argv[] )
   // type options include: STK_SINT8, STK_INT24, STK_SINT32,
   // STK_FLOAT32, and STK_FLOAT64.
   try {
-    output.openFile( argv[2], channels, FileWrite::FILE_WAV, Stk::STK_SINT16 );
+    output.openFile( argv[2], channels, FileWrite::FILE_RAW, Stk::STK_SINT16 );
   }
   catch ( StkError & ) {
     goto cleanup;

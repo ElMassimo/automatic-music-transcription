@@ -28,4 +28,6 @@ int main()
   Backward.fftNormalized(g,f);
   
   cout << f << endl;
+
+  cin.ignore();
 }

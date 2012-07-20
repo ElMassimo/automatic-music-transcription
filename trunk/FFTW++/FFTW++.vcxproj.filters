@@ -15,58 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tconv2.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tconv.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="fftw++.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example3r.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example3.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example2r.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example2.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example1r.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example1.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example0r.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="example0.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="convolution.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="conv3.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="conv2.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="conv.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cconv3.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cconv2.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cconv.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Array.cc">
