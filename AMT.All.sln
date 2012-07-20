@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFTW++ examples", "FFTW++\F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sine", "STK\projects\examples\sine.vcxproj", "{74F23A1B-E58A-381F-EE59-B9103C0714FB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ex8", "GAlib\examples\ex8\ex8.vcxproj", "{6870A13F-7011-32EB-A32C-DDDA2E820DA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -382,6 +384,39 @@ Global
 		{74F23A1B-E58A-381F-EE59-B9103C0714FB}.UnicodeStaticRelease|Win32.ActiveCfg = Release|Win32
 		{74F23A1B-E58A-381F-EE59-B9103C0714FB}.UnicodeStaticRelease|Win32.Build.0 = Release|Win32
 		{74F23A1B-E58A-381F-EE59-B9103C0714FB}.UnicodeStaticRelease|x64.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Debug|Win32.Build.0 = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Debug|x64.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Release|Win32.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Release|Win32.Build.0 = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Release|x64.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.StaticDebug|Win32.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.StaticDebug|Win32.Build.0 = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Static-Debug|Win32.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Static-Debug|Win32.Build.0 = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.StaticDebug|x64.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Static-Debug|x64.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.StaticRelease|Win32.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.StaticRelease|Win32.Build.0 = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Static-Release|Win32.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Static-Release|Win32.Build.0 = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.StaticRelease|x64.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Static-Release|x64.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Template|Win32.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Template|Win32.Build.0 = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.Template|x64.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeDebug|Win32.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeDebug|Win32.Build.0 = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeDebug|x64.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeRelease|Win32.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeRelease|Win32.Build.0 = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeRelease|x64.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeStaticDebug|Win32.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeStaticDebug|Win32.Build.0 = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeStaticDebug|x64.ActiveCfg = Debug|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeStaticRelease|Win32.ActiveCfg = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeStaticRelease|Win32.Build.0 = Release|Win32
+		{6870A13F-7011-32EB-A32C-DDDA2E820DA4}.UnicodeStaticRelease|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
