@@ -1,5 +1,8 @@
 #include "NotesGenome.h"
 
+Complex* NotesGenome::originalFFTs = NULL;
+int NotesGenome::totalSampleDuration = 0;
+
 void NotesGenome::Init(GAGenome& g){
 	NotesGenome &genome = DYN_CAST(NotesGenome&,g);
 	genome.totalDuration = 0;
@@ -18,18 +21,22 @@ void NotesGenome::Init(GAGenome& g){
 	}
 }
 
-int NotesGenome::Mutate(GAGenome& g, float pmut){
+int NotesGenome::Mutate(GAGenome& g, float pmut)
+{
 	NotesGenome &genome = (NotesGenome&) g;
+
 	if(pmut <= 0.0)
 		return 0;
-	
-	int nMut = 0;
-	/*for(int i = noteList.size()-1; i>=0; i--){
-	if(GAFlipCoin(pmut)){
-		child.gene(i, ((child.gene(i) == 0) ? 1 : 0));
-		nMut++;
-	}*/
-	return nMut;
+
+	if(GAFlipCoin(pmut) && genome.size() > 0){
+		int removeIndex = GARandomInt(0, genome.size() - 1);
+		NotesIterator it = genome.notes.begin();
+		advance(it, removeIndex);
+		genome.notes.erase(it);
+		return 1;
+	}
+
+	return 0;
 }
 
 float NotesGenome::Compare(const GAGenome& g1, const GAGenome& g2){	
@@ -48,13 +55,13 @@ int NotesGenome::Cross(const GAGenome& mom, const GAGenome& dad, GAGenome* sis, 
 	return 0;
 }
 
-NotesGenome::NotesGenome(void) : GAGenome(Init, Mutate, Compare)
+NotesGenome::NotesGenome(void) : GAGenome(Init, Mutate, Compare), totalDuration(0)
 {
     evaluator(Evaluate); 
     crossover(Cross); 
 }
 
-NotesGenome::NotesGenome(const NotesGenome& orig)
+NotesGenome::NotesGenome(const NotesGenome& orig) : totalDuration(0)
 { 
 	copy(orig);
 }

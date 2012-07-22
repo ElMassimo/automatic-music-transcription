@@ -3,10 +3,14 @@
 #include <stdlib.h>
 #include <list>
 #include <ga/GAListGenome.h>
+#include <fftw++.h>
 #include "Note.h"
 
 using namespace std;
 using namespace AMT;
+
+typedef list<class Note> Notes;
+typedef Notes::iterator NotesIterator;
 
 class NotesGenome : public GAGenome
 {
@@ -31,8 +35,11 @@ public:
 
 	int size() const;
 
-private:
-	list<class Note> notes;
+	Notes notes;
 	int totalDuration;
+
+	static Complex* originalFFTs;
+	static int totalSampleDuration;
+
 };
 
