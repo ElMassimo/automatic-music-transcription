@@ -49,14 +49,14 @@ void AmtRenderer::AddNote(Note &note, int start)
 	frames->resetFrameWindow();
 }
 
-void AmtRenderer::AddNotes(Note** notes, int amount, int start)
+void AmtRenderer::AddNotes(list<Note> &notes, int start)
 {
 	int onset = start;
 
-	for(int i = 0; i < amount; i++)
+	for(list<Note>::iterator it = notes.begin(); it != notes.end(); it++)
 	{
-		AddNote(*notes[i], onset);
-		onset += notes[i]->duration;
+		AddNote(*it, onset);
+		onset += it->duration;
 	}
 }
 
