@@ -87,7 +87,7 @@
     <ClCompile Include="AMT.cpp" />
     <ClCompile Include="AmtGA.cpp" />
     <ClCompile Include="AmtRenderer.cpp" />
-    <ClCompile Include="Note.cpp" />
+    <ClCompile Include="Notes.cpp" />
     <ClCompile Include="NotesGenome.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +112,7 @@
     <ClInclude Include="include\AmtGA.h" />
     <ClInclude Include="include\AmtRenderer.h" />
     <ClInclude Include="include\Note.h" />
+    <ClInclude Include="include\Notes.h" />
     <ClInclude Include="include\NotesGenome.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

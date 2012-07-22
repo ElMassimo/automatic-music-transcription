@@ -4,15 +4,11 @@
 #include <list>
 #include <ga/GAListGenome.h>
 #include <fftw++.h>
-#include "Note.h"
+#include "Notes.h"
 
 using namespace std;
-using namespace AMT;
 
-typedef list<class Note> Notes;
-typedef Notes::iterator NotesIterator;
-
-class NotesGenome : public GAGenome
+class NotesGenome : public GAGenome, public Notes
 {
 public:
 	GADefineIdentity("NotesGenome", 201);
@@ -32,14 +28,5 @@ public:
 	virtual int write(ostream&) const;
 	virtual GAGenome* clone(CloneMethod) const;
 	virtual void copy(const GAGenome& orig);
-
-	int size() const;
-
-	Notes notes;
-	int totalDuration;
-
-	static Complex* originalFFTs;
-	static int totalSampleDuration;
-
 };
 

@@ -20,10 +20,10 @@
     <ClCompile Include="AmtGA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Note.cpp">
+    <ClCompile Include="NotesGenome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NotesGenome.cpp">
+    <ClCompile Include="Notes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,10 +37,13 @@
     <ClInclude Include="include\AmtGA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\NotesGenome.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\Note.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\NotesGenome.h">
+    <ClInclude Include="include\Notes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

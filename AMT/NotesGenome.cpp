@@ -1,8 +1,5 @@
 #include "NotesGenome.h"
 
-Complex* NotesGenome::originalFFTs = NULL;
-int NotesGenome::totalSampleDuration = 0;
-
 void NotesGenome::Init(GAGenome& g){
 	NotesGenome &genome = DYN_CAST(NotesGenome&,g);
 	genome.totalDuration = 0;
@@ -16,7 +13,7 @@ void NotesGenome::Init(GAGenome& g){
 		int duration = GARandomInt(1,44100);
 		Note* note = new Note(noteNumber,duration,isRest); 
 
-		genome.notes.push_back(*note);
+		genome.push_back(*note);
 		genome.totalDuration += duration;
 	}
 }
@@ -30,9 +27,7 @@ int NotesGenome::Mutate(GAGenome& g, float pmut)
 
 	if(GAFlipCoin(pmut) && genome.size() > 0){
 		int removeIndex = GARandomInt(0, genome.size() - 1);
-		NotesIterator it = genome.notes.begin();
-		advance(it, removeIndex);
-		genome.notes.erase(it);
+		genome.Erase(removeIndex);
 		return 1;
 	}
 
@@ -55,20 +50,19 @@ int NotesGenome::Cross(const GAGenome& mom, const GAGenome& dad, GAGenome* sis, 
 	return 0;
 }
 
-NotesGenome::NotesGenome(void) : GAGenome(Init, Mutate, Compare), totalDuration(0)
+NotesGenome::NotesGenome(void) : GAGenome(Init, Mutate, Compare)
 {
     evaluator(Evaluate); 
     crossover(Cross); 
 }
 
-NotesGenome::NotesGenome(const NotesGenome& orig) : totalDuration(0)
+NotesGenome::NotesGenome(const NotesGenome& orig)
 { 
 	copy(orig);
 }
 
 NotesGenome::~NotesGenome(void)
 {
-	notes.clear();
 }
 
 NotesGenome& NotesGenome::operator=(const GAGenome& orig){
@@ -84,39 +78,26 @@ int NotesGenome::equal(const GAGenome& c) const
 	return (*this == b);
 }
 
-// Traverse the list (breadth-first) and dump the contents as best we can to
-// the stream.  We don't try to write the contents of the nodes - we simply 
-// write a . for each node in the list.
 int NotesGenome::write(STD_OSTREAM & os) const 
 {
-	if(notes.empty())
+	if(this->empty())
 		os << "The genome has no notes." << "\n";
 	else
-	{
-		for (list<class Note>::const_iterator it = notes.begin() ; it != notes.end(); it++)
-			os << *it;
-	}
+		os << *this;
 	return 0;
 }
 
 void NotesGenome::copy(const GAGenome& orig)
 {
-	if(&orig == this) return;
-	const NotesGenome* c = DYN_CAST(const NotesGenome*, &orig);
-	if(c) {
-		GAGenome::copy(*c);
-		notes.clear();
-		notes.insert(notes.end(), c->notes.begin(), c->notes.end());
-		totalDuration = c->totalDuration;
-	}
+	if(&orig == this)
+		return;
+
+	const NotesGenome& genome = (const NotesGenome&) orig;
+	GAGenome::copy(genome);
+	this->ReplaceNotes(genome);
 }
 
 GAGenome* NotesGenome::clone(CloneMethod method) const 
 {
 	return new NotesGenome(*this);
-}
-
-int NotesGenome::size() const
-{
-	return notes.size();
 }
