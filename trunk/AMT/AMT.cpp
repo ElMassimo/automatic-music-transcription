@@ -23,8 +23,6 @@ int	main(int argc, char** argv) {
 	// Create the initial genome for the genetic algorithm to use.
 	// It's necessary to set the original audio FFT's
 	NotesGenome notesGenome;
-	notesGenome.totalSampleDuration = 0;
-	notesGenome.originalFFTs = NULL;
 	notesGenome.evaluator(Objective);
 
 	// Now that we have a genome, we use it to create our GA.
@@ -58,7 +56,7 @@ int	main(int argc, char** argv) {
 
 	AmtRenderer::Initialize();	
 	AmtRenderer renderer(best.totalDuration);
-	renderer.AddNotes(best.notes);
+	renderer.AddNotes(best);
 	renderer.SaveFile("Best");
 	AmtRenderer::CleanUp();
 
@@ -71,5 +69,5 @@ Objective function
 float Objective(GAGenome & c)
 {
 	NotesGenome& genome = (NotesGenome&)c;
-	return 100 / (genome.notes.size() + 1);
+	return 100 / (genome.size() + 1);
 }

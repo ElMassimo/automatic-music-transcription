@@ -1,59 +1,25 @@
-#ifndef __AMT_NOTE__
-#define __AMT_NOTE__
+#pragma once
 #include <iostream>
+
 using namespace std;
 
-namespace AMT 
-{
-	class Note 
-	{
-	public:
-		bool isRest;             
-		short noteNumber; // Midi Note Value	
-		int duration;
+class Note {
+public:
+	bool isRest;             
+	short noteNumber;	// MIDI note Value	
+	int duration;		// In samples
 
-		inline Note(short noteNumber = 0, double duration = 0, bool isRest = false)		
-			: isRest(isRest),
-			noteNumber(noteNumber),
-			duration(duration)
-		{}
+	Note(short noteNumber = 0, int duration = 0, bool isRest = false);
+	Note(const Note &note);
+	~Note();
 
-		inline Note(const Note &note)
-			: isRest(note.isRest),
-			noteNumber(note.noteNumber),
-			duration(note.duration)
-		{
-		}
+	Note& operator=(const Note &note);
+	bool operator==(const Note &note);
+	bool operator!=(const Note &note);
 
-		inline ~Note(void)
-		{
-		}
-
-		Note& operator=(const Note &note){
-			isRest = note.isRest;
-			noteNumber = note.noteNumber;
-			duration = note.duration;
-			return *this;
-		}
-
-		bool operator==(const Note &note){
-			return isRest == note.isRest && noteNumber == note.noteNumber && duration == note.duration;
-		}
-
-		bool operator!=(const Note &note){
-			return !(*this == note);
-		}
-
-		friend ostream& operator<<(ostream& output, const Note& note)
-		{
-			if(note.isRest)
-				output << "Silence" << "\n";
-			else
-				output << "Note number: " << note.noteNumber << "\n";
-			output << "Duration: " << note.duration << " samples\n\n";
-			return output;
-		}
-	};
-}
-
-#endif
+	friend ostream& operator<<(ostream& output, const Note& note);
+	
+	void SetPitch(short pitch);
+	short ShiftPitch(bool higher, bool octave);
+	int ChangeDuration(int amount);
+};
