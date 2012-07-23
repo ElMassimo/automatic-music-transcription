@@ -1,9 +1,9 @@
 #include "NotesGenome.h"
 
 void NotesGenome::Init(GAGenome& g){
-	NotesGenome &genome = DYN_CAST(NotesGenome&,g);
-	genome.totalDuration = 0;
+	NotesGenome &genome = (NotesGenome&) g;
 	int size = GARandomInt(1,10);		
+	genome.totalDuration = 0;
 	for(int i=0; i < size; i++)
 	{		
 		int noteNumber = 0;
@@ -47,6 +47,27 @@ float NotesGenome::Evaluate(GAGenome&){
 
 int NotesGenome::Cross(const GAGenome& mom, const GAGenome& dad, GAGenome* sis, GAGenome* bro){
   // your crossover here
+	//GA1DBinaryStringGenome &mom=(GA1DBinaryStringGenome &)p1;
+ // GA1DBinaryStringGenome &dad=(GA1DBinaryStringGenome &)p2;
+
+ // int n=0;
+ // unsigned int site = GARandomInt(0, mom.length());
+ // unsigned int len = mom.length() - site;
+
+ // if(c1){
+ //   GA1DBinaryStringGenome &sis=(GA1DBinaryStringGenome &)*c1;
+ //   sis.copy(mom, 0, 0, site);
+ //   sis.copy(dad, site, site, len);
+ //   n++;
+ // }
+ // if(c2){
+ //   GA1DBinaryStringGenome &bro=(GA1DBinaryStringGenome &)*c2;
+ //   bro.copy(dad, 0, 0, site);
+ //   bro.copy(mom, site, site, len);
+ //   n++;
+ // }
+
+ // return n;
 	return 0;
 }
 
@@ -83,7 +104,8 @@ int NotesGenome::write(STD_OSTREAM & os) const
 	if(this->empty())
 		os << "The genome has no notes." << "\n";
 	else
-		os << *this;
+		for (NotesConstIterator it = this->begin() ; it != this->end(); it++)
+			os << *it;
 	return 0;
 }
 

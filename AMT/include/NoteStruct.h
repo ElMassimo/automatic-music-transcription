@@ -1,8 +1,6 @@
 #pragma once
 #include <iostream>
 
-using namespace std;
-
 class Note {
 public:
 	bool isRest;             
@@ -17,7 +15,7 @@ public:
 	bool operator==(const Note &note);
 	bool operator!=(const Note &note);
 
-	friend ostream& operator<<(ostream& output, const Note& note);
+	friend std::ostream& operator<<(std::ostream& output, const Note& note);
 	
 	void SetPitch(short pitch);
 	short ShiftPitch(bool higher, bool octave);
