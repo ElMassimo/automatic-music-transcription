@@ -59,6 +59,10 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalIncludeDirectories>..\GAlib\galib247;..\CFugue\MusicNote\include;..\STK\include;..\AMT\include;..\FFTW++;..\FFTW\api;..\FFTW\kernel;..\FFTW\dft;..\FFTW\dft\simd;..\FFTW\dft\scalar;..\FFTW\rdft;..\FFTW\rdft\simd;..\FFTW\rdft\scalar;..\FFTW\reodft;..\FFTW\simd-support;..\FFTW\threads;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -84,9 +88,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AMT.cpp" />
-    <ClCompile Include="AmtGA.cpp" />
+    <ClCompile Include="Amt.cpp" />
     <ClCompile Include="AmtRenderer.cpp" />
+    <ClCompile Include="Note.cpp" />
     <ClCompile Include="Notes.cpp" />
     <ClCompile Include="NotesGenome.cpp" />
   </ItemGroup>
@@ -108,10 +112,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Amt.h" />
-    <ClInclude Include="include\AmtGA.h" />
     <ClInclude Include="include\AmtRenderer.h" />
-    <ClInclude Include="include\Note.h" />
+    <ClInclude Include="include\NoteStruct.h" />
     <ClInclude Include="include\Notes.h" />
     <ClInclude Include="include\NotesGenome.h" />
   </ItemGroup>

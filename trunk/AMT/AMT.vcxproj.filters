@@ -11,13 +11,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AMT.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AmtRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AmtGA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NotesGenome.cpp">
@@ -26,24 +20,27 @@
     <ClCompile Include="Notes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Note.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Amt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AmtRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Amt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AmtGA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\NotesGenome.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Note.h">
+    <ClInclude Include="include\Notes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Notes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NoteStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "Note.h"
+#include "NoteStruct.h"
 
 using namespace std;
 

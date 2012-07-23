@@ -1,9 +1,9 @@
 #include <list>
+#include <sstream>
 #include <stdio.h>
 #include <ga/std_stream.h>
 #include <ga/GASStateGA.h>
 #include "AmtRenderer.h"
-#include "AmtGA.h"
 #include "NotesGenome.h"
 
 #define cout STD_COUT
@@ -12,9 +12,6 @@
 using namespace AMT;
 
 float Objective(GAGenome &);
-// Objective function and initializer declarations.
-float objective(GAGenome &);
-void ListInitializer(GAGenome &);
 
 int	main(int argc, char** argv) {
 	
@@ -32,10 +29,10 @@ int	main(int argc, char** argv) {
 
 	// Set the default parameters we want to use, then check the command line for
 	// other arguments that might modify these.
-	ga.set(gaNpopulationSize, 40);	// population size
+	ga.set(gaNpopulationSize, 200);	// population size
 	ga.set(gaNpCrossover, 0.6);		// probability of crossover
 	ga.set(gaNpMutation, 0.1);		// probability of mutation
-	ga.set(gaNnGenerations, 10);	// number of generations
+	ga.set(gaNnGenerations, 1);	// number of generations
 	ga.set(gaNscoreFrequency, 1);	// how often to record scores
 	ga.set(gaNflushFrequency, 10);	// how often to dump scores to file
 	ga.set(gaNselectScores,		// which scores should we track?
@@ -46,18 +43,33 @@ int	main(int argc, char** argv) {
 	// Evolve the genetic algorithm then dump out the results of the run.
 	ga.evolve();
 
-	NotesGenome& best = (NotesGenome&) ga.statistics().bestIndividual();	
+	NotesGenome& best = (NotesGenome&) ga.statistics().bestIndividual();
 	
-	//  cout << "the ga generated the list:\n" << genome << "\n";
+	cout << "the ga generated the list:\n" << best << "\n";
 	cout << "the list contains " << best.size() << " nodes\n";
 	cout << "the ga used the parameters:\n" << ga.parameters() << "\n";	
 	cout << "\n" << ga.statistics() << "\n";
-	cout << endl;
 
 	AmtRenderer::Initialize();	
 	AmtRenderer renderer(best.totalDuration);
 	renderer.AddNotes(best);
 	renderer.SaveFile("Best");
+
+	for(int i = 0; i < ga.populationSize(); i++)
+	{
+		NotesGenome& individual = (NotesGenome&) ga.population().individual(i);
+		AmtRenderer rendererIndividual(individual.totalDuration);
+		rendererIndividual.AddNotes(individual);
+		stringstream fileName;
+		fileName << "Individual " << i;
+		rendererIndividual.SaveFile(fileName.str());
+	}
+		
+	Notes notes;
+	notes.push_front(*(new Note(57,44100)));
+	AmtRenderer renderer3(44100);
+	renderer3.AddNotes(notes);
+	renderer3.SaveFile("Test");
 	AmtRenderer::CleanUp();
 
 	return 0;

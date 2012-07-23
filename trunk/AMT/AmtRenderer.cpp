@@ -21,7 +21,7 @@ StkFloat* AmtRenderer::noteFrequency = new StkFloat[128];
 void AmtRenderer::Initialize()
 {
 	for(int i = 0; i < 128; i++)
-		std::cout << ( noteFrequency[i] = pow(2,(double)(i-57)/12) * 440) << "\n";
+		noteFrequency[i] = pow(2,(double)(i-57)/12) * 440;
 }
 
 void AmtRenderer::CleanUp()
@@ -49,11 +49,11 @@ void AmtRenderer::AddNote(Note &note, int start)
 	frames->resetFrameWindow();
 }
 
-void AmtRenderer::AddNotes(list<Note> &notes, int start)
+void AmtRenderer::AddNotes(Notes &notes, int start)
 {
 	int onset = start;
 
-	for(list<Note>::iterator it = notes.begin(); it != notes.end(); it++)
+	for(NotesIterator it = notes.begin(); it != notes.end(); it++)
 	{
 		AddNote(*it, onset);
 		onset += it->duration;
