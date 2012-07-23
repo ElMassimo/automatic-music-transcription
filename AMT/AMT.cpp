@@ -15,6 +15,19 @@ float Objective(GAGenome &);
 
 int	main(int argc, char** argv) {
 	
+// 	NotesGenome test;
+// 	NotesGenome::Init(test);
+// 	cout << "Before:\n" << test;
+// 	Note* newNote = new Note(55, 50000);
+// 	test.AddNote(0, *newNote);
+// 	newNote = new Note(0, 500000, true);
+// 	test.AddNote(1, *newNote);
+// 	cout << "\nAfter new notes:\n" << test;
+// 	test.EraseNote(1);
+// 	cout << "\nAfter erase silence:\n" << test;
+// 	test.SplitNote(0,0.5,0.01);
+// 	cout << "\nAfter splitting note:\n" << test;
+
 	// GARandomSeed();
 
 	// Create the initial genome for the genetic algorithm to use.
@@ -55,15 +68,15 @@ int	main(int argc, char** argv) {
 	renderer.AddNotes(best);
 	renderer.SaveFile("Best");
 
-	for(int i = 0; i < ga.populationSize(); i++)
-	{
-		NotesGenome& individual = (NotesGenome&) ga.population().individual(i);
-		AmtRenderer rendererIndividual(individual.totalDuration);
-		rendererIndividual.AddNotes(individual);
-		stringstream fileName;
-		fileName << "Individual " << i;
-		rendererIndividual.SaveFile(fileName.str());
-	}
+// 	for(int i = 0; i < ga.populationSize(); i++)
+// 	{
+// 		NotesGenome& individual = (NotesGenome&) ga.population().individual(i);
+// 		AmtRenderer rendererIndividual(individual.totalDuration);
+// 		rendererIndividual.AddNotes(individual);
+// 		stringstream fileName;
+// 		fileName << "Individual " << i;
+// 		rendererIndividual.SaveFile(fileName.str());
+// 	}
 		
 	Notes notes;
 	notes.push_front(*(new Note(57,44100)));

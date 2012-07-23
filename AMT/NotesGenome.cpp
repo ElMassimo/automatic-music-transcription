@@ -27,7 +27,7 @@ int NotesGenome::Mutate(GAGenome& g, float pmut)
 
 	if(GAFlipCoin(pmut) && genome.size() > 0){
 		int removeIndex = GARandomInt(0, genome.size() - 1);
-		genome.Erase(removeIndex);
+		genome.EraseNote(removeIndex);
 		return 1;
 	}
 
