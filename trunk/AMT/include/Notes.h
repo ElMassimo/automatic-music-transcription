@@ -16,6 +16,8 @@ public:
 	Notes(const Notes &notes);
 	~Notes();
 
-	NotesIterator Erase(int index);
+	void AddNote(int noteIndex, Note& newNote);
+	NotesIterator EraseNote(int noteIndex);
 	void ReplaceNotes(const Notes& otherNotes);
+	bool SplitNote(int noteIndex, double when, double silenceDuration);
 };

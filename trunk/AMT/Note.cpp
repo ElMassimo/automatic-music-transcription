@@ -1,16 +1,18 @@
 #include "NoteStruct.h"
 
-Note::Note(short noteNumber, int duration, bool isRest)		
+Note::Note(short pitch, int duration, bool isRest)		
 	: isRest(isRest),
-	noteNumber(noteNumber),
 	duration(duration)
-{}
+{
+	SetPitch(pitch);
+}
 
 Note::Note(const Note &note)
 	: isRest(note.isRest),
-	noteNumber(note.noteNumber),
 	duration(note.duration)
-{}
+{
+	SetPitch(note.noteNumber);
+}
 
 Note::~Note()
 {
@@ -48,7 +50,7 @@ void Note::SetPitch(short pitch)
 	else if(pitch < 0)
 		noteNumber = 0;
 	else
-		noteNumber = (pitch) % 128;
+		noteNumber = pitch;
 }
 
 short Note::ShiftPitch(bool higher, bool octave)
