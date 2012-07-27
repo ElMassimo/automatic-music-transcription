@@ -386,7 +386,7 @@ public:
 
   //! Return the number of sample frames represented by the data.
   unsigned int frames( void ) const { return nFrames_; };
-
+  
   //! Set the sample rate associated with the StkFrames data.
   /*!
     By default, this value is set equal to the current STK sample
@@ -400,6 +400,9 @@ public:
     rate at the time of instantiation.
    */
   StkFloat dataRate( void ) const { return dataRate_; };
+
+  //! Return the float data associated.
+  StkFloat* getData() { return data_; }
 
 private:
 
