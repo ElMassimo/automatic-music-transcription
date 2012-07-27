@@ -22,10 +22,18 @@ void Notes::AddNote(int index, Note& newNote)
 	totalDuration += newNote.duration;
 }
 
+void Notes::FlipSilence(int index)
+{
+	NotesIterator it = this->begin();
+	advance(it, index);
+	it->isRest = !it->isRest;
+}
+
 NotesIterator Notes::EraseNote(int index)
 {
 	NotesIterator it = this->begin();
 	advance(it, index);
+	totalDuration -= it->duration;
 	return this->erase(it);
 }
 

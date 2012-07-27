@@ -1,8 +1,11 @@
 #include <list>
 #include <sstream>
+#include <fstream>
 #include <stdio.h>
 #include <ga/std_stream.h>
 #include <ga/GASStateGA.h>
+#include <fftw++.h>
+#include <FileWvIn.h>
 #include "AmtRenderer.h"
 #include "NotesGenome.h"
 
@@ -13,7 +16,70 @@ using namespace AMT;
 
 float Objective(GAGenome &);
 
-int	main(int argc, char** argv) {
+double CalculateMagnitude(Complex &complex)
+{
+	return sqrt(pow(complex.real(), 2) + pow(complex.imag(), 2));
+}
+
+int	mainTest(int argc, char** argv) {
+	NotesGenome test;
+	NotesGenome::Init(test);
+
+	AmtRenderer::Initialize();	
+	AmtRenderer renderer(test.totalDuration);
+	renderer.AddNotes(test);
+	renderer.SaveFile("Test");
+
+	stk::FileWvIn wavFile("Test.wav");
+	StkFrames frames(4096, 1);
+	wavFile.tick(frames);
+
+	int nFrames = 4096;
+	StkFloat* input = frames.getData();
+	ofstream sampleFile("sample.txt");
+	if( sampleFile )
+	{
+		for(int i = 0; i < nFrames; i ++)
+			sampleFile << i << " " << input[i] << "\n";
+		sampleFile << endl;
+	}
+	
+	// Hann windowing
+	ofstream windowedSampleFile("windowed_sample.txt");
+	if(windowedSampleFile)
+	{
+		for (int i = 0; i < nFrames; i++) {
+			double multiplier = 0.5 * (1 - cos(2*PI*i/(nFrames - 1)));
+			input[i] *= multiplier;
+			windowedSampleFile << i << " " << input[i] << "\n";
+		}
+		windowedSampleFile << endl;
+	}
+
+	Complex* output = new Complex[nFrames/2 + 1];
+
+	fftwpp::rcfft1d transform(nFrames, input, output);
+	transform.fft(input, output);
+
+	ofstream fftFile("fft.txt");
+	if( fftFile )
+	{
+		for(int i = 0; i < nFrames/2 + 1; i ++)
+			fftFile << std::scientific << output[i].real() << " " << output[i].imag() << "\n";
+		fftFile << endl;
+	}
+
+	ofstream outputFile("magnitude.txt");
+	if( outputFile )
+	{
+		for(int i = 0; i < nFrames/2 + 1; i ++)
+			outputFile << i << " " << std::scientific << CalculateMagnitude(output[i]) << "\n";
+		outputFile << endl;
+	}
+	AmtRenderer::CleanUp();
+}
+
+int	notMain(int argc, char** argv) {
 	
 // 	NotesGenome test;
 // 	NotesGenome::Init(test);

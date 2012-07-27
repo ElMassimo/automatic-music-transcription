@@ -11,9 +11,10 @@ namespace AMT
 	{
 	private:
 		static StkFloat* noteFrequency;
-		StkFrames* frames;
 
 	public: 
+		StkFrames* frames;
+
 		AmtRenderer(unsigned int samples);
 		~AmtRenderer();
 
