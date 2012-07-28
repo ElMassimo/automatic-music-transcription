@@ -26,10 +26,23 @@ int NotesGenome::Mutate(GAGenome& g, float pmut)
 		return 0;
 
 	if(GAFlipCoin(pmut) && genome.size() > 0){
-		int removeIndex = GARandomInt(0, genome.size() - 1);
-		genome.EraseNote(removeIndex);
+		Note* note = new Note(GARandomInt(0, 127), GARandomInt(0, 44100));
+		int addIndex = GARandomInt(0, genome.size() - 1);
+		genome.AddNote(addIndex, *note);
 		return 1;
 	}
+
+// 	if(GAFlipCoin(pmut) && genome.size() > 0){
+// 		int splitIndex = GARandomInt(0, genome.size() - 1);
+// 		genome.SplitNote(splitIndex, GARandomDouble(0,1), GARandomDouble(0,1));
+// 		return 1;
+// 	}
+
+// 	if(GAFlipCoin(pmut) && genome.size() > 0){
+// 		int removeIndex = GARandomInt(0, genome.size() - 1);
+// 		genome.EraseNote(removeIndex);
+// 		return 1;
+// 	}
 
 	return 0;
 }

@@ -20,6 +20,7 @@ using Array::array2;
 
 array2<double> frequencyMagnitudes;
 FourierTransform* forwardTransform;
+int totalSamples;
 
 inline double HannWindow(int n, int N)
 {
@@ -31,13 +32,53 @@ inline double CalculateMagnitude(Complex &complex)
 	return sqrt(pow(complex.real(), 2) + pow(complex.imag(), 2));
 }
 
-float Objective(GAGenome & c)
-{
-	NotesGenome& genome = (NotesGenome&)c;
-	return 100 / (genome.size() + 1);
+void SaveArray(int n, double* input, string fileName){
+	ofstream file(fileName);
+	if(file)
+	{
+		for(int i = 0; i < n; i ++)
+			file << i << " " << input[i] << "\n";
+		file << endl;
+	}
 }
 
+float Objective(GAGenome & c)
+{
+	double error = 0; // The difference between the original audio and the notes in the genome
+	NotesGenome& genome = (NotesGenome&)c;
+	int frameSize = 4096;
+	int rendererSize = ceil((double) totalSamples / frameSize) * frameSize;
+	if(rendererSize < genome.totalDuration)
+	{
+		rendererSize = genome.totalDuration;
+		error += 1000;
+	}
+	NoteRenderer renderer(rendererSize);
+	renderer.AddNotes(genome);
+	StkFloat* audioData = renderer.frames->getData();
 
+	int fftResultSize = frameSize/2 + 1;
+	int alignSize = sizeof(Complex);
+	array1<double> fftInput(frameSize, alignSize);
+	array1<Complex> fftOutput(fftResultSize, alignSize);
+
+	// Perform the fft transform on the samples
+	for (int t = 0; t < frequencyMagnitudes.Nx(); t++)
+	{		
+		int startFrame = t * frameSize;
+		// Here we apply a Hann window to the input
+		for (int i = 0; i < frameSize; i++)
+			fftInput[i] = audioData[startFrame + i] * HannWindow(i, frameSize);
+
+		// Calculate the FFT
+		forwardTransform->fft(fftInput, fftOutput);
+
+		// Calculate frequency magnitudes for each time bin, and obtain the difference with the original audio source
+		for(int i = 0; i < fftResultSize; i++)
+			error += abs(CalculateMagnitude(fftOutput[i]) - frequencyMagnitudes[t][i]);
+	}
+	return 100 / error;
+}
 
 void GA(int argc, char** argv) {
 
@@ -68,10 +109,10 @@ void GA(int argc, char** argv) {
 
 	// Set the default parameters we want to use, then check the command line for
 	// other arguments that might modify these.
-	ga.set(gaNpopulationSize, 200);	// population size
+	ga.set(gaNpopulationSize, 50);	// population size
 	ga.set(gaNpCrossover, 0.6);		// probability of crossover
 	ga.set(gaNpMutation, 0.1);		// probability of mutation
-	ga.set(gaNnGenerations, 1);	// number of generations
+	ga.set(gaNnGenerations, 4);	// number of generations
 	ga.set(gaNscoreFrequency, 1);	// how often to record scores
 	ga.set(gaNflushFrequency, 10);	// how often to dump scores to file
 	ga.set(gaNselectScores,		// which scores should we track?
@@ -112,7 +153,7 @@ void GA(int argc, char** argv) {
 	NoteRenderer::CleanUp();
 }
 
-int	main2(int argc, char** argv) {
+int	main(int argc, char** argv) {
 		
 	int frameSize = 4096; // Size of the frames (in samples)
 	double overlapping = 0.0; // Overlapping percentage
@@ -121,7 +162,7 @@ int	main2(int argc, char** argv) {
 	// Load the file we want to transcribe
 	FileWvIn wavFile("Test.wav");
 
-	int totalSamples = wavFile.getSize();
+	totalSamples = wavFile.getSize();
 	int binCount = ceil(totalSamples / (double)frameDiff); // Number of bins that result from the Fourier transform
 
 	// Initialize what we need to perform the FFT
@@ -132,7 +173,7 @@ int	main2(int argc, char** argv) {
 	forwardTransform = new FourierTransform(frameSize, fftInput, fftOutput);
 
 	// Read the whole file
-	StkFrames audioData(totalSamples, 1);
+	StkFrames audioData(ceil((double) totalSamples / frameSize) * frameSize, 1);
 	wavFile.tick(audioData);	
 
 	// Perform the fft transform on the samples
@@ -149,20 +190,16 @@ int	main2(int argc, char** argv) {
 
 		// Load the frequency magnitudes for each time bin
 		for(int i = 0; i < fftResultSize; i++)
-			frequencyMagnitudes[t][i] = CalculateMagnitude(fftOutput[i]);			
+			frequencyMagnitudes[t][i] = CalculateMagnitude(fftOutput[i]);	
+
+// 		stringstream fileName;
+// 		fileName << "Frequency " << t << ".txt";
+//		SaveArray(fftResultSize, frequencyMagnitudes[t], fileName.str());
 	}
 	
-	return 0;
-}
+	GA(argc, argv);
 
-void SaveArray(int n, double* input, string fileName){
-	ofstream file(fileName);
-	if(file)
-	{
-		for(int i = 0; i < n; i ++)
-			file << i << " " << input[i] << "\n";
-		file << endl;
-	}
+	return 0;
 }
 
 void Test() {
