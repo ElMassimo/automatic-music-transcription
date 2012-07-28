@@ -247,6 +247,14 @@ StkFrames :: StkFrames( unsigned int nFrames, unsigned int nChannels )
   dataRate_ = Stk::sampleRate();
 }
 
+StkFrames::StkFrames(StkFloat* data, unsigned int nFrames, unsigned int nChannels)
+{
+	size_ = nFrames_ * nChannels_;
+	bufferSize_ = size_;
+	data_ = data;
+	dataRate_ = Stk::sampleRate();
+}
+
 StkFrames :: StkFrames( const StkFloat& value, unsigned int nFrames, unsigned int nChannels )
   : nFrames_( nFrames ), nChannels_( nChannels )
 {

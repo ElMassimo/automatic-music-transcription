@@ -7,7 +7,7 @@ using namespace stk;
 
 namespace AMT
 {
-	class AmtRenderer
+	class NoteRenderer
 	{
 	private:
 		static StkFloat* noteFrequency;
@@ -15,8 +15,8 @@ namespace AMT
 	public: 
 		StkFrames* frames;
 
-		AmtRenderer(unsigned int samples);
-		~AmtRenderer();
+		NoteRenderer(unsigned int samples);
+		~NoteRenderer();
 
 		static void Initialize();
 		static void CleanUp();

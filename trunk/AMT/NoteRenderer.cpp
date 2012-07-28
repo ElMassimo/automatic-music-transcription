@@ -1,4 +1,4 @@
-#include "AmtRenderer.h"
+#include "NoteRenderer.h"
 using namespace AMT;
 
 inline long SecondToFrames(double seconds)
@@ -6,30 +6,34 @@ inline long SecondToFrames(double seconds)
 	return seconds * Stk::sampleRate();
 }
 
-AmtRenderer::AmtRenderer(unsigned int samples)
+NoteRenderer::NoteRenderer(unsigned int samples)
 {
+	if(noteFrequency == NULL)
+		NoteRenderer::Initialize();
 	frames = new StkFrames(samples, 1);
 }
 
-AmtRenderer::~AmtRenderer()
+NoteRenderer::~NoteRenderer()
 {
 	delete frames;
 }
 
-StkFloat* AmtRenderer::noteFrequency = new StkFloat[128];
+StkFloat* NoteRenderer::noteFrequency = NULL;
 
-void AmtRenderer::Initialize()
+void NoteRenderer::Initialize()
 {
+	noteFrequency = new StkFloat[128];
 	for(int i = 0; i < 128; i++)
 		noteFrequency[i] = pow(2,(double)(i-57)/12) * 440;
 }
 
-void AmtRenderer::CleanUp()
+void NoteRenderer::CleanUp()
 {
 	delete [] noteFrequency;
+	noteFrequency = NULL;
 }
 
-void AmtRenderer::AddNote(Note &note, int start)
+void NoteRenderer::AddNote(Note &note, int start)
 {
 	if(note.isRest)
 		return;
@@ -49,7 +53,7 @@ void AmtRenderer::AddNote(Note &note, int start)
 	frames->resetFrameWindow();
 }
 
-void AmtRenderer::AddNotes(Notes &notes, int start)
+void NoteRenderer::AddNotes(Notes &notes, int start)
 {
 	int onset = start;
 
@@ -60,7 +64,7 @@ void AmtRenderer::AddNotes(Notes &notes, int start)
 	}
 }
 
-void AmtRenderer::SaveFile(std::string fileName)
+void NoteRenderer::SaveFile(std::string fileName)
 {
 	FileWvOut output;
 		

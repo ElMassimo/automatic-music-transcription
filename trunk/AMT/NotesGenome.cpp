@@ -123,3 +123,10 @@ GAGenome* NotesGenome::clone(CloneMethod method) const
 {
 	return new NotesGenome(*this);
 }
+
+void NotesGenome::SaveToFile(char* fileName) const
+{
+	std::ofstream notesFile(fileName);
+	if(notesFile)
+		this->write(notesFile);
+}

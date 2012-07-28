@@ -28,5 +28,7 @@ public:
 	virtual int write(ostream&) const;
 	virtual GAGenome* clone(CloneMethod) const;
 	virtual void copy(const GAGenome& orig);
+
+	void SaveToFile(char* fileName) const;
 };
 
