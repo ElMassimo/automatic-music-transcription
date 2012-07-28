@@ -38,7 +38,9 @@ std::ostream& operator<<(std::ostream& output, const Note& note)
 	if(note.isRest)
 		output << "Silence" << "\n";
 	else
-		output << "Note number: " << note.noteNumber << "\n";
+	{
+		output << "Note number: " << note.noteNumber << " (" <<  pow(2,(double)(note.noteNumber-57)/12) * 440 << "Hz)\n";
+	}
 	output << "Duration: " << note.duration << " samples\n\n";
 	return output;
 }

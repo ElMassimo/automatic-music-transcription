@@ -275,6 +275,9 @@ public:
   //! The default constructor initializes the frame data structure to size zero.
   StkFrames( unsigned int nFrames = 0, unsigned int nChannels = 0 );
 
+  //! This constructor allows to set the frame data.
+  StkFrames(double* data, unsigned int nFrames = 0, unsigned int nChannels = 0 );
+
   //! Overloaded constructor that initializes the frame data to the specified size with \c value.
   StkFrames( const StkFloat& value, unsigned int nFrames, unsigned int nChannels );
     

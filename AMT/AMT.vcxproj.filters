@@ -11,9 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AmtRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NotesGenome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -26,11 +23,11 @@
     <ClCompile Include="Amt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NoteRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AmtRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\NotesGenome.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -41,6 +38,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\NoteStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NoteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
