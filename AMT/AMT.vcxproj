@@ -89,6 +89,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Amt.cpp" />
+    <ClCompile Include="MusicEvaluator.cpp" />
+    <ClCompile Include="MusicGA.cpp" />
     <ClCompile Include="NoteRenderer.cpp" />
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="Notes.cpp" />
@@ -112,6 +114,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\MusicEvaluator.h" />
+    <ClInclude Include="include\MusicGA.h" />
     <ClInclude Include="include\NoteRenderer.h" />
     <ClInclude Include="include\NoteStruct.h" />
     <ClInclude Include="include\Notes.h" />

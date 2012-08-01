@@ -23,6 +23,7 @@ namespace AMT
 
 	    void AddNote(Note &note, int start);
 
+		// Synthesizes the notes in the available buffer. Doesn't check for buffer overruns.
 	    void AddNotes(Notes &notes, int start = 0);
 		
 		void SaveFile(std::string fileName);

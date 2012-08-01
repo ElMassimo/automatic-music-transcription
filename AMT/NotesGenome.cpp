@@ -1,4 +1,9 @@
+#include <ga/garandom.h>
 #include "NotesGenome.h"
+
+using namespace AMT;
+
+MusicEvaluator* NotesGenome::musicEvaluator = NULL;
 
 void NotesGenome::Init(GAGenome& g){
 	NotesGenome &genome = (NotesGenome&) g;
@@ -29,20 +34,25 @@ int NotesGenome::Mutate(GAGenome& g, float pmut)
 		Note* note = new Note(GARandomInt(0, 127), GARandomInt(0, 44100));
 		int addIndex = GARandomInt(0, genome.size() - 1);
 		genome.AddNote(addIndex, *note);
+		genome._evaluated = gaFalse;
 		return 1;
 	}
 
-// 	if(GAFlipCoin(pmut) && genome.size() > 0){
-// 		int splitIndex = GARandomInt(0, genome.size() - 1);
-// 		genome.SplitNote(splitIndex, GARandomDouble(0,1), GARandomDouble(0,1));
-// 		return 1;
-// 	}
+	if(GAFlipCoin(pmut) && genome.size() > 0){
+		int splitIndex = GARandomInt(0, genome.size() - 1);
+		double when = GARandomDouble(0,1);
+		double silenceDuration = GARandomDouble(0,1-when);
+		genome.SplitNote(splitIndex, when, silenceDuration);
+		genome._evaluated = gaFalse;
+		return 1;
+	}
 
-// 	if(GAFlipCoin(pmut) && genome.size() > 0){
-// 		int removeIndex = GARandomInt(0, genome.size() - 1);
-// 		genome.EraseNote(removeIndex);
-// 		return 1;
-// 	}
+	if(GAFlipCoin(pmut) && genome.size() > 0){
+		int removeIndex = GARandomInt(0, genome.size() - 1);
+		genome.EraseNote(removeIndex);
+		genome._evaluated = gaFalse;
+		return 1;
+	}
 
 	return 0;
 }
@@ -51,11 +61,6 @@ float NotesGenome::Compare(const GAGenome& g1, const GAGenome& g2){
 	NotesGenome &genome1 = (NotesGenome&) g1;
 	NotesGenome &genome2 = (NotesGenome&) g2;
 	return abs(genome1.totalDuration - genome2.totalDuration);
-}
-
-float NotesGenome::Evaluate(GAGenome&){
-  // your evaluation here
-	return 0;
 }
 
 int NotesGenome::Cross(const GAGenome& mom, const GAGenome& dad, GAGenome* sis, GAGenome* bro){
@@ -84,10 +89,16 @@ int NotesGenome::Cross(const GAGenome& mom, const GAGenome& dad, GAGenome* sis, 
 	return 0;
 }
 
-NotesGenome::NotesGenome(void) : GAGenome(Init, Mutate, Compare)
+float NotesGenome::Evaluate(GAGenome& genome)
+{	
+	return musicEvaluator->NoteFitnessEvaluator(genome);
+}
+
+NotesGenome::NotesGenome(MusicEvaluator& mEval) : GAGenome(Init, Mutate, Compare)
 {
-    evaluator(Evaluate); 
-    crossover(Cross); 
+	musicEvaluator = &mEval;
+	crossover(Cross); 
+	evaluator(Evaluate);
 }
 
 NotesGenome::NotesGenome(const NotesGenome& orig)
