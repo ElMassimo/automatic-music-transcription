@@ -63,30 +63,26 @@ float NotesGenome::Compare(const GAGenome& g1, const GAGenome& g2){
 	return abs(genome1.totalDuration - genome2.totalDuration);
 }
 
-int NotesGenome::Cross(const GAGenome& mom, const GAGenome& dad, GAGenome* sis, GAGenome* bro){
-  // your crossover here
-	//GA1DBinaryStringGenome &mom=(GA1DBinaryStringGenome &)p1;
- // GA1DBinaryStringGenome &dad=(GA1DBinaryStringGenome &)p2;
+int NotesGenome::Cross(const GAGenome& parent1, const GAGenome& parent2, GAGenome* child1, GAGenome* child2){
+	NotesGenome& p1 = (NotesGenome&)parent1;
+	NotesGenome& p2 = (NotesGenome&)parent2;
 
- // int n=0;
- // unsigned int site = GARandomInt(0, mom.length());
- // unsigned int len = mom.length() - site;
+	int n = 0;
+	int minDuration = min<int>(p1.totalDuration, p2.totalDuration);
+	int cutPoint = GARandomInt(0, minDuration);
+	
+	if(child1){
+		NotesGenome& c1 = (NotesGenome &) *child1;
+		c1.CombineNotes(p1, p2, cutPoint);
+		n++;
+	}
+	if(child2){
+		NotesGenome &c2 = (NotesGenome&) *child2;
+		c2.CombineNotes(p2, p1, cutPoint);
+		n++;
+	}
 
- // if(c1){
- //   GA1DBinaryStringGenome &sis=(GA1DBinaryStringGenome &)*c1;
- //   sis.copy(mom, 0, 0, site);
- //   sis.copy(dad, site, site, len);
- //   n++;
- // }
- // if(c2){
- //   GA1DBinaryStringGenome &bro=(GA1DBinaryStringGenome &)*c2;
- //   bro.copy(dad, 0, 0, site);
- //   bro.copy(mom, site, site, len);
- //   n++;
- // }
-
- // return n;
-	return 0;
+	return n;
 }
 
 float NotesGenome::Evaluate(GAGenome& genome)

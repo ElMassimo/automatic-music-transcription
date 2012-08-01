@@ -20,11 +20,12 @@ public:
 	void FlipSilence(int noteIndex);
 	NotesIterator EraseNote(int noteIndex);
 	void ReplaceNotes(const Notes& otherNotes);
+	void CombineNotes(Notes& n1, Notes& n2, int when );
 	bool SplitNote(int noteIndex, double when, double silenceDuration);
 
 	// Crop the notes of series at a point in time
 	void CropAt(int when);
 
 private:
-	NotesIterator& GetNoteAt(int &when);
+	NotesIterator GetNoteAt(int &when);
 };

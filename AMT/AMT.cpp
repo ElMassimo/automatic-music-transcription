@@ -30,7 +30,9 @@ int	main(int argc, char** argv) {
 	// GARandomSeed();
 
 	Notes notes;
-	notes.push_front(*(new Note(57,44100)));
+	notes.AddNote(0, Note(60,44100));
+	notes.AddNote(0, Note(59,44100));
+	notes.AddNote(0, Note(57,44100));
 	SaveAudio(notes, "Test");
 
 	// Initialize the music evaluator
@@ -40,15 +42,14 @@ int	main(int argc, char** argv) {
 	// Create the genome and the genetic algorithm instance
 	NotesGenome notesGenome(musicEvaluator);
 	MusicGA ga(notesGenome);
-
-	//ga.pReplacement(1);
-
+	
 	// Set the default parameters we want to use, then check the command line for
 	// other arguments that might modify these.
 	ga.set(gaNpopulationSize, 50);	// population size
+	ga.set(gaNnReplacement, 50); // number of replacement
 	ga.set(gaNpCrossover, 0.6);		// probability of crossover
 	ga.set(gaNpMutation, 0.1);		// probability of mutation
-	ga.set(gaNnGenerations, 4);	// number of generations
+	ga.set(gaNnGenerations, 20);	// number of generations
 	ga.set(gaNscoreFrequency, 1);	// how often to record scores
 	ga.set(gaNflushFrequency, 10);	// how often to dump scores to file
 	ga.set(gaNselectScores,		// which scores should we track?
@@ -79,7 +80,9 @@ int	main(int argc, char** argv) {
 	//}
 
 	NotesGenome bestNoteEver(musicEvaluator);
-	bestNoteEver.AddNote(0, *new Note(57,44100));
+	bestNoteEver.AddNote(0, Note(60,44100));
+	bestNoteEver.AddNote(0, Note(59,44100));
+	bestNoteEver.AddNote(0, Note(57,44100));
 	NoteRenderer rendererIdeal(bestNoteEver.totalDuration);
 	rendererIdeal.AddNotes(bestNoteEver);
 	rendererIdeal.SaveFile("Ideal");
