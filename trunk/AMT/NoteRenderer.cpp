@@ -56,7 +56,6 @@ void NoteRenderer::AddNote(Note &note, int start)
 void NoteRenderer::AddNotes(Notes &notes, int start)
 {
 	int onset = start;
-
 	for(NotesIterator it = notes.begin(); it != notes.end(); it++)
 	{
 		AddNote(*it, onset);

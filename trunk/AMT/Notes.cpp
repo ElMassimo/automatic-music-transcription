@@ -65,3 +65,54 @@ bool Notes::SplitNote(int noteIndex, double when, double silencePercentage)
 	return true;
 }
 
+NotesIterator& Notes::GetNoteAt(int &when) 
+{
+	if(totalDuration < when)
+		return this->end();
+
+	int noteStart = 0;
+	for(NotesIterator it = this->begin(); it != this->end(); it++)
+		// We will get the note that is present at the time.
+		if(noteStart + it->duration >= when)
+		{
+			// Calculate the offset inside the note to get to that time.
+			when -= noteStart;
+			return it;
+		}
+		else
+		{
+			noteStart += it->duration;
+		}
+}
+
+void Notes::CropAt(int when)
+{
+	if(totalDuration < when)
+		return;
+	
+	int onset = 0;
+	for(NotesIterator it = this->begin(); it != this->end(); it++)
+		// We will cut where the duration of the note exceeds the available samples.
+		if(onset + it->duration >= when)
+		{
+			// Crop the note to exactly fill the remaining samples.
+			it->duration = max<int>(when - onset, 0);
+
+			// If the note has duration, we want to keep it.
+			if(it->duration > 0)
+				it++;
+
+			// Erase the notes after the point of cut
+			this->erase(it, this->end());
+			break;
+		}
+		else
+		{
+			onset += it->duration;
+		}
+
+	// Adjust the total duration
+	totalDuration = when;
+}
+
+

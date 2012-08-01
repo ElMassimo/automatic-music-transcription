@@ -21,4 +21,10 @@ public:
 	NotesIterator EraseNote(int noteIndex);
 	void ReplaceNotes(const Notes& otherNotes);
 	bool SplitNote(int noteIndex, double when, double silenceDuration);
+
+	// Crop the notes of series at a point in time
+	void CropAt(int when);
+
+private:
+	NotesIterator& GetNoteAt(int &when);
 };
