@@ -16,8 +16,9 @@ public:
 	Notes(const Notes &notes);
 	~Notes();
 
-	void AddNote(int noteIndex, Note& newNote);
-	void FlipSilence(int noteIndex);
+	void AddNote(Note& newNote);
+	void InsertNote(int noteIndex, Note& newNote);
+	void FlipSilence(int noteIndex, int noteNumber = 0);
 	NotesIterator EraseNote(int noteIndex);
 	void ReplaceNotes(const Notes& otherNotes);
 	void CombineNotes(Notes& n1, Notes& n2, int when );

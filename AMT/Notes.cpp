@@ -14,7 +14,13 @@ Notes::~Notes()
 {
 }
 
-void Notes::AddNote(int index, Note& newNote)
+void Notes::AddNote(Note& newNote)
+{
+	this->push_back(newNote);
+	totalDuration += newNote.duration;
+}
+
+void Notes::InsertNote(int index, Note& newNote)
 {
 	NotesIterator it = this->begin();
 	advance(it, index);
@@ -22,11 +28,12 @@ void Notes::AddNote(int index, Note& newNote)
 	totalDuration += newNote.duration;
 }
 
-void Notes::FlipSilence(int index)
+void Notes::FlipSilence(int index, int noteNumber)
 {
 	NotesIterator it = this->begin();
 	advance(it, index);
 	it->isRest = !it->isRest;
+	it->noteNumber = noteNumber;
 }
 
 NotesIterator Notes::EraseNote(int index)
@@ -97,25 +104,35 @@ void Notes::CombineNotes(Notes& n1, Notes& n2, int when)
 
 	this->clear();
 	
-	NotesIterator it = n1.begin();
-	while(it != it1)
-		this->push_back(Note(*it++));
-
-	Note splitNote1(*it1);
-	splitNote1.duration = d1;
-	this->push_back(splitNote1);
+	if(it1 != n1.end())
+	{	
+		NotesIterator it = n1.begin();
+		while(it != it1)
+			this->push_back(Note(*it++));
+		
+		Note splitNote1(*it1);
+		splitNote1.duration = d1;
+		this->push_back(splitNote1);	
+	}
+	else
+	{
+		int i = 0 + 1;
+	}
 
 	if(it2 != n2.end())
 	{
 		Note splitNote2(*it2);
 		splitNote2.duration -= d2;
 		this->push_back(splitNote2);
-		it2++;
 
+		it2++;
 		while(it2 != n2.end())
 			this->push_back(Note(*it2++));
 	}	
-	
+	else
+	{
+		int i = 0 + 1;
+	}
 	this->totalDuration = n2.totalDuration;
 }
 

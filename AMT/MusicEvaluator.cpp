@@ -107,10 +107,15 @@ float MusicEvaluator::NoteFitnessEvaluator(GAGenome & c)
 		for(int i = 0; i < fftResultSize; i++)
 			error += abs(CalculateMagnitude(fftOutput[i]) - frequencyMagnitudes[t][i]);
 	}
-
-	// Penalize individuals that are longer than the original
-	if(rendererSize < genome.totalDuration)
-		error *= 2;
-
 	return 100 / error;
+}
+
+int MusicEvaluator::TotalSamples()
+{
+	return totalSamples;
+}
+
+int MusicEvaluator::FrameSize()
+{
+	return frameSize;
 }

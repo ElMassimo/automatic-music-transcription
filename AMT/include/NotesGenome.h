@@ -14,14 +14,15 @@ public:
 
 	GADefineIdentity("NotesGenome", 201);
 	NotesGenome(MusicEvaluator& eval);	
+	NotesGenome(Evaluator eval);
 	NotesGenome(const NotesGenome& orig);
 	~NotesGenome();
 
-	static void Init(GAGenome&);
-	static int Mutate(GAGenome&, float);
+	static void DefaultMusicInitializer(GAGenome&);
+	static int DefaultMusicMutator(GAGenome&, float);
 	static float Compare(const GAGenome&, const GAGenome&);
-	static int Cross(const GAGenome&, const GAGenome&, GAGenome*, GAGenome*);
-	static float Evaluate(GAGenome&);
+	static int SPXCrossover(const GAGenome&, const GAGenome&, GAGenome*, GAGenome*);
+	static float DefaultMusicEvaluator(GAGenome&);
 
 	NotesGenome& operator=(const GAGenome& orig);
 	

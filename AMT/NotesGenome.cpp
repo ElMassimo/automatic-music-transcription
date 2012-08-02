@@ -5,35 +5,42 @@ using namespace AMT;
 
 MusicEvaluator* NotesGenome::musicEvaluator = NULL;
 
-void NotesGenome::Init(GAGenome& g){
+void NotesGenome::DefaultMusicInitializer(GAGenome& g){
 	NotesGenome &genome = (NotesGenome&) g;
-	int size = GARandomInt(1,10);		
-	genome.totalDuration = 0;
-	for(int i=0; i < size; i++)
-	{		
-		int noteNumber = 0;
-		bool isRest = GARandomBit();
-		if(!isRest)
-			noteNumber = GARandomInt(0,127);
-		int duration = GARandomInt(1,44100);
-		Note* note = new Note(noteNumber,duration,isRest); 
+	int duration = GARandomInt(0, musicEvaluator->TotalSamples());		
 
-		genome.push_back(*note);
-		genome.totalDuration += duration;
+	genome.clear();
+	genome.totalDuration = 0;
+
+	while(genome.totalDuration < duration)
+	{		
+		bool isRest = false;
+		int noteNumber = isRest ? 0 : GARandomInt(0,127);
+		int noteDuration = musicEvaluator->FrameSize() + GARandomInt(0, duration - genome.totalDuration);
+		Note note(noteNumber,noteDuration,isRest); 
+		genome.AddNote(note);
 	}
 }
 
-int NotesGenome::Mutate(GAGenome& g, float pmut)
+int NotesGenome::DefaultMusicMutator(GAGenome& g, float pmut)
 {
 	NotesGenome &genome = (NotesGenome&) g;
 
 	if(pmut <= 0.0)
 		return 0;
 
+	int missingSamples = musicEvaluator->TotalSamples() - genome.totalDuration;
+
+	if(missingSamples > 0){
+		Note note(GARandomInt(0, 127), GARandomInt(musicEvaluator->FrameSize(), missingSamples));
+		genome.AddNote(note);
+		genome._evaluated = gaFalse;
+		return 1;
+	}
+
 	if(GAFlipCoin(pmut) && genome.size() > 0){
-		Note* note = new Note(GARandomInt(0, 127), GARandomInt(0, 44100));
-		int addIndex = GARandomInt(0, genome.size() - 1);
-		genome.AddNote(addIndex, *note);
+		int flipIndex = GARandomInt(0, genome.size() - 1);
+		genome.FlipSilence(flipIndex, GARandomInt(0, 127));
 		genome._evaluated = gaFalse;
 		return 1;
 	}
@@ -63,7 +70,7 @@ float NotesGenome::Compare(const GAGenome& g1, const GAGenome& g2){
 	return abs(genome1.totalDuration - genome2.totalDuration);
 }
 
-int NotesGenome::Cross(const GAGenome& parent1, const GAGenome& parent2, GAGenome* child1, GAGenome* child2){
+int NotesGenome::SPXCrossover(const GAGenome& parent1, const GAGenome& parent2, GAGenome* child1, GAGenome* child2){
 	NotesGenome& p1 = (NotesGenome&)parent1;
 	NotesGenome& p2 = (NotesGenome&)parent2;
 
@@ -74,27 +81,35 @@ int NotesGenome::Cross(const GAGenome& parent1, const GAGenome& parent2, GAGenom
 	if(child1){
 		NotesGenome& c1 = (NotesGenome &) *child1;
 		c1.CombineNotes(p1, p2, cutPoint);
+		c1._evaluated = gaFalse;
 		n++;
 	}
 	if(child2){
 		NotesGenome &c2 = (NotesGenome&) *child2;
 		c2.CombineNotes(p2, p1, cutPoint);
+		c2._evaluated = gaFalse;
 		n++;
 	}
 
 	return n;
 }
 
-float NotesGenome::Evaluate(GAGenome& genome)
+float NotesGenome::DefaultMusicEvaluator(GAGenome& genome)
 {	
 	return musicEvaluator->NoteFitnessEvaluator(genome);
 }
 
-NotesGenome::NotesGenome(MusicEvaluator& mEval) : GAGenome(Init, Mutate, Compare)
+NotesGenome::NotesGenome(MusicEvaluator& mEval) : GAGenome(DefaultMusicInitializer, DefaultMusicMutator, Compare)
 {
 	musicEvaluator = &mEval;
-	crossover(Cross); 
-	evaluator(Evaluate);
+	crossover(SPXCrossover); 
+	evaluator(DefaultMusicEvaluator);
+}
+
+NotesGenome::NotesGenome(Evaluator eval) : GAGenome(DefaultMusicInitializer, DefaultMusicMutator, Compare)
+{
+	crossover(SPXCrossover); 
+	evaluator(eval);
 }
 
 NotesGenome::NotesGenome(const NotesGenome& orig)
