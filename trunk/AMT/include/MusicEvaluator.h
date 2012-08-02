@@ -28,16 +28,19 @@ namespace AMT {
 		// Original audio
 		int binCount; // Number of bins that result from the Fourier transform
 		int totalSamples; // Number of samples of the original audio
+		
+	public:
 		array2<double> frequencyMagnitudes; // Bins of frequency magnitudes of the original audio
 
-		int SizeInFrames(double samplesCount);
-
-	public:
 		MusicEvaluator();
 		~MusicEvaluator(void);
 
 		void LoadAudioFile(std::string fileName); // Loads the audio file to be transcribed
 		float NoteFitnessEvaluator(GAGenome& c); // Objective function
+		int TotalSamples();
+		int FrameSize();
+
+		int SizeInFrames(double samplesCount);
 	};
 
 }
