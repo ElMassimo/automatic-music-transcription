@@ -47,10 +47,10 @@ std::ostream& operator<<(std::ostream& output, const Note& note)
 
 void Note::SetPitch(short pitch)
 {
-	if(pitch > 127)
-		noteNumber = 127;
-	else if(pitch < 0)
-		noteNumber = 0;
+	if(pitch > MAX_NOTE)
+		noteNumber = MAX_NOTE;
+	else if(pitch < MIN_NOTE)
+		noteNumber = MIN_NOTE;
 	else
 		noteNumber = pitch;
 }

@@ -79,7 +79,7 @@ void MusicEvaluator::LoadAudioFile(string fileName)
 	}
 }
 
-float MusicEvaluator::NoteFitnessEvaluator(GAGenome & c)
+float MusicEvaluator::NoteErrorEvaluator(GAGenome & c)
 {
 	NotesGenome& genome = (NotesGenome&)c;
 	double error = 1; // The difference between the original audio and the notes in the genome
@@ -107,7 +107,7 @@ float MusicEvaluator::NoteFitnessEvaluator(GAGenome & c)
 		for(int i = 0; i < fftResultSize; i++)
 			error += abs(CalculateMagnitude(fftOutput[i]) - frequencyMagnitudes[t][i]);
 	}
-	return 100 / error;
+	return error;
 }
 
 int MusicEvaluator::TotalSamples()

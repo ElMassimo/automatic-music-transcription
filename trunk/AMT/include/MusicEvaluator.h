@@ -36,7 +36,7 @@ namespace AMT {
 		~MusicEvaluator(void);
 
 		void LoadAudioFile(std::string fileName); // Loads the audio file to be transcribed
-		float NoteFitnessEvaluator(GAGenome& c); // Objective function
+		float NoteErrorEvaluator(GAGenome& c); // Objective function
 		int TotalSamples();
 		int FrameSize();
 

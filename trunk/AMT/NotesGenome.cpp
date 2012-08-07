@@ -24,44 +24,54 @@ void NotesGenome::DefaultMusicInitializer(GAGenome& g){
 
 int NotesGenome::DefaultMusicMutator(GAGenome& g, float pmut)
 {
-	NotesGenome &genome = (NotesGenome&) g;
-
-	if(pmut <= 0.0)
+	if(pmut <= 0.0 || !GAFlipCoin(pmut))
 		return 0;
-
+	
+	NotesGenome &genome = (NotesGenome&) g;
 	int missingSamples = musicEvaluator->TotalSamples() - genome.totalDuration;
+	int mutationCount = 0;
 
+	// New note
 	if(missingSamples > 0){
 		Note note(GARandomInt(0, 127), GARandomInt(musicEvaluator->FrameSize(), missingSamples));
 		genome.AddNote(note);
 		genome._evaluated = gaFalse;
-		return 1;
+		mutationCount++;
 	}
 
-	if(GAFlipCoin(pmut) && genome.size() > 0){
+	// Just in case the audio file is empty
+	if(genome.size() == 0)
+		return 0;
+
+	int selectedMutation = GARandomInt(0, 10);
+	int changeIndex = GARandomInt(0, genome.size() - 1);
+	
+	// Pitch shift
+	if(selectedMutation < 5){
+		genome.ChangePitch(changeIndex, GARandomBit(), GARandomBit());
+		mutationCount++;
+	}
+
+	// Silence a note
+	if(selectedMutation < 7){
 		int flipIndex = GARandomInt(0, genome.size() - 1);
-		genome.FlipSilence(flipIndex, GARandomInt(0, 127));
+		genome.FlipSilence(flipIndex);
 		genome._evaluated = gaFalse;
-		return 1;
+		mutationCount++;
 	}
 
-	if(GAFlipCoin(pmut) && genome.size() > 0){
+	if(GAFlipCoin(pmut)){
 		int splitIndex = GARandomInt(0, genome.size() - 1);
 		double when = GARandomDouble(0,1);
 		double silenceDuration = GARandomDouble(0,1-when);
-		genome.SplitNote(splitIndex, when, silenceDuration);
-		genome._evaluated = gaFalse;
-		return 1;
+		if(genome.SplitNote(splitIndex, when, silenceDuration))
+			mutationCount++;
 	}
 
-	if(GAFlipCoin(pmut) && genome.size() > 0){
-		int removeIndex = GARandomInt(0, genome.size() - 1);
-		genome.EraseNote(removeIndex);
+	if(mutationCount > 0)
 		genome._evaluated = gaFalse;
-		return 1;
-	}
 
-	return 0;
+	return mutationCount;
 }
 
 float NotesGenome::Compare(const GAGenome& g1, const GAGenome& g2){	
@@ -96,7 +106,7 @@ int NotesGenome::SPXCrossover(const GAGenome& parent1, const GAGenome& parent2, 
 
 float NotesGenome::DefaultMusicEvaluator(GAGenome& genome)
 {	
-	return musicEvaluator->NoteFitnessEvaluator(genome);
+	return musicEvaluator->NoteErrorEvaluator(genome);
 }
 
 NotesGenome::NotesGenome(MusicEvaluator& mEval) : GAGenome(DefaultMusicInitializer, DefaultMusicMutator, Compare)
