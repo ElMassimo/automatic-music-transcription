@@ -1,6 +1,10 @@
 #pragma once
 #include <iostream>
 
+#define DEFAULT_NOTE_NUMBER 48
+#define MIN_NOTE 0
+#define MAX_NOTE 127
+
 class Note {
 public:
 	bool isRest;             

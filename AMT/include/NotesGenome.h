@@ -8,7 +8,7 @@ using namespace std;
 namespace AMT {
 
 class NotesGenome : public GAGenome, public Notes
-{
+{	
 public:
 	static MusicEvaluator* musicEvaluator;
 
