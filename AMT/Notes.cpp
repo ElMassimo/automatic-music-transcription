@@ -17,10 +17,17 @@ Notes::~Notes()
 
 void Notes::AddNote(Note& newNote)
 {
-	if(newNote == 0)
+	if(newNote.duration == 0)
 		return;
 	this->push_back(newNote);
 	totalDuration += newNote.duration;
+}
+
+NotesIterator Notes::GetNote(int noteIndex)
+{
+	NotesIterator it = this->begin();
+	advance(it, noteIndex);
+	return it;
 }
 
 bool IsRest(Note& note)
@@ -30,8 +37,7 @@ bool IsRest(Note& note)
 
 void Notes::FlipSilence(int index)
 {
-	NotesIterator it = this->begin();
-	advance(it, index);
+	NotesIterator it = GetNote(index);
 
 	// If the note is a silence, we want to set the pitch from another note in the sequence
 	if(it->isRest)
@@ -61,11 +67,13 @@ void Notes::FlipSilence(int index)
 
 void Notes::ChangePitch( int noteIndex, bool octave, bool down )
 {
+	NotesIterator it = GetNote(noteIndex);
 	throw std::exception("Not implemented");
 }
 
 void Notes::ChangeDuration( int noteIndex, bool newDurationPercentage, bool expandNext )
 {
+	NotesIterator it = GetNote(noteIndex);
 	throw std::exception("Not implemented");
 }
 
@@ -86,45 +94,50 @@ void Notes::CombineNotes(Notes& n1, Notes& n2, int when)
 
 	this->clear();
 
-	if(it1 != n1.end())
-	{	
-		NotesIterator it = n1.begin();
-		while(it != it1)
-			this->push_back(Note(*it++));
-
-		Note splitNote1(*it1);
-		splitNote1.duration = d1;
-		this->push_back(splitNote1);	
-	}
-	else
+	// Assume that we will copy the whole thing
+	if(it1 == n1.end())
 	{
-		int i = 0 + 1;
+		it1--;
+		d1 = n1.back().duration;
 	}
 
+	NotesIterator it = n1.begin();
+	while(it != it1)
+		this->push_back(Note(*it++));
+
+	// Copy the last note of the first sequence, crop it, and add it
+	Note splitNote1(*it1);
+	splitNote1.duration = d1;
+	if(splitNote1.duration > 0)
+		this->push_back(splitNote1);
+	
+	// Fill the space in between with silence
+	if(n1.totalDuration < when)
+		this->push_back(Note(0, when - n1.totalDuration, true));
+	
+	// Copy the second part only if is not empty
 	if(it2 != n2.end())
 	{
+		// Copy the first note of the second sequence, crop it, and add it
 		Note splitNote2(*it2);
 		splitNote2.duration -= d2;
-		this->push_back(splitNote2);
+		if(splitNote2.duration > 0)
+			this->push_back(splitNote2);
 
 		it2++;
 		while(it2 != n2.end())
 			this->push_back(Note(*it2++));
 	}	
-	else
-	{
-		int i = 0 + 1;
-	}
-	this->totalDuration = n2.totalDuration;
+
+	this->totalDuration = max<int>(when, n2.totalDuration);
 }
 
 bool Notes::SplitNote(int noteIndex, double when, double silencePercentage)
 {
 	if(silencePercentage < 0 || when < 0 || when + silencePercentage > 1)
 		throw "SplitNote: start and duration of the silence must be a percentage";
-	
-	NotesIterator it = this->begin();
-	advance(it, noteIndex);
+
+	NotesIterator it = GetNote(noteIndex);
 
 	// We don't want to create a note with zero duration, or split a silence
 	if(when == 0 || when == 1 || it->isRest)
@@ -184,4 +197,17 @@ NotesIterator Notes::GetNoteAt(int &when)
 			noteStart += it->duration;
 
 	throw std::exception("GetNoteAt: We ran out of notes");
+}
+
+int Notes::GetRealDuration()
+{
+	int realDuration = 0;
+	for (NotesIterator it = this->begin(); it != this->end(); it++)
+		realDuration += it->duration;
+	return realDuration;
+}
+
+Notes& Notes::operator=(const Notes &notes){
+	this->ReplaceNotes(notes);
+	return *this;
 }

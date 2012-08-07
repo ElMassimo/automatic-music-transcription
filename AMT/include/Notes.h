@@ -17,6 +17,9 @@ public:
 	Notes(const Notes &notes);
 	~Notes();
 
+	// Returns an iterator pointing to the note occurring at the given index.
+	NotesIterator GetNote(int noteIndex);
+
 	// Adds a new note at the end
 	void AddNote(Note& newNote);
 
@@ -43,5 +46,10 @@ public:
 
 	// Returns an iterator pointing to the note occurring at the given time, 
 	// and changes the time to represent the offset inside the note to reach it.
-	NotesIterator GetNoteAt(int &when);
+	NotesIterator GetNoteAt(int &when);	
+
+	// Calculates the duration, traversing the whole note sequence (for testing purposes only)
+	int GetRealDuration();
+	
+	Notes& operator=(const Notes &notes);
 };

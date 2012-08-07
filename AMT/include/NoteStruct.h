@@ -16,8 +16,8 @@ public:
 	~Note();
 
 	Note& operator=(const Note &note);
-	bool operator==(const Note &note);
-	bool operator!=(const Note &note);
+	bool operator==(const Note &note) const;
+	bool operator!=(const Note &note) const;
 
 	friend std::ostream& operator<<(std::ostream& output, const Note& note);
 	
