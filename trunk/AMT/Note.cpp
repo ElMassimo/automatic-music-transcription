@@ -25,11 +25,11 @@ Note& Note::operator=(const Note &note){
 	return *this;
 }
 
-bool Note::operator==(const Note &note){
+bool Note::operator==(const Note &note) const{
 	return isRest == note.isRest && noteNumber == note.noteNumber && duration == note.duration;
 }
 
-bool Note::operator!=(const Note &note){
+bool Note::operator!=(const Note &note) const{
 	return !(*this == note);
 }
 

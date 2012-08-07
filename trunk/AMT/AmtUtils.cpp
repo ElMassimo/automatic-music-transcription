@@ -61,12 +61,12 @@ bool AmtUtils::AddNoteTest()
 		return false;
 
 	notes.AddNote(*note);
-	if(notes.size() != 2 || notes.totalDuration != note->duration * 2)
+	if(notes.size() != 2 || notes.totalDuration != note->duration * 2 || notes.totalDuration != notes.GetRealDuration())
 		return false;
 
 	Note* note2 = new Note(189,22500);
 	notes.AddNote(*note2);
-	if(notes.size() != 3 || notes.totalDuration != note->duration * 2 + note2->duration)
+	if(notes.size() != 3 || notes.totalDuration != note->duration * 2 + note2->duration || notes.totalDuration != notes.GetRealDuration())
 		return false;
 	
 	return true;
@@ -76,6 +76,38 @@ bool AmtUtils::AddNoteTest()
 bool AmtUtils::FlipSilenceTest()
 {
 	out << "FlipSilenceTest: ";
+	Notes notes = GetSampleNotes();
+	int noteIndex = 3;
+
+	// Silence a note
+	notes.FlipSilence(noteIndex);
+	Note* note = &(*notes.GetNote(noteIndex));
+	if(!note->isRest)
+		return false;
+
+	// Modify the note number
+	note->noteNumber = 0;
+
+	// Flip the silence again
+	notes.FlipSilence(noteIndex);
+	note = &(*notes.GetNote(noteIndex));
+	if(note->isRest)
+		return false;
+
+	// Check that the note is similar to those around it
+	if(note->noteNumber != 57 && note->noteNumber != 60)
+		return false;
+
+	// Check what happens when there are no more notes there
+	Notes otherNotes;
+	otherNotes.AddNote(Note(0,44100,true));
+	otherNotes.FlipSilence(0);
+	note = &(*otherNotes.GetNote(0));
+	if(note->isRest)
+		return false;
+	if(note->noteNumber != DEFAULT_NOTE_NUMBER)
+		return false;
+
 	return true;
 }
 
@@ -104,6 +136,82 @@ bool AmtUtils::ReplaceNotesTest()
 bool AmtUtils::CombineNotesTest()
 {
 	out << "CombineNotesTest: ";
+
+	Notes notes1 = GetSampleNotes();
+	Notes notes2;
+	notes2.AddNote(Note(125,22050));
+	notes2.AddNote(Note(122,44100));
+
+	int when = 0;
+
+	// Check the border case when we select the very beginning
+	Notes newNotes1;
+	Notes newNotes2;
+	newNotes1.CombineNotes(notes1, notes2, when);
+	newNotes2.CombineNotes(notes2, notes1, when);
+	if(newNotes1 != notes2 || newNotes2 != notes1
+		|| newNotes1.totalDuration != notes2.totalDuration || newNotes2.totalDuration != notes1.totalDuration
+		|| newNotes1.totalDuration != newNotes1.GetRealDuration() || newNotes2.totalDuration != newNotes2.GetRealDuration())
+		return false;
+
+	// Normal case in between notes
+	when = 44100;
+	newNotes1.CombineNotes(notes1, notes2, when);
+	newNotes2.CombineNotes(notes2, notes1, when);
+	if(newNotes1.size() != 2 || newNotes2.size() != 8
+		|| newNotes1.totalDuration != notes2.totalDuration || newNotes2.totalDuration != notes1.totalDuration
+		|| newNotes1.totalDuration != newNotes1.GetRealDuration() || newNotes2.totalDuration != newNotes2.GetRealDuration())
+		return false;
+
+	// Check that the border notes are alright
+	Note note = *newNotes1.GetNote(0);
+	if(note.duration != 44100 && note.noteNumber != 57)
+		return false;
+	note = *newNotes1.GetNote(1);
+	if(note.duration != 22050 && note.noteNumber != 122)
+		return false;
+	note = *newNotes2.GetNote(1);
+	if(note.duration != 22050 && note.noteNumber != 122)
+		return false;
+	note = *newNotes2.GetNote(2);
+	if(note.duration != 44100 && note.noteNumber != 59)
+		return false;
+	
+	// Regular case
+	when = 44200;
+	newNotes1.CombineNotes(notes1, notes2, when);
+	newNotes2.CombineNotes(notes2, notes1, when);
+	if(newNotes1.size() != 3 || newNotes2.size() != 8
+		|| newNotes1.totalDuration != notes2.totalDuration || newNotes2.totalDuration != notes1.totalDuration
+		|| newNotes1.totalDuration != newNotes1.GetRealDuration() || newNotes2.totalDuration != newNotes2.GetRealDuration())
+		return false;
+
+	// Check that the border notes are alright
+	note = *newNotes1.GetNote(0);
+	if(note.duration != 44100 && note.noteNumber != 57)
+		return false;
+	note = *newNotes1.GetNote(1);
+	if(note.duration != 100 && note.noteNumber != 59)
+		return false;
+	note = *newNotes1.GetNote(2);
+	if(note.duration != 21950 && note.noteNumber != 122)
+		return false;
+	note = *newNotes2.GetNote(1);
+	if(note.duration != 22150 && note.noteNumber != 122)
+		return false;
+	note = *newNotes2.GetNote(2);
+	if(note.duration != 44000 && note.noteNumber != 59)
+		return false;
+
+	// Check the border case when we select the very end
+	when = 66150;
+	newNotes1.CombineNotes(notes1, notes2, when);
+	newNotes2.CombineNotes(notes2, notes1, when);
+	if(newNotes1.size() != 2 || newNotes2.size() != 8
+		|| newNotes1.totalDuration != notes2.totalDuration || newNotes2.totalDuration != notes1.totalDuration
+		|| newNotes1.totalDuration != newNotes1.GetRealDuration() || newNotes2.totalDuration != newNotes2.GetRealDuration())
+		return false;
+
 	return true;
 }
 
