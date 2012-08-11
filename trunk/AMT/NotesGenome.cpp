@@ -1,6 +1,14 @@
 #include <ga/garandom.h>
 #include "NotesGenome.h"
 
+#define CHANGE_PITCH P_CHANGE_PITCH
+#define CHANGE_DURATION P_CHANGE_DURATION + CHANGE_PITCH
+#define FLIP_SILENCE P_FLIP_SILENCE + CHANGE_DURATION
+#define SPLIT_NOTE FLIP_SILENCE + P_SPLIT_NOTE
+#define MERGE_NOTES SPLIT_NOTE + P_MERGE_NOTES
+#define RANDOMIZE_NOTE P_RANDOMIZE_NOTE + MERGE_NOTES
+#define MUTATION_ROULETTE RANDOMIZE_NOTE
+
 using namespace AMT;
 
 MusicEvaluator* NotesGenome::musicEvaluator = NULL;
@@ -15,7 +23,7 @@ void NotesGenome::DefaultMusicInitializer(GAGenome& g){
 	while(genome.totalDuration < duration)
 	{		
 		bool isRest = false;
-		int noteNumber = isRest ? 0 : GARandomInt(0,127);
+		int noteNumber = isRest ? 0 : GARandomInt(MIN_NOTE,MAX_NOTE);
 		int noteDuration = musicEvaluator->FrameSize() + GARandomInt(0, duration - genome.totalDuration);
 		Note note(noteNumber,noteDuration,isRest); 
 		genome.AddNote(note);
@@ -33,7 +41,7 @@ int NotesGenome::DefaultMusicMutator(GAGenome& g, float pmut)
 
 	// New note
 	if(missingSamples > 0){
-		Note note(GARandomInt(0, 127), GARandomInt(musicEvaluator->FrameSize(), missingSamples));
+		Note note(GARandomInt(MIN_NOTE,MAX_NOTE), GARandomInt(musicEvaluator->FrameSize(), missingSamples));
 		genome.AddNote(note);
 		genome._evaluated = gaFalse;
 		mutationCount++;
@@ -43,29 +51,46 @@ int NotesGenome::DefaultMusicMutator(GAGenome& g, float pmut)
 	if(genome.size() == 0)
 		return 0;
 
-	int selectedMutation = GARandomInt(0, 10);
+	int selectedMutation = GARandomInt(0, MUTATION_ROULETTE);
 	int changeIndex = GARandomInt(0, genome.size() - 1);
-	
+
 	// Pitch shift
-	if(selectedMutation < 5){
+	if(selectedMutation < CHANGE_PITCH){
 		genome.ChangePitch(changeIndex, GARandomBit(), GARandomBit());
 		mutationCount++;
 	}
 
-	// Silence a note
-	if(selectedMutation < 7){
-		int flipIndex = GARandomInt(0, genome.size() - 1);
-		genome.FlipSilence(flipIndex);
-		genome._evaluated = gaFalse;
+	// Change duration
+	else if(selectedMutation < CHANGE_DURATION){
+		genome.ChangeDuration(changeIndex, GARandomDouble(DURATION_LOWER,DURATION_UPPER), GARandomBit());
 		mutationCount++;
 	}
 
-	if(GAFlipCoin(pmut)){
-		int splitIndex = GARandomInt(0, genome.size() - 1);
+	// Silence a note
+	if(selectedMutation < FLIP_SILENCE){
+		genome.FlipSilence(changeIndex);
+		genome._evaluated = gaFalse;
+		mutationCount++;
+	}
+	
+	// Split a note
+	else if(selectedMutation < SPLIT_NOTE){
 		double when = GARandomDouble(0,1);
 		double silenceDuration = GARandomDouble(0,1-when);
-		if(genome.SplitNote(splitIndex, when, silenceDuration))
+		if(genome.SplitNote(changeIndex, when, silenceDuration))
 			mutationCount++;
+	}
+
+	// Merge contiguous similar notes
+	else if(selectedMutation < MERGE_NOTES){
+		genome.MergeRedundantNotes();
+		mutationCount++;
+	}
+
+	// Randomize note
+	else if(selectedMutation < RANDOMIZE_NOTE){
+		genome.GetNote(changeIndex)->noteNumber = GARandomInt(MIN_NOTE,MAX_NOTE);
+		mutationCount++;
 	}
 
 	if(mutationCount > 0)

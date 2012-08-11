@@ -27,10 +27,10 @@ public:
 	void FlipSilence(int noteIndex);
 
 	// Changes the pitch of a note
-	void ChangePitch(int noteIndex, bool octave, bool down);
+	void ChangePitch(int noteIndex, bool higher, bool octave);
 
 	// Changes the duration of a note, may or not expand the note after (if there is one)
-	void ChangeDuration(int noteIndex, bool newDurationPercentage, bool expandNext);
+	void ChangeDuration(int noteIndex, double newDurationPercentage, bool expandNext);
 
 	// Replaces this series of notes copying another one
 	void ReplaceNotes(const Notes& otherNotes);
@@ -40,6 +40,9 @@ public:
 
 	// Splits a note in two and inserts a silence in between
 	bool SplitNote(int noteIndex, double when, double silenceDuration);
+
+	// Combines notes that are next to each other and have the same properties
+	void MergeRedundantNotes();
 
 	// Crop the notes of series at a point in time
 	void CropAt(int when);

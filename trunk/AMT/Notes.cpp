@@ -65,16 +65,56 @@ void Notes::FlipSilence(int index)
 	it->isRest = !it->isRest;
 }
 
-void Notes::ChangePitch( int noteIndex, bool octave, bool down )
+void Notes::ChangePitch(int noteIndex, bool higher, bool octave)
 {
 	NotesIterator it = GetNote(noteIndex);
-	throw std::exception("Not implemented");
+	it->ShiftPitch(higher,octave);
 }
 
-void Notes::ChangeDuration( int noteIndex, bool newDurationPercentage, bool expandNext )
+void Notes::ChangeDuration(int noteIndex, double newDurationPercentage, bool expandNext)
 {
+	// Change the duration of the note
 	NotesIterator it = GetNote(noteIndex);
-	throw std::exception("Not implemented");
+	int oldDuration = it->duration;
+	int newDuration = it->ChangeDuration(newDurationPercentage);
+	int diff = oldDuration - newDuration;
+	bool longer = oldDuration < newDuration;
+
+	// Get the next note
+	NotesIterator nextNote(it);
+	nextNote++;
+
+	// If this was the last note, adjust the total duration
+	if(nextNote == this->end())
+		this->totalDuration -= diff;
+	else
+	{
+		diff = abs(diff);
+		if(longer)
+		{
+			// Erase all the notes that overlap with the new note interval
+			while(nextNote != this->end() && nextNote->duration < diff)
+			{
+				diff -= nextNote->duration;
+				nextNote = this->erase(nextNote);
+			}
+			if(nextNote != this->end())
+				// In case it overlaps partially
+				nextNote->duration -= diff;
+			else
+				// In case it became the last note
+				this->totalDuration += diff;
+		}
+		else
+		{
+			if(expandNext)
+				// Expand the following note to take the leftover time
+				nextNote->duration += diff;
+			else
+				// Insert a silence to fill the gap
+				this->insert(nextNote, Note(0,diff,true));
+		}
+	}
 }
 
 void Notes::ReplaceNotes(const Notes& otherNotes)
@@ -153,6 +193,26 @@ bool Notes::SplitNote(int noteIndex, double when, double silencePercentage)
 	this->insert(it, *silence);
 
 	return true;
+}
+
+void Notes::MergeRedundantNotes()
+{
+	NotesIterator note = this->begin();
+	NotesIterator nextNote(note);
+	nextNote++;
+	while (nextNote != this->end())
+	{
+		// Both are rests
+		if((note->isRest && nextNote->isRest) || 
+			// Both are notes, and have the same pitch
+			(!note->isRest && !nextNote->isRest && note->noteNumber == nextNote->noteNumber))
+		{
+			note->duration += nextNote->duration;
+			nextNote = this->erase(nextNote);
+		}
+		else
+			note++, nextNote++;
+	}
 }
 
 void Notes::CropAt(int when)

@@ -3,6 +3,15 @@
 #include "Notes.h"
 #include "MusicEvaluator.h"
 
+#define DURATION_UPPER 2.0
+#define DURATION_LOWER 0.5
+#define P_CHANGE_DURATION 5
+#define P_CHANGE_PITCH 5
+#define P_FLIP_SILENCE 2
+#define P_SPLIT_NOTE 2
+#define P_MERGE_NOTES 1
+#define P_RANDOMIZE_NOTE 1
+
 using namespace std;
 
 namespace AMT {

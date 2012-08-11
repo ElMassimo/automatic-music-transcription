@@ -24,7 +24,7 @@ void NoteRenderer::Initialize()
 {
 	noteFrequency = new StkFloat[128];
 	for(int i = 0; i < 128; i++)
-		noteFrequency[i] = pow(2,(double)(i-57)/12) * 440;
+		noteFrequency[i] = pow(2,(double)(i-A440)/12) * 440;
 }
 
 void NoteRenderer::CleanUp()
