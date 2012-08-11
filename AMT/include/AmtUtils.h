@@ -28,10 +28,12 @@ namespace AMT
 		static bool ReplaceNotesTest();
 		static bool CombineNotesTest();
 		static bool SplitNoteTest();
+		static bool MergeNotesTest();
 		static bool CropAtTest();
 
 	public:
 		static void RunTests();
+		static void OtherTests();
 		static void SaveArray(int n, double* input, string fileName);
 		static void SaveAudio(Notes& notes, string fileName);
 		static Notes GetSampleNotes();

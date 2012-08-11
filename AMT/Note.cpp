@@ -39,7 +39,7 @@ std::ostream& operator<<(std::ostream& output, const Note& note)
 		output << "Silence" << "\n";
 	else
 	{
-		output << "Note number: " << note.noteNumber << " (" <<  pow(2,(double)(note.noteNumber-57)/12) * 440 << "Hz)\n";
+		output << "Note number: " << note.noteNumber << " (" <<  pow(2,(double)(note.noteNumber-A440)/12) * 440 << "Hz)\n";
 	}
 	output << "Duration: " << note.duration << " samples\n\n";
 	return output;
@@ -67,9 +67,11 @@ short Note::ShiftPitch(bool higher, bool octave)
 	return noteNumber;
 }
 
-int Note::ChangeDuration(int amount)
+int Note::ChangeDuration(double percentage)
 {
-	duration += amount;
+	duration *= percentage;
+	if(duration < 0)
+		duration = 0;
 	return duration;
 }
 

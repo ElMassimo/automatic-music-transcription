@@ -105,7 +105,7 @@ float MusicEvaluator::NoteErrorEvaluator(GAGenome & c)
 
 		// Calculate frequency magnitudes for each time bin, and obtain the difference with the original audio source
 		for(int i = 0; i < fftResultSize; i++)
-			error += abs(CalculateMagnitude(fftOutput[i]) - frequencyMagnitudes[t][i]);
+			error += abs(CalculateMagnitude(fftOutput[i]) - frequencyMagnitudes[t][i]) / (i + 1); // Normalize the bins
 	}
 	return error;
 }

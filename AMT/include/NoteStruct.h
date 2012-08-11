@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
 
-#define DEFAULT_NOTE_NUMBER 48
-#define MIN_NOTE 0
-#define MAX_NOTE 127
+#define DEFAULT_NOTE_NUMBER 60
+#define MIN_NOTE 21
+#define MAX_NOTE 108
+#define A440 69
 
 class Note {
 public:
@@ -23,5 +24,5 @@ public:
 	
 	void SetPitch(short pitch);
 	short ShiftPitch(bool higher, bool octave);
-	int ChangeDuration(int amount);
+	int ChangeDuration(double percentage);
 };

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <stdio.h>
 #include <time.h>
+#include <ga/garandom.h>
 #include "MusicEvaluator.h"
 #include "NotesGenome.h"
 #include "NoteRenderer.h"
@@ -12,7 +13,6 @@
 
 using namespace AMT;
 using namespace std;
-
 
 void RenderPopulation(GAGeneticAlgorithm &ga)
 {
@@ -28,6 +28,8 @@ void RenderPopulation(GAGeneticAlgorithm &ga)
 
 void GA(int argc, char** argv)
 {
+	GARandomSeed(217);
+
 	// Initialize the music evaluator
 	MusicEvaluator musicEvaluator;
 	musicEvaluator.LoadAudioFile("Test.wav");
@@ -39,7 +41,7 @@ void GA(int argc, char** argv)
 	// Set the default parameters we want to use, then check the command line for
 	// other arguments that might modify these.
 	ga.set(gaNpopulationSize, 50);	// population size
-	ga.set(gaNnReplacement, 50); // number of replacement
+	ga.set(gaNnReplacement, 20); // number of replacement
 	ga.set(gaNpCrossover, 0.6);		// probability of crossover
 	ga.set(gaNpMutation, 0.1);		// probability of mutation
 	ga.set(gaNnGenerations, 10);	// number of generations
@@ -63,15 +65,16 @@ void GA(int argc, char** argv)
 	best.SaveToFile("best.txt");
 	AmtUtils::SaveAudio(best,"Best");
 
-	cout << "the ga generated the list:\n" << best << "\n";
-	cout << "the ga used the parameters:\n" << ga.parameters() << "\n";	
 	cout << "\n" << ga.statistics() << "\n";
 	cout << "\nFitness of the best individual: " << best.evaluate();
 	cout << "\n\nRunning time: " << difftime (evolutionEnd, evolutionStart) << "s";
+	ofstream stats("Resultados.txt", ios_base::_Noreplace);
+	stats << "Something\n";
+	stats.close();
 }
 
 int	main(int argc, char** argv) {
 	AmtUtils::RunTests();
-	// GA(arcg, argv);	
+	GA(argc, argv);	
 	return 0;
 }

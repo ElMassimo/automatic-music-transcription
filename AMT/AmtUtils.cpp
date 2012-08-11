@@ -13,6 +13,30 @@ inline double CalculateMagnitude(Complex &complex)
 	return sqrt(pow(complex.real(), 2) + pow(complex.imag(), 2));
 }
 
+Notes GetTwoNotes(int n)
+{
+	Notes notes;
+	notes.AddNote(Note(60,4096*n));
+	notes.AddNote(Note(69,4096*n));
+	return notes;
+}
+
+Notes GetCMajorScale(int n)
+{
+	// Generate sample audio file
+	Notes notes;
+	notes.AddNote(Note(48,4096 * n));
+	notes.AddNote(Note(50,4096 * n));
+	notes.AddNote(Note(52,4096 * n));
+	notes.AddNote(Note(53,4096 * n));
+	notes.AddNote(Note(55,4096 * n));
+	notes.AddNote(Note(57,4096 * n));
+	notes.AddNote(Note(59,4096 * n));
+	notes.AddNote(Note(60,4096 * 2 * n));
+	notes.AddNote(Note(72,4096 * 2 * n));
+	return notes;
+}
+
 Notes AmtUtils::GetSampleNotes()
 {
 	// Create an example audio file
@@ -44,8 +68,6 @@ void AmtUtils::SaveAudio(Notes& notes, string fileName){
 }
 
 ofstream AmtUtils::TestResults("Tests Results.txt");
-
-
 
 // Adds a new note at the end
 bool AmtUtils::AddNoteTest()
@@ -115,6 +137,23 @@ bool AmtUtils::FlipSilenceTest()
 bool AmtUtils::ChangePitchTest()
 {
 	out << "ChangePitchTest: ";
+	Notes notes = GetSampleNotes();
+	notes.ChangePitch(0, true, true);
+	if(notes.GetNote(0)->noteNumber != 57 + 12)
+		return false;
+
+	notes.ChangePitch(1, false, false);
+	if(notes.GetNote(1)->noteNumber != 59 - 1)
+		return false;
+
+	notes.ChangePitch(3, false, true);
+	if(notes.GetNote(3)->noteNumber != 59 - 12)
+		return false;
+
+	notes.ChangePitch(4, true, false);
+	if(notes.GetNote(4)->noteNumber != 57 + 1)
+		return false;
+
 	return true;
 }
 
@@ -122,13 +161,50 @@ bool AmtUtils::ChangePitchTest()
 bool AmtUtils::ChangeDurationTest()
 {
 	out << "ChangeDurationTest: ";
+
+	Notes notes = GetSampleNotes();
+	notes.ChangeDuration(0, 0.5, false);
+	if(notes.size() != 8 || notes.GetNote(0)->duration != 22050 || notes.totalDuration != notes.GetRealDuration())
+		return false;
+
+	notes.ChangeDuration(0, 2.5, true);
+	if(notes.size() != 7 || notes.GetNote(0)->duration != 55125 || notes.totalDuration != notes.GetRealDuration())
+		return false;
+
+	notes.ChangeDuration(0, 0.8, true);
+	if(notes.size() != 7 || notes.GetNote(0)->duration != 44100 || notes.totalDuration != notes.GetRealDuration())
+		return false;
+
+	notes.ChangeDuration(6, 0.5, true);
+	if(notes.size() != 7 || notes.GetNote(6)->duration != 5250 || notes.totalDuration != notes.GetRealDuration() 
+		|| notes.totalDuration != 173092 - 5250)
+		return false;
+
+	notes.ChangeDuration(6, 2.0, true);
+	if(notes.size() != 7 || notes.GetNote(6)->duration != 10500 || notes.totalDuration != notes.GetRealDuration() 
+		|| notes.totalDuration != 173092)
+		return false;
+
+	if(notes != GetSampleNotes())
+		return false;
+
+	notes.ChangeDuration(5, 4.0, true);
+	if(notes.size() != 6 || notes.GetNote(5)->duration != 16384 || notes.totalDuration != notes.GetRealDuration() 
+		|| notes.totalDuration != 173092 + 1788)
+		return false;
+
+	notes.ChangeDuration(5, 0.25, true);
+	if(notes.size() != 6 || notes.GetNote(5)->duration != 4096 || notes.totalDuration != notes.GetRealDuration() 
+		|| notes.totalDuration != 173092 - 10500)
+		return false;
+
 	return true;
 }
 
 // Replaces this series of notes copying another one
 bool AmtUtils::ReplaceNotesTest()
 {
-	out << "ReplaceNotesTest: ";
+	out << "ReplaceNotesTest: *";
 	return true;
 }
 
@@ -218,7 +294,36 @@ bool AmtUtils::CombineNotesTest()
 // Splits a note in two and inserts a silence in between
 bool AmtUtils::SplitNoteTest()
 {
-	out << "SplitNoteTest: ";
+	out << "SplitNoteTest: *";
+	return true;
+}
+
+bool AmtUtils::MergeNotesTest()
+{
+	out << "MergeNotesTest: ";
+	Notes notes = GetSampleNotes();
+	notes.MergeRedundantNotes();
+	if(notes != GetSampleNotes())
+		return false;
+
+	notes.AddNote(Note(60,11550));
+	notes.MergeRedundantNotes();
+	if(notes.size() != 7 || notes.GetNote(6)->duration != 22050 || notes.totalDuration != notes.GetRealDuration() 
+		|| notes.totalDuration != 173092 + 11550)
+		return false;
+
+	notes.AddNote(Note(60,10000, true));
+	notes.MergeRedundantNotes();
+	if(notes.size() != 8 || notes.GetNote(6)->duration != 22050 || notes.totalDuration != notes.GetRealDuration() 
+		|| notes.totalDuration != 173092 + 11550 + 10000)
+		return false;
+
+	notes.AddNote(Note(60,10000, true));
+	notes.MergeRedundantNotes();
+	if(notes.size() != 8 || notes.GetNote(6)->duration != 22050 || notes.totalDuration != notes.GetRealDuration() 
+		|| notes.totalDuration != 173092 + 11550 + 20000)
+		return false;
+
 	return true;
 }
 
@@ -299,8 +404,7 @@ bool AmtUtils::GetNoteAtTest()
 	otherNotes.AddNote(Note(16,0));
 	otherNotes.AddNote(Note(125,44100));
 	otherNotes.AddNote(Note(16,0));
-
-
+	
 	return true;
 }
 
@@ -312,19 +416,8 @@ void AmtUtils::ExecuteTest(Test test)
 		out << "FAILED!\n";
 }
 
-void AmtUtils::RunTests()
+void AmtUtils::OtherTests()
 {
-	// Run the tests
-	ExecuteTest(AddNoteTest);
-	ExecuteTest(FlipSilenceTest);
-	ExecuteTest(GetNoteAtTest);
-	ExecuteTest(ChangePitchTest);
-	ExecuteTest(ChangeDurationTest);
-	ExecuteTest(ReplaceNotesTest);
-	ExecuteTest(CombineNotesTest);
-	ExecuteTest(SplitNoteTest);
-	ExecuteTest(CropAtTest);
-	
 	Notes notes = GetSampleNotes();
 	SaveAudio(notes, "Test");
 
@@ -373,4 +466,31 @@ void AmtUtils::RunTests()
 	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[22], "magnitudeTest3.txt");
 	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[34], "magnitudeTest4.txt");
 	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[35], "magnitudeTest5.txt");
+}
+
+void AmtUtils::RunTests()
+{
+	// Run the tests
+	ExecuteTest(AddNoteTest);
+	ExecuteTest(FlipSilenceTest);
+	ExecuteTest(GetNoteAtTest);
+	ExecuteTest(ChangePitchTest);
+	ExecuteTest(ChangeDurationTest);
+	ExecuteTest(ReplaceNotesTest);
+	ExecuteTest(CombineNotesTest);
+	ExecuteTest(SplitNoteTest);
+	ExecuteTest(MergeNotesTest);
+	ExecuteTest(CropAtTest);
+
+	TestResults.flush();
+	TestResults.close();
+	
+	Notes test = GetTwoNotes(8);
+	AmtUtils::SaveAudio(test, "Test");
+	std::ofstream notesFile("test.txt");
+	if(notesFile)
+		for (NotesConstIterator it = test.begin() ; it != test.end(); it++)
+			notesFile << *it;
+	
+	// OtherTests();
 }

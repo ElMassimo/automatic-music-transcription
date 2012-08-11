@@ -47,6 +47,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>.\build\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -58,7 +60,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CompileAs>CompileAsCpp</CompileAs>
-      <AdditionalIncludeDirectories>..\GAlib\galib247;..\CFugue\MusicNote\include;..\STK\include;..\AMT\include;..\FFTW++;..\FFTW\api;..\FFTW\kernel;..\FFTW\dft;..\FFTW\dft\simd;..\FFTW\dft\scalar;..\FFTW\rdft;..\FFTW\rdft\simd;..\FFTW\rdft\scalar;..\FFTW\reodft;..\FFTW\simd-support;..\FFTW\threads;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\GAlib\galib247;..\STK\include;..\AMT\include;..\FFTW++;..\FFTW\api;..\FFTW\kernel;..\FFTW\dft;..\FFTW\dft\simd;..\FFTW\dft\scalar;..\FFTW\rdft;..\FFTW\rdft\simd;..\FFTW\rdft\scalar;..\FFTW\reodft;..\FFTW\simd-support;..\FFTW\threads;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>
@@ -77,14 +79,21 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAs>CompileAsCpp</CompileAs>
       <CompileAsManaged>false</CompileAsManaged>
-      <AdditionalIncludeDirectories>..\..\GAlib\galib247;..\..\CFugue\MusicNote\include;..\..\CFugue\MusicNote\include\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\GAlib\galib247;..\STK\include;..\AMT\include;..\FFTW++;..\FFTW\api;..\FFTW\kernel;..\FFTW\dft;..\FFTW\dft\simd;..\FFTW\dft\scalar;..\FFTW\rdft;..\FFTW\rdft\simd;..\FFTW\rdft\scalar;..\FFTW\reodft;..\FFTW\simd-support;..\FFTW\threads;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>musicnotelib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\CFugue\MusicNote\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -98,9 +107,6 @@
     <ClCompile Include="NotesGenome.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CFugue\MusicNote\vs-build\MusicNoteLib.vcxproj">
-      <Project>{92734113-e02c-45ae-884e-83923a9e54e5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\FFTW++\FFTW++.vcxproj">
       <Project>{d51d36c0-8d4f-44c7-a172-bfedff0745d6}</Project>
     </ProjectReference>
