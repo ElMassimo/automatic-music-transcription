@@ -40,7 +40,7 @@ public:
 	virtual GAGenome* clone(CloneMethod) const;
 	virtual void copy(const GAGenome& orig);
 
-	void SaveToFile(char* fileName) const;
+	void SaveToFile(string fileName) const;
 };
 
 }
