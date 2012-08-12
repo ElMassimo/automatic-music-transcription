@@ -26,10 +26,8 @@ void RenderPopulation(GAGeneticAlgorithm &ga)
 	}
 }
 
-void GA(int argc, char** argv)
+void GA(int argc, char** argv, int executionNumber)
 {
-	GARandomSeed(217);
-
 	// Initialize the music evaluator
 	MusicEvaluator musicEvaluator;
 	musicEvaluator.LoadAudioFile("Test.wav");
@@ -41,40 +39,56 @@ void GA(int argc, char** argv)
 	// Set the default parameters we want to use, then check the command line for
 	// other arguments that might modify these.
 	ga.set(gaNpopulationSize, 50);	// population size
-	ga.set(gaNnReplacement, 20); // number of replacement
+	ga.set(gaNnReplacement, 50); // number of replacement
 	ga.set(gaNpCrossover, 0.6);		// probability of crossover
 	ga.set(gaNpMutation, 0.1);		// probability of mutation
 	ga.set(gaNnGenerations, 10);	// number of generations
 	ga.set(gaNscoreFrequency, 1);	// how often to record scores
 	ga.set(gaNflushFrequency, 10);	// how often to dump scores to file
-	ga.set(gaNselectScores,		// which scores should we track?
-		GAStatistics::Maximum|GAStatistics::Minimum|GAStatistics::Mean|GAStatistics::Deviation);
-	ga.set(gaNscoreFilename, "evolution.txt");
+	ga.set(gaNselectScores,	GAStatistics::Minimum|GAStatistics::Mean);
+	stringstream evoTxt;
+	evoTxt << "Results\\Evolution " << executionNumber << ".txt";
+	ga.set(gaNscoreFilename, evoTxt.str().c_str());
 	ga.parameters(argc, argv);
-
-	// Calculate the time of evolution
+	
+	// Evolve the genetic algorithm then dump out the results of the run.
 	time_t evolutionStart, evolutionEnd;
 	time (&evolutionStart);
-
-	// Evolve the genetic algorithm then dump out the results of the run.
 	ga.evolve();
-
 	time (&evolutionEnd);
+	double runningTime = difftime (evolutionEnd, evolutionStart);
 
+	// Save the best individual
 	NotesGenome& best = (NotesGenome&) ga.statistics().bestIndividual();
-	best.SaveToFile("best.txt");
-	AmtUtils::SaveAudio(best,"Best");
-
-	cout << "\n" << ga.statistics() << "\n";
-	cout << "\nFitness of the best individual: " << best.evaluate();
-	cout << "\n\nRunning time: " << difftime (evolutionEnd, evolutionStart) << "s";
-	ofstream stats("Resultados.txt", ios_base::_Noreplace);
-	stats << "Something\n";
+	stringstream fileName;
+	fileName << "Results\\Audio " << executionNumber;
+	AmtUtils::SaveAudio(best, fileName.str());
+	fileName << ".txt";
+	best.SaveToFile(fileName.str());
+	
+	// Save stats
+	ofstream stats;
+	stats.open("Results\\Results.txt", std::ios_base::app);
+	stats << ga.statistics().current(GAStatistics::Minimum) << "\t" << ga.statistics().current(GAStatistics::Mean) << "\t";
+	stats << ga.statistics().current(GAStatistics::Deviation) << "\t" << runningTime << endl;
 	stats.close();
+
+	// It is not elitist!!
+	if (best.score() > ga.statistics().current(GAStatistics::Minimum))
+	{
+		ofstream notElitist;
+		notElitist.open("Results\\NotElistist.txt", std::ios_base::app);
+		notElitist << executionNumber << endl;
+		notElitist.close();
+	}
 }
 
 int	main(int argc, char** argv) {
 	AmtUtils::RunTests();
-	GA(argc, argv);	
+
+	for (int i = 0; i < 20; i++)
+	{
+		GA(argc, argv, i);	
+	}
 	return 0;
 }
