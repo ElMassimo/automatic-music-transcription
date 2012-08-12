@@ -26,31 +26,8 @@ void RenderPopulation(GAGeneticAlgorithm &ga)
 	}
 }
 
-void GA(int argc, char** argv, int executionNumber)
+void ExecuteGA(MusicGA& ga, int executionNumber)
 {
-	// Initialize the music evaluator
-	MusicEvaluator musicEvaluator;
-	musicEvaluator.LoadAudioFile("Test.wav");
-
-	// Create the genome and the genetic algorithm instance
-	NotesGenome notesGenome(musicEvaluator);
-	MusicGA ga(notesGenome);
-
-	// Set the default parameters we want to use, then check the command line for
-	// other arguments that might modify these.
-	ga.set(gaNpopulationSize, 50);	// population size
-	ga.set(gaNnReplacement, 50); // number of replacement
-	ga.set(gaNpCrossover, 0.6);		// probability of crossover
-	ga.set(gaNpMutation, 0.1);		// probability of mutation
-	ga.set(gaNnGenerations, 10);	// number of generations
-	ga.set(gaNscoreFrequency, 1);	// how often to record scores
-	ga.set(gaNflushFrequency, 10);	// how often to dump scores to file
-	ga.set(gaNselectScores,	GAStatistics::Minimum|GAStatistics::Mean);
-	stringstream evoTxt;
-	evoTxt << "Results\\Evolution " << executionNumber << ".txt";
-	ga.set(gaNscoreFilename, evoTxt.str().c_str());
-	ga.parameters(argc, argv);
-	
 	// Evolve the genetic algorithm then dump out the results of the run.
 	time_t evolutionStart, evolutionEnd;
 	time (&evolutionStart);
@@ -86,9 +63,41 @@ void GA(int argc, char** argv, int executionNumber)
 int	main(int argc, char** argv) {
 	AmtUtils::RunTests();
 
-	for (int i = 0; i < 20; i++)
+	// Initialize the music evaluator
+	MusicEvaluator musicEvaluator;
+	musicEvaluator.LoadAudioFile("Test.wav");
+
+	// Create the genome and the genetic algorithm instance
+	NotesGenome notesGenome(musicEvaluator);
+	MusicGA ga(notesGenome);
+
+	// Execute the algorithm repeated times
+	int numberOfExecutions = 1;
+	if(argc > 3 && strcmp(argv[1], "nexec") == 0)
+		numberOfExecutions = strtol(argv[2], NULL, 10);
+
+	// Set the default parameters we want to use, then check the command line for
+	// other arguments that might modify these.
+	ga.set(gaNpopulationSize, 50);	// population size
+	ga.set(gaNnReplacement, 50); // number of replacement
+	ga.set(gaNpCrossover, 0.6);		// probability of crossover
+	ga.set(gaNpMutation, 0.1);		// probability of mutation
+	ga.set(gaNnGenerations, 10);	// number of generations
+	ga.set(gaNscoreFrequency, 1);	// how often to record scores
+	ga.set(gaNflushFrequency, 10);	// how often to dump scores to file
+	ga.set(gaNselectScores,	GAStatistics::Minimum|GAStatistics::Mean);
+	ga.parameters(argc, argv);
+	
+	// Prepare the results file
+	ofstream results("Results\\Results.txt", ios_base::trunc);
+	results.close();
+
+	for (int i = 0; i < numberOfExecutions; i++)
 	{
-		GA(argc, argv, i);	
+		stringstream evoTxt;
+		evoTxt << "Results\\Evolution " << i << ".txt";
+		ga.set(gaNscoreFilename, evoTxt.str().c_str());
+		ExecuteGA(ga, i);	
 	}
 	return 0;
 }
