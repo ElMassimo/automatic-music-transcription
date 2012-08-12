@@ -61,23 +61,27 @@ static unsigned int seed=0;
 
 unsigned int GAGetRandomSeed() { return seed; }
 
-void 
-GARandomSeed(unsigned int s) {
-  if(s == 0 && seed == 0) {
-    unsigned long int tmp;
-    while(seed == 0) {
-      tmp = time(NULL) _GA_PID;
-      for(unsigned int i=0; i<GALIB_BITS_IN_WORD*sizeof(unsigned int); i++)
-	seed += (tmp & (1 << i));
-    }
-    _GA_RND_SEED (seed); 
-    bitseed(seed);
-  }
-  else if(s != 0 && seed != s) {
-    seed = s;
-    _GA_RND_SEED (seed); 
-    bitseed(seed);
-  }
+void GARandomSeed(unsigned int s)
+{
+	if(s == 0)
+	{
+		unsigned long int tmp;
+		seed = 0;
+		while(seed == 0)
+		{
+			tmp = time(NULL) _GA_PID;
+			for(unsigned int i=0; i<GALIB_BITS_IN_WORD*sizeof(unsigned int); i++)
+				seed += (tmp & (1 << i));
+		}
+		_GA_RND_SEED (seed); 
+		bitseed(seed);
+	}
+	else if(s != 0 && seed != s)
+	{
+		seed = s;
+		_GA_RND_SEED (seed); 
+		bitseed(seed);
+	}
 }
 
 // Similar to setting the random seed, but this one sets it as long as the
