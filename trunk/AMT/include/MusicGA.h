@@ -6,7 +6,7 @@ namespace AMT {
 	class MusicGA :	public GASteadyStateGA
 	{
 	private:
-		static GABoolean TerminateUponGeneration(GAGeneticAlgorithm &);
+		static GABoolean TerminateUponGenerationOrConvergence(GAGeneticAlgorithm &);
 
 	public:
 		MusicGA(NotesGenome& genome);

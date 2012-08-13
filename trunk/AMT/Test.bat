@@ -1,27 +1,52 @@
+AMT.exe nexec 20 rdir "200101" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 0.1
+AMT.exe nexec 20 rdir "200201" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 0.1
+AMT.exe nexec 20 rdir "200301" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 0.1
+AMT.exe nexec 20 rdir "200401" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 0.1
+AMT.exe nexec 20 rdir "200501" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 0.1
 AMT.exe nexec 20 rdir "200601" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 0.1
 AMT.exe nexec 20 rdir "200701" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.1
 AMT.exe nexec 20 rdir "200801" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.1
 AMT.exe nexec 20 rdir "200901" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 0.1
 AMT.exe nexec 20 rdir "201001" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 0.1
 
+AMT.exe nexec 20 rdir "200102" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 0.2
+AMT.exe nexec 20 rdir "200202" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 0.2
+AMT.exe nexec 20 rdir "200302" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 0.2
+AMT.exe nexec 20 rdir "200402" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 0.2
+AMT.exe nexec 20 rdir "200502" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 0.2
 AMT.exe nexec 20 rdir "200602" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 0.2
 AMT.exe nexec 20 rdir "200702" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.2
 AMT.exe nexec 20 rdir "200802" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.2
 AMT.exe nexec 20 rdir "200902" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 0.2
 AMT.exe nexec 20 rdir "201002" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 0.2
 
+AMT.exe nexec 20 rdir "200103" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 0.3
+AMT.exe nexec 20 rdir "200203" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 0.3
+AMT.exe nexec 20 rdir "200303" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 0.3
+AMT.exe nexec 20 rdir "200403" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 0.3
+AMT.exe nexec 20 rdir "200503" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 0.3
 AMT.exe nexec 20 rdir "200603" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 0.3
 AMT.exe nexec 20 rdir "200703" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.3
 AMT.exe nexec 20 rdir "200803" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.3
 AMT.exe nexec 20 rdir "200903" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 0.3
 AMT.exe nexec 20 rdir "201003" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 0.3
 
+AMT.exe nexec 20 rdir "200104" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 0.4
+AMT.exe nexec 20 rdir "200204" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 0.4
+AMT.exe nexec 20 rdir "200304" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 0.4
+AMT.exe nexec 20 rdir "200404" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 0.4
+AMT.exe nexec 20 rdir "200504" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 0.4
 AMT.exe nexec 20 rdir "200604" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 0.4
 AMT.exe nexec 20 rdir "200704" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.4
 AMT.exe nexec 20 rdir "200804" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.4
 AMT.exe nexec 20 rdir "200904" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 0.4
 AMT.exe nexec 20 rdir "201004" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 0.4
 
+AMT.exe nexec 20 rdir "200105" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 0.5
+AMT.exe nexec 20 rdir "200205" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 0.5
+AMT.exe nexec 20 rdir "200305" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 0.5
+AMT.exe nexec 20 rdir "200405" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 0.5
+AMT.exe nexec 20 rdir "200505" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 0.5
 AMT.exe nexec 20 rdir "200605" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 0.5
 AMT.exe nexec 20 rdir "200705" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.5
 AMT.exe nexec 20 rdir "200805" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.5
@@ -49,3 +74,36 @@ AMT.exe nexec 20 rdir "200707" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.7
 AMT.exe nexec 20 rdir "200807" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.7
 AMT.exe nexec 20 rdir "200907" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 0.7
 AMT.exe nexec 20 rdir "201007" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 0.7
+
+AMT.exe nexec 20 rdir "200108" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 0.8
+AMT.exe nexec 20 rdir "200208" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 0.8
+AMT.exe nexec 20 rdir "200308" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 0.8
+AMT.exe nexec 20 rdir "200408" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 0.8
+AMT.exe nexec 20 rdir "200508" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 0.8
+AMT.exe nexec 20 rdir "200608" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 0.8
+AMT.exe nexec 20 rdir "200708" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.8
+AMT.exe nexec 20 rdir "200808" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.8
+AMT.exe nexec 20 rdir "200908" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 0.8
+AMT.exe nexec 20 rdir "201008" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 0.8
+
+AMT.exe nexec 20 rdir "200109" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 0.9
+AMT.exe nexec 20 rdir "200209" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 0.9
+AMT.exe nexec 20 rdir "200309" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 0.9
+AMT.exe nexec 20 rdir "200409" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 0.9
+AMT.exe nexec 20 rdir "200509" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 0.9
+AMT.exe nexec 20 rdir "200609" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 0.9
+AMT.exe nexec 20 rdir "200709" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 0.9
+AMT.exe nexec 20 rdir "200809" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 0.9
+AMT.exe nexec 20 rdir "200909" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 0.9
+AMT.exe nexec 20 rdir "201009" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 0.9
+
+AMT.exe nexec 20 rdir "200110" ngen 20 popsize 50 nrepl 20 pcross 0.1 pmut 1.0
+AMT.exe nexec 20 rdir "200210" ngen 20 popsize 50 nrepl 20 pcross 0.2 pmut 1.0
+AMT.exe nexec 20 rdir "200310" ngen 20 popsize 50 nrepl 20 pcross 0.3 pmut 1.0
+AMT.exe nexec 20 rdir "200410" ngen 20 popsize 50 nrepl 20 pcross 0.4 pmut 1.0
+AMT.exe nexec 20 rdir "200510" ngen 20 popsize 50 nrepl 20 pcross 0.5 pmut 1.0
+AMT.exe nexec 20 rdir "200610" ngen 20 popsize 50 nrepl 20 pcross 0.6 pmut 1.0
+AMT.exe nexec 20 rdir "200710" ngen 20 popsize 50 nrepl 20 pcross 0.7 pmut 1.0
+AMT.exe nexec 20 rdir "200810" ngen 20 popsize 50 nrepl 20 pcross 0.8 pmut 1.0
+AMT.exe nexec 20 rdir "200910" ngen 20 popsize 50 nrepl 20 pcross 0.9 pmut 1.0
+AMT.exe nexec 20 rdir "201010" ngen 20 popsize 50 nrepl 20 pcross 1.0 pmut 1.0

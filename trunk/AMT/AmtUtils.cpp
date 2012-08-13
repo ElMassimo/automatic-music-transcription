@@ -488,3 +488,17 @@ void AmtUtils::RunTests()
 
 	TestResults.close();
 }
+
+void AmtUtils::CreateSampleFile(int sampleNumber, int length)
+{
+	Notes sample;
+	switch(sampleNumber)
+	{
+		case 0 : sample = GetSampleNotes();
+		break;
+		case 1 : sample = GetCMajorScale(length);
+		break;
+		default: sample = GetTwoNotes(length);
+	}
+	AmtUtils::SaveAudio(sample, "Test");	
+}
