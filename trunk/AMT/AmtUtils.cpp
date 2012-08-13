@@ -416,9 +416,8 @@ void AmtUtils::ExecuteTest(Test test)
 		out << "FAILED!\n";
 }
 
-void AmtUtils::OtherTests()
+void AmtUtils::OtherTests(Notes &notes)
 {
-	Notes notes = GetSampleNotes();
 	SaveAudio(notes, "Test");
 
 	// Initialize the evaluator
@@ -429,7 +428,7 @@ void AmtUtils::OtherTests()
 	NotesGenome bestNoteEver(musicEvaluator);
 	bestNoteEver.ReplaceNotes(notes);
 	TestResults << "Ideal transcription fitness: " << bestNoteEver.evaluate();
-	bestNoteEver.SaveToFile("test.txt");
+	bestNoteEver.SaveToFile("Test.txt");
 
 	// Create a test genome
 	NotesGenome genome(musicEvaluator);
@@ -443,12 +442,12 @@ void AmtUtils::OtherTests()
 
 	int nFrames = musicEvaluator.FrameSize();
 	StkFloat* input = renderer.frames->getData();
-	SaveArray(nFrames, input, "samples.txt");
+	SaveArray(nFrames, input, "Plot\\samples.txt");
 
 	// Hann windowing
 	for (int i = 0; i < nFrames; i++)
 		input[i] *= HannWindow(i, nFrames);
-	SaveArray(nFrames, input, "windowed.txt");
+	SaveArray(nFrames, input, "Plot\\windowed.txt");
 
 	// Calculate the FFT
 	array1<Complex> output(nFrames/2 + 1);
@@ -458,14 +457,14 @@ void AmtUtils::OtherTests()
 	// Calculate the signal magnitude
 	for(int i = 0; i < nFrames/2 + 1; i ++)
 		input[i] = CalculateMagnitude(output[i]);
-	SaveArray(nFrames/2 + 1, input, "magnitude.txt");
+	SaveArray(nFrames/2 + 1, input, "Plot\\magnitude.txt");
 
 	// Calculate the signal magnitude with the music evaluator
-	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[0], "magnitudeTest1.txt");
-	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[11], "magnitudeTest2.txt");
-	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[22], "magnitudeTest3.txt");
-	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[34], "magnitudeTest4.txt");
-	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[35], "magnitudeTest5.txt");
+	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[0], "Plot\\magnitudeTest1.txt");
+	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[11], "Plot\\magnitudeTest2.txt");
+	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[22], "Plot\\magnitudeTest3.txt");
+	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[34], "Plot\\magnitudeTest4.txt");
+	SaveArray(nFrames/2 + 1, musicEvaluator.frequencyMagnitudes[35], "Plot\\magnitudeTest5.txt");
 }
 
 void AmtUtils::RunTests()
@@ -481,16 +480,11 @@ void AmtUtils::RunTests()
 	ExecuteTest(SplitNoteTest);
 	ExecuteTest(MergeNotesTest);
 	ExecuteTest(CropAtTest);
-
-	TestResults.flush();
-	TestResults.close();
 	
 	Notes test = GetTwoNotes(8);
-	AmtUtils::SaveAudio(test, "Test");
-	std::ofstream notesFile("test.txt");
-	if(notesFile)
-		for (NotesConstIterator it = test.begin() ; it != test.end(); it++)
-			notesFile << *it;
-	
-	// OtherTests();
+
+	//OtherTests(test);
+	AmtUtils::SaveAudio(test, "Test");	
+
+	TestResults.close();
 }

@@ -1,4 +1,4 @@
-cd 'C:\AMT\AMT\AMT'
+cd 'C:\AMT\AMT\AMT\Plot'
 set title "Audio Samples and Frequency Magnitude"
 plot [-1:] 'magnitude.txt' using 1:2 with lines, \
 			'magnitudeTest1.txt' using 1:2 with lines, \
