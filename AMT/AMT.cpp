@@ -97,5 +97,35 @@ int	main(int argc, char** argv) {
 	{
 		ExecuteGA(ga, i, resultsDirectory);	
 	}
+
+	// Produce average results
+	ifstream execResults(resultsDirectory + "\\Results.txt");
+	string line;
+	double min = 0, mean = 0, deviation = 0, runningTime = 0; 
+	for (int i = 0; i < numberOfExecutions; i++)
+	{
+		getline(execResults, line);
+		istringstream lineStream(line);
+		string token;
+		lineStream >> token;
+		min += strtod(token.c_str(), NULL);
+		lineStream >> token;
+		mean += strtod(token.c_str(), NULL);
+		lineStream >> token;
+		deviation += strtod(token.c_str(), NULL);
+		lineStream >> token;
+		runningTime += strtod(token.c_str(), NULL);
+	}
+	execResults.close();
+
+	min /= numberOfExecutions;
+	mean /= numberOfExecutions;
+	deviation /= numberOfExecutions;
+	runningTime /= numberOfExecutions;
+
+	ofstream sumResults(resultsDirectory + "\\Aggregated Results.txt");
+	sumResults << min << "\t" << mean << "\t" << deviation << "\t" << runningTime << endl;
+	sumResults.close();
+
 	return 0;
 }
