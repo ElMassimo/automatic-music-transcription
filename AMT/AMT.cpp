@@ -52,7 +52,7 @@ void ExecuteGA(MusicGA& ga, int executionNumber, string resultsDirectory)
 	// Save stats
 	ofstream stats(resultsDirectory + "\\Results.txt", ios_base::app);
 	stats << ga.statistics().current(GAStatistics::Minimum) << "\t" << ga.statistics().current(GAStatistics::Mean) << "\t";
-	stats << ga.statistics().current(GAStatistics::Deviation) << "\t" << runningTime << endl;
+	stats << ga.statistics().current(GAStatistics::Deviation) << "\t" << runningTime << "\t" << ga.statistics().generationsToFindTheBest << endl;
 	stats.close();
 
 	// Check whether it is elitist
@@ -64,25 +64,55 @@ void ExecuteGA(MusicGA& ga, int executionNumber, string resultsDirectory)
 	}
 }
 
-int	main(int argc, char** argv) {
-	AmtUtils::RunTests();
+int ParseOption(string option, int argc, char** argv)
+{
+	for (int i = 0; i < argc; i++)
+		if(option == argv[i])
+			return i + 1;
+	return -1;
+}
 
+int	main(int argc, char** argv)
+{
+	// Parse command line options
+	int optionIndex;
+
+	// How many times we want to execute the algorithm
+	int numberOfExecutions = 1;
+	if((optionIndex = ParseOption("nexec", argc, argv)) > 0)
+		numberOfExecutions = strtol(argv[optionIndex], NULL, 10);
+
+	// Where should we store the execution results
+	string resultsDirectory = "Results";
+	if((optionIndex = ParseOption("rdir", argc, argv)) > 0)
+		resultsDirectory = argv[optionIndex];
+
+	// Which audio file to translate
+	string audioFileName = "Test.wav";
+	if((optionIndex = ParseOption("afile", argc, argv)) > 0)
+		audioFileName = argv[optionIndex];
+	else
+	{	// Check which sample file we should use
+		int sample = 2;
+		if((optionIndex = ParseOption("sample", argc, argv)) > 0)
+			sample = strtol(argv[optionIndex], NULL, 10);
+
+		// Check if we should use a sample file
+		int length = 8;
+		if((optionIndex = ParseOption("slength", argc, argv)) > 0)
+			length = strtol(argv[optionIndex], NULL, 10);
+
+		// Run some routine tests and create the sample file
+		AmtUtils::CreateSampleFile(sample, length);
+	}
+	
 	// Initialize the music evaluator
 	MusicEvaluator musicEvaluator;
-	musicEvaluator.LoadAudioFile("Test.wav");
+	musicEvaluator.LoadAudioFile(audioFileName);
 
 	// Create the genome and the genetic algorithm instance
 	NotesGenome notesGenome(musicEvaluator);
 	MusicGA ga(notesGenome);
-
-	// Check how many times we want to execute the algorithm
-	int numberOfExecutions = 1;
-	if(argc > 2 && strcmp(argv[1], "nexec") == 0)
-		numberOfExecutions = strtol(argv[2], NULL, 10);
-
-	string resultsDirectory = "Results";
-	if(argc > 4 && strcmp(argv[3], "rdir") == 0)
-		resultsDirectory = argv[4];
 
 	// Check the command line in case we need to replace some parameters
 	ga.parameters(argc, argv);
@@ -101,7 +131,8 @@ int	main(int argc, char** argv) {
 	// Produce average results
 	ifstream execResults(resultsDirectory + "\\Results.txt");
 	string line;
-	double min = 0, mean = 0, deviation = 0, runningTime = 0; 
+	double min = 0, mean = 0, deviation = 0, runningTime = 0;
+	int genToBest = 0;
 	for (int i = 0; i < numberOfExecutions; i++)
 	{
 		getline(execResults, line);
@@ -115,6 +146,8 @@ int	main(int argc, char** argv) {
 		deviation += strtod(token.c_str(), NULL);
 		lineStream >> token;
 		runningTime += strtod(token.c_str(), NULL);
+		lineStream >> token;
+		genToBest += strtol(token.c_str(), NULL, 10);
 	}
 	execResults.close();
 
@@ -122,10 +155,14 @@ int	main(int argc, char** argv) {
 	mean /= numberOfExecutions;
 	deviation /= numberOfExecutions;
 	runningTime /= numberOfExecutions;
+	genToBest /= numberOfExecutions;
 
 	ofstream sumResults(resultsDirectory + "\\Aggregated Results.txt");
-	sumResults << min << "\t" << mean << "\t" << deviation << "\t" << runningTime << endl;
+	sumResults << min << "\t" << mean << "\t" << deviation << "\t" << runningTime << "\t" << genToBest << endl;
 	sumResults.close();
 
+	sumResults.open("Aggregated Results.txt", ios_base::app);
+	sumResults << min << "\t" << mean << "\t" << deviation << "\t" << runningTime << "\t" << genToBest << endl;
+	sumResults.close();
 	return 0;
 }

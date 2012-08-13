@@ -32,6 +32,7 @@ namespace AMT
 		static bool CropAtTest();
 
 	public:
+		static void CreateSampleFile(int sampleNumber, int length = 8);
 		static void RunTests();
 		static void OtherTests(Notes &notes);
 		static void SaveArray(int n, double* input, string fileName);

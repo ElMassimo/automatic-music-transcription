@@ -1,7 +1,7 @@
 #include "MusicGA.h"
 using namespace AMT;
 
-GABoolean MusicGA::TerminateUponGeneration(GAGeneticAlgorithm & ga)
+GABoolean MusicGA::TerminateUponGenerationOrConvergence(GAGeneticAlgorithm & ga)
 {
 	if(TerminateUponGeneration(ga))
 		return gaTrue;
