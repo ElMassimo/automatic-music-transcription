@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <list>
 #include <sstream>
 #include <fstream>
@@ -26,8 +27,13 @@ void RenderPopulation(GAGeneticAlgorithm &ga)
 	}
 }
 
-void ExecuteGA(MusicGA& ga, int executionNumber)
+void ExecuteGA(MusicGA& ga, int executionNumber, string resultsDirectory)
 {
+	// Set the scores file name
+	stringstream evoTxt;
+	evoTxt << resultsDirectory << "\\Evolution " << executionNumber << ".txt";
+	ga.set(gaNscoreFilename, evoTxt.str().c_str());
+
 	// Evolve the genetic algorithm then dump out the results of the run.
 	time_t evolutionStart, evolutionEnd;
 	time (&evolutionStart);
@@ -38,23 +44,21 @@ void ExecuteGA(MusicGA& ga, int executionNumber)
 	// Save the best individual
 	NotesGenome& best = (NotesGenome&) ga.statistics().bestIndividual();
 	stringstream fileName;
-	fileName << "Results\\Audio " << executionNumber;
+	fileName << resultsDirectory << "\\Audio " << executionNumber;
 	AmtUtils::SaveAudio(best, fileName.str());
 	fileName << ".txt";
 	best.SaveToFile(fileName.str());
 	
 	// Save stats
-	ofstream stats;
-	stats.open("Results\\Results.txt", std::ios_base::app);
+	ofstream stats(resultsDirectory + "\\Results.txt", ios_base::app);
 	stats << ga.statistics().current(GAStatistics::Minimum) << "\t" << ga.statistics().current(GAStatistics::Mean) << "\t";
 	stats << ga.statistics().current(GAStatistics::Deviation) << "\t" << runningTime << endl;
 	stats.close();
 
-	// It is not elitist!!
+	// Check whether it is elitist
 	if (best.score() > ga.statistics().current(GAStatistics::Minimum))
 	{
-		ofstream notElitist;
-		notElitist.open("Results\\NotElistist.txt", std::ios_base::app);
+		ofstream notElitist(resultsDirectory + "\\NotElistist.txt", ios_base::app);
 		notElitist << executionNumber << endl;
 		notElitist.close();
 	}
@@ -71,33 +75,27 @@ int	main(int argc, char** argv) {
 	NotesGenome notesGenome(musicEvaluator);
 	MusicGA ga(notesGenome);
 
-	// Execute the algorithm repeated times
+	// Check how many times we want to execute the algorithm
 	int numberOfExecutions = 1;
-	if(argc > 3 && strcmp(argv[1], "nexec") == 0)
+	if(argc > 2 && strcmp(argv[1], "nexec") == 0)
 		numberOfExecutions = strtol(argv[2], NULL, 10);
 
-	// Set the default parameters we want to use, then check the command line for
-	// other arguments that might modify these.
-	ga.set(gaNpopulationSize, 50);	// population size
-	ga.set(gaNnReplacement, 50); // number of replacement
-	ga.set(gaNpCrossover, 0.6);		// probability of crossover
-	ga.set(gaNpMutation, 0.1);		// probability of mutation
-	ga.set(gaNnGenerations, 10);	// number of generations
-	ga.set(gaNscoreFrequency, 1);	// how often to record scores
-	ga.set(gaNflushFrequency, 10);	// how often to dump scores to file
-	ga.set(gaNselectScores,	GAStatistics::Minimum|GAStatistics::Mean);
+	string resultsDirectory = "Results";
+	if(argc > 4 && strcmp(argv[3], "rdir") == 0)
+		resultsDirectory = argv[4];
+
+	// Check the command line in case we need to replace some parameters
 	ga.parameters(argc, argv);
 	
 	// Prepare the results file
-	ofstream results("Results\\Results.txt", ios_base::trunc);
+	CreateDirectoryA(resultsDirectory.c_str(), NULL);
+	ofstream results(resultsDirectory + "\\Results.txt", ios_base::trunc);
 	results.close();
 
+	// Execute the algorithm and save the results of each execution
 	for (int i = 0; i < numberOfExecutions; i++)
 	{
-		stringstream evoTxt;
-		evoTxt << "Results\\Evolution " << i << ".txt";
-		ga.set(gaNscoreFilename, evoTxt.str().c_str());
-		ExecuteGA(ga, i);	
+		ExecuteGA(ga, i, resultsDirectory);	
 	}
 	return 0;
 }

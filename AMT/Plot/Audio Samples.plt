@@ -1,4 +1,4 @@
-cd 'C:\AMT\AMT\AMT'
+cd 'C:\AMT\AMT\AMT\Plot'
 set title "Audio Samples and Frequency Magnitude"
 set autoscale
 set multiplot;                     

@@ -33,7 +33,7 @@ namespace AMT
 
 	public:
 		static void RunTests();
-		static void OtherTests();
+		static void OtherTests(Notes &notes);
 		static void SaveArray(int n, double* input, string fileName);
 		static void SaveAudio(Notes& notes, string fileName);
 		static Notes GetSampleNotes();

@@ -1,0 +1,1 @@
+AMT.exe nexec 1 ngen 200 popsize 50 nrepl 10 pcross 0.6 pmut 0.1 pconv 1
