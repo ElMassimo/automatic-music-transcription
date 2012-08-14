@@ -23,6 +23,9 @@ public:
 	// Adds a new note at the end
 	void AddNote(Note& newNote);
 
+	// Returns any note of the sequence that is near the specified index and is not a silence
+	Note* AnyNote(int index);
+
 	// Changes a silence to a note, and vice versa
 	void FlipSilence(int noteIndex);
 
@@ -55,4 +58,7 @@ public:
 	int GetRealDuration();
 	
 	Notes& operator=(const Notes &notes);
+
+private:
+	Note* AnyNote(NotesIterator &it);
 };

@@ -41,8 +41,18 @@ int NotesGenome::DefaultMusicMutator(GAGenome& g, float pmut)
 
 	// New note
 	if(missingSamples > 0){
-		Note note(GARandomInt(MIN_NOTE,MAX_NOTE), GARandomInt(musicEvaluator->FrameSize(), missingSamples));
-		genome.AddNote(note);
+		if(genome.size() < 0 || GARandomBit())
+		{
+			// Generate a completely random note
+			Note note(GARandomInt(MIN_NOTE,MAX_NOTE), GARandomInt(musicEvaluator->FrameSize(), missingSamples));
+			genome.AddNote(note);
+		}
+		else
+		{
+			// Copy a note that belongs to the sequence
+			int otherNoteIndex = GARandomInt(0, genome.size() - 1);
+			genome.AddNote(*genome.GetNote(otherNoteIndex));
+		}
 		genome._evaluated = gaFalse;
 		mutationCount++;
 	}
