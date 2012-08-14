@@ -35,6 +35,31 @@ bool IsRest(Note& note)
 	return note.isRest;
 }
 
+Note* Notes::AnyNote(int index)
+{
+	return AnyNote(GetNote(index));	
+}
+
+Note* Notes::AnyNote(NotesIterator &it)
+{
+	NotesIterator afterNote = find_if_not(it, this->end(), IsRest);
+
+	if(afterNote == this->end())
+	{
+		// If there is none, search for a previous note
+		NotesReverseIterator beforeNote(it);
+		beforeNote = find_if_not(beforeNote, this->rend(), IsRest);
+
+		if(beforeNote == this->rend())
+			// There are no notes in this sequence
+			return NULL;
+		else
+			return &(*beforeNote);
+	}
+	else
+		return &(*afterNote);
+}
+
 void Notes::FlipSilence(int index)
 {
 	NotesIterator it = GetNote(index);
@@ -42,23 +67,12 @@ void Notes::FlipSilence(int index)
 	// If the note is a silence, we want to set the pitch from another note in the sequence
 	if(it->isRest)
 	{
-		// First search for a note after this one
-		NotesIterator afterNote = find_if_not(it, this->end(), IsRest);
-
-		if(afterNote == this->end())
-		{
-			// If there is none, search for a previous note
-			NotesReverseIterator beforeNote(it);
-			beforeNote = find_if_not(beforeNote, this->rend(), IsRest);
-
-			if(beforeNote == this->rend())
-				// If there is none, set a default note
-				it->noteNumber = DEFAULT_NOTE_NUMBER;
-			else
-				it->noteNumber = beforeNote->noteNumber;
-		}
+		Note* otherNote = AnyNote(it);
+		if(otherNote == NULL)
+			// If there is none, set a default note
+			it->noteNumber = DEFAULT_NOTE_NUMBER;
 		else
-			it->noteNumber = afterNote->noteNumber;
+			it->noteNumber = otherNote->noteNumber;
 	}
 
 	// Flip the silence

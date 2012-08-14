@@ -107,6 +107,7 @@ public:
   unsigned long int numrep;	// number of replacements since reset
   unsigned long int numeval;	// number of individual evaluations since reset
   unsigned long int numpeval;	// number of population evals since reset
+  unsigned int generationsToFindTheBest;
 
 protected:
   unsigned int curgen;		// current generation number
@@ -144,7 +145,7 @@ protected:
   char * scorefile;		// name of file to which scores get written
   int which;			// which data to write to file
   GAPopulation * boa;		// keep a copy of the best genomes
-
+  
   void setConvergence(float);
   void setScore(const GAPopulation&);
   void updateBestIndividual(const GAPopulation&, GABoolean flag=gaFalse);
