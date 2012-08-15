@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "AmtUtils.h"
 using namespace AMT;
 
@@ -67,7 +68,7 @@ void AmtUtils::SaveAudio(Notes& notes, string fileName){
 	renderer.SaveFile(fileName);
 }
 
-ofstream AmtUtils::TestResults("Tests Results.txt");
+ofstream AmtUtils::TestResults;
 
 // Adds a new note at the end
 bool AmtUtils::AddNoteTest()
@@ -324,6 +325,26 @@ bool AmtUtils::MergeNotesTest()
 		|| notes.totalDuration != 173092 + 11550 + 20000)
 		return false;
 
+	// Test small notes removal
+	MusicEvaluator me;
+	NotesGenome genome(me);
+	genome.AddNote(Note(50,1000));
+	genome.AddNote(Note(60,20000));
+	genome.AddNote(Note(51,10000));
+	genome.AddNote(Note(60,10000, true));
+	genome.AddNote(Note(50,1000));
+	genome.AddNote(Note(62,1000));
+	genome.AddNote(Note(50,1000));
+	genome.AddNote(Note(54,1000));
+	genome.AddNote(Note(55,1000));
+	genome.AddNote(Note(70,10000));
+	genome.AddNote(Note(58,1000));
+	genome.AddNote(Note(40,10000));
+	genome.AddNote(Note(59,1000));
+	genome.MergeRedundantNotes();
+	if(genome.size() != 5 || genome.totalDuration != genome.GetRealDuration() || genome.totalDuration != 68000)
+		return false;
+
 	return true;
 }
 
@@ -469,6 +490,8 @@ void AmtUtils::OtherTests(Notes &notes)
 
 void AmtUtils::RunTests()
 {
+	TestResults.open("Tests Results.txt");
+
 	// Run the tests
 	ExecuteTest(AddNoteTest);
 	ExecuteTest(FlipSilenceTest);
@@ -501,4 +524,23 @@ void AmtUtils::CreateSampleFile(int sampleNumber, int length)
 		default: sample = GetTwoNotes(length);
 	}
 	AmtUtils::SaveAudio(sample, "Test");	
+}
+
+void AmtUtils::CheckAndCreateDirectory(string dirName)
+{
+	CreateDirectoryA(dirName.c_str(), NULL);
+}
+
+float AmtUtils::StandardDeviation(int n, float avg, vector<float> values)
+{
+	float tmpvar = 0.0;
+	if(n > 1){
+		for(int i = 0; i < n; i++){
+			float s = values[i] - avg;
+			s *= s;
+			tmpvar += s;
+		}
+		tmpvar /= (n-1);
+	}
+	return (float)sqrt(tmpvar);
 }

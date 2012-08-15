@@ -71,7 +71,7 @@ RouletteWheelSelector
 // This selection routine is straight out of Goldberg's Genetic Algorithms 
 // book (with the added restriction of not allowing zero scores - Goldberg
 // does not address this degenerate case).  We look through the members of the
-// population using a weighted roulette wheel.  Likliehood of selection is
+// population using a weighted roulette wheel.  Likelihood of selection is
 // proportionate to the fitness score.
 //   This is a binary search method (using cached partial sums).  It assumes 
 // that the genomes are in order from best (0th) to worst (n-1).
@@ -240,7 +240,43 @@ GATournamentSelector::select() const {
 }
 #endif
 
+/* ----------------------------------------------------------------------------
+RealTournamentSelector
 
+  Pick 'n' individuals from the population at random, and then return the best
+  of the 'n' individuals.
+---------------------------------------------------------------------------- */
+GAGenome& GARTSelector::select() const
+{	
+	int lower = 0, upper = pop->size() - 1;
+
+	// Pick the starting individual
+	GAGenome& winner = pop->individual(GARandomInt(lower, upper));
+
+	// We pick (n-1) additional individuals and keep the best
+	for (int i = 1; i < tournamentSize; i++)
+	{
+		// Pick a random individual and compare it with the one we have
+		GAGenome& tournamentRival = pop->individual(GARandomInt(lower, upper));
+
+		// Comparison of fitness / score
+		if(which == GASelectionScheme::SCALED)
+		{
+			if(pop->order() == GAPopulation::LOW_IS_BEST && tournamentRival.fitness() < winner.score() ||
+				pop->order() == GAPopulation::HIGH_IS_BEST && tournamentRival.fitness() > winner.score())
+				winner = tournamentRival;
+		}
+		else if(which == GASelectionScheme::RAW)
+		{
+			if(pop->order() == GAPopulation::LOW_IS_BEST && tournamentRival.score() < winner.score() || 
+				pop->order() == GAPopulation::HIGH_IS_BEST && tournamentRival.score() > winner.score())
+				winner = tournamentRival;
+		} 
+	}
+
+	// Return the winner of the tournament
+	return winner;
+}
 
 /* ----------------------------------------------------------------------------
 SRSSelector - stochastic remainder sampling

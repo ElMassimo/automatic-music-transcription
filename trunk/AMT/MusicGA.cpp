@@ -9,7 +9,7 @@ GABoolean MusicGA::TerminateUponGenerationOrConvergence(GAGeneticAlgorithm & ga)
 	return TerminateUponConvergence(ga);
 }
 
-MusicGA::MusicGA(NotesGenome& genome) : GASteadyStateGA(genome)
+MusicGA::MusicGA(NotesGenome& genome, int selectionType, int tournamentSize) : GASteadyStateGA(genome)
 {
 	// Set the default parameters we want to use, then check the command line for
 	// other arguments that might modify these.
@@ -23,8 +23,26 @@ MusicGA::MusicGA(NotesGenome& genome) : GASteadyStateGA(genome)
 	this->set(gaNselectScores, GAStatistics::Minimum|GAStatistics::Mean);
 	this->set(gaNpConvergence, 0.995);
 	this->minimize();
-	GATournamentSelector selectionScheme;
-	this->selector(selectionScheme);
+
+	switch(selectionType)
+	{
+	case SELECTION_ROULETTE_WHEEL:
+		this->selector(GARouletteWheelSelector());
+		break;
+
+	case SELECTION_RANK :
+		this->selector(GARankSelector());
+		break;
+		
+	case SELECTION_TOURNAMENT:
+		this->selector(GATournamentSelector());
+		break;
+
+	case SELECTION_REAL_TOURNAMENT:
+	default:
+		this->selector(GARTSelector(tournamentSize));
+		break;
+	}
 }
 
 MusicGA::~MusicGA()

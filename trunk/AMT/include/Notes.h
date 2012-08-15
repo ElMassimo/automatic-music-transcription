@@ -17,6 +17,11 @@ public:
 	Notes(const Notes &notes);
 	~Notes();
 
+	virtual int MinimumNoteDuration()
+	{
+		return 0;
+	}
+
 	// Returns an iterator pointing to the note occurring at the given index.
 	NotesIterator GetNote(int noteIndex);
 

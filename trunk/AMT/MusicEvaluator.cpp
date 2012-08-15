@@ -25,8 +25,8 @@ MusicEvaluator::MusicEvaluator()
 	totalSamples = 0;
 	binCount = 0;
 
-	frameSize = 4096; // Size of the frames (in samples)
-	overlapping = 0.0; // Overlapping percentage
+	frameSize = FRAME_SIZE; // Size of the frames (in samples)
+	overlapping = WINDOW_OVERLAPPING_PERCENTAGE; // Overlapping percentage
 	frameDiff = frameSize - (frameSize * overlapping); // Number of samples we have to slide to change the frame
 
 	// Initialize what we need to perform the FFT

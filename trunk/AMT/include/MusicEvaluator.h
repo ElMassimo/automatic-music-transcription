@@ -4,6 +4,8 @@
 #include <FileWvIn.h>
 #include <ga/GAGenome.h>
 
+#define FRAME_SIZE 4096
+#define WINDOW_OVERLAPPING_PERCENTAGE 0.0
 #define FourierTransform fftwpp::rcfft1d
 
 using Array::array1;

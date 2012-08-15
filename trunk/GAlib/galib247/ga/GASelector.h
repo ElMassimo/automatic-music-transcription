@@ -154,7 +154,43 @@ public:
 };
 #endif
 
+/* --------------------------------------------------------------------
+   This version of the tournament selector does 'n' random selections
+  and then picks the best.
+---------------------------------------------------------------------- */
+class GARTSelector : public GASelectionScheme {
+public:
+  GADefineIdentity("GARealTournamentSelector", GAID::TournamentSelection);
 
+  GARTSelector(int n = 2, int w=GASelectionScheme::SCALED) : GASelectionScheme(w)
+  {
+	  tournamentSize = n;
+  }
+
+  GARTSelector(const GARTSelector& orig)
+  {
+	  copy(orig);
+  }
+
+  virtual ~GARTSelector() {}
+  
+  GARTSelector& operator=(const GASelectionScheme& orig) 
+  { 
+	  if(&orig != this) 
+		  copy(orig);
+	  return *this;
+  }
+
+  virtual GASelectionScheme* clone() const
+  { 
+	  return new GARTSelector(tournamentSize, which);
+  }
+
+  virtual GAGenome& select() const;
+
+private:
+	int tournamentSize;
+};
 
 /* ----------------------------------------------------------------------------
    Stochastic uniform sampling selection.  This is just a fancy name for 

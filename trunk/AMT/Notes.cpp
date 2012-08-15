@@ -140,15 +140,18 @@ void Notes::ReplaceNotes(const Notes& otherNotes)
 
 void Notes::CombineNotes(Notes& n1, Notes& n2, int when)
 {
+	this->clear();
+
+	if(n1.empty() || n2.empty())
+		return;
+
 	int d1,d2;
 	d1 = d2 = when;
 
 	NotesIterator it1 = n1.GetNoteAt(d1);
 	NotesIterator it2 = n2.GetNoteAt(d2);
 
-	this->clear();
-
-	// Assume that we will copy the whole thing
+	// Assume that 'when' is just in the edge and that we will copy the whole thing
 	if(it1 == n1.end())
 	{
 		it1--;
@@ -212,6 +215,23 @@ bool Notes::SplitNote(int noteIndex, double when, double silencePercentage)
 void Notes::MergeRedundantNotes()
 {
 	NotesIterator note = this->begin();
+
+	// Delete smaller-than-frame notes in the beginning
+	while(note->duration < MinimumNoteDuration())
+	{
+		int duration = note->duration;
+		note = this->erase(note);
+
+		if(this->empty())
+		{
+			totalDuration = 0;
+			return;
+		}
+
+		// Increase the following note duration
+		note->duration += duration;
+	}
+	
 	NotesIterator nextNote(note);
 	nextNote++;
 	while (nextNote != this->end())
@@ -219,7 +239,9 @@ void Notes::MergeRedundantNotes()
 		// Both are rests
 		if((note->isRest && nextNote->isRest) || 
 			// Both are notes, and have the same pitch
-			(!note->isRest && !nextNote->isRest && note->noteNumber == nextNote->noteNumber))
+			(!note->isRest && !nextNote->isRest && note->noteNumber == nextNote->noteNumber) ||
+			// The following note is too small			
+			nextNote->duration < MinimumNoteDuration())
 		{
 			note->duration += nextNote->duration;
 			nextNote = this->erase(nextNote);
@@ -270,7 +292,10 @@ NotesIterator Notes::GetNoteAt(int &when)
 		else
 			noteStart += it->duration;
 
-	throw std::exception("GetNoteAt: We ran out of notes");
+	// We should throw an exception, but there is an undetected bug in at least one of the mutations
+	totalDuration = GetRealDuration();
+	return this->end();
+	//throw std::exception("GetNoteAt: We ran out of notes");
 }
 
 int Notes::GetRealDuration()

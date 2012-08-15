@@ -3,7 +3,7 @@
 #include "Notes.h"
 #include "MusicEvaluator.h"
 
-#define DURATION_UPPER 2.0
+#define DURATION_UPPER 1.5
 #define DURATION_LOWER 0.5
 #define P_CHANGE_DURATION 5
 #define P_CHANGE_PITCH 5
@@ -41,6 +41,7 @@ public:
 	virtual void copy(const GAGenome& orig);
 
 	void SaveToFile(string fileName) const;
+	virtual int MinimumNoteDuration();
 };
 
 }

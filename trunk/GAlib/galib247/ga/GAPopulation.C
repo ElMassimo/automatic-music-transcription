@@ -364,43 +364,43 @@ GAPopulation::sort(GABoolean flag, SortBasis basis) const {
 // calculated so that the worst individual has the smallest partial sum.  All
 // of the partial sums add to 1.0.
 void
-GAPopulation::statistics(GABoolean flag) const {
-  if(statted == gaTrue && flag != gaTrue) return;
-  GAPopulation * This = (GAPopulation *)this;
+	GAPopulation::statistics(GABoolean flag) const {
+		if(statted == gaTrue && flag != gaTrue) return;
+		GAPopulation * This = (GAPopulation *)this;
 
-  if(n > 0) {
-    float tmpsum;
-    This->rawMin = This->rawMax = tmpsum = rind[0]->score();
+		if(n > 0) {
+			float tmpsum;
+			This->rawMin = This->rawMax = tmpsum = rind[0]->score();
 
-    unsigned int i;
-    for(i=1; i<n; i++){
-      float scr = rind[i]->score();
-      tmpsum += scr;
-      This->rawMax = GAMax(rawMax, scr);
-      This->rawMin = GAMin(rawMin, scr);
-    }
-    float tmpave = tmpsum / n;
-    This->rawAve = tmpave;
-    This->rawSum = tmpsum;	// if scores are huge we'll lose data here
+			unsigned int i;
+			for(i=1; i<n; i++){
+				float scr = rind[i]->score();
+				tmpsum += scr;
+				This->rawMax = GAMax(rawMax, scr);
+				This->rawMin = GAMin(rawMin, scr);
+			}
+			float tmpave = tmpsum / n;
+			This->rawAve = tmpave;
+			This->rawSum = tmpsum;	// if scores are huge we'll lose data here
 
-    float tmpvar = 0.0;
-    if(n > 1){
-      for(i=0; i<n; i++){
-	float s = rind[i]->score() - This->rawAve;
-	s *= s;
-	tmpvar += s;
-      }
-      tmpvar /= (n-1);
-    }
-    This->rawDev = (float)sqrt(tmpvar);
-    This->rawVar = tmpvar;	// could lose data if huge variance
-  }
-  else {
-    This->rawMin = This->rawMax = This->rawSum = 0.0;
-    This->rawDev = This->rawVar = 0.0;
-  }
+			float tmpvar = 0.0;
+			if(n > 1){
+				for(i=0; i<n; i++){
+					float s = rind[i]->score() - This->rawAve;
+					s *= s;
+					tmpvar += s;
+				}
+				tmpvar /= (n-1);
+			}
+			This->rawDev = (float)sqrt(tmpvar);
+			This->rawVar = tmpvar;	// could lose data if huge variance
+		}
+		else {
+			This->rawMin = This->rawMax = This->rawSum = 0.0;
+			This->rawDev = This->rawVar = 0.0;
+		}
 
-  This->statted = gaTrue;
+		This->statted = gaTrue;
 }
 
 
@@ -409,28 +409,28 @@ GAPopulation::statistics(GABoolean flag) const {
 // the values of the status members of the object.  So we allow it to work on
 // a const population.
 void
-GAPopulation::scale(GABoolean flag) const {
-  if(scaled == gaTrue && flag != gaTrue) return;
-  GAPopulation* This = (GAPopulation*)this;
+	GAPopulation::scale(GABoolean flag) const {
+		if(scaled == gaTrue && flag != gaTrue) return;
+		GAPopulation* This = (GAPopulation*)this;
 
-  if(n > 0) {
-    sclscm->evaluate(*This);
+		if(n > 0) {
+			sclscm->evaluate(*This);
 
-    float tmpsum;
-    This->fitMin = This->fitMax = tmpsum = sind[0]->fitness();
-    
-    unsigned int i;
-    for(i=1; i<n; i++){
-      tmpsum += sind[i]->fitness();
-      This->fitMax = GAMax(fitMax, sind[i]->fitness());
-      This->fitMin = GAMin(fitMin, sind[i]->fitness());
-    }
-    float tmpave = tmpsum / n;
-    This->fitAve = tmpave;
-    This->fitSum = tmpsum;	// if scores are huge we'll lose data here
+			float tmpsum;
+			This->fitMin = This->fitMax = tmpsum = sind[0]->fitness();
 
-    float tmpvar = 0.0;
-    if(n > 1){
+			unsigned int i;
+			for(i=1; i<n; i++){
+				tmpsum += sind[i]->fitness();
+				This->fitMax = GAMax(fitMax, sind[i]->fitness());
+				This->fitMin = GAMin(fitMin, sind[i]->fitness());
+			}
+			float tmpave = tmpsum / n;
+			This->fitAve = tmpave;
+			This->fitSum = tmpsum;	// if scores are huge we'll lose data here
+
+			float tmpvar = 0.0;
+			if(n > 1){
       for(i=0; i<n; i++){
 	float s = sind[i]->fitness() - This->fitAve;
 	s *= s;

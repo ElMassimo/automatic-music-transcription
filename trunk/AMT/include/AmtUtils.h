@@ -33,10 +33,13 @@ namespace AMT
 
 	public:
 		static void CreateSampleFile(int sampleNumber, int length = 8);
+		static void CheckAndCreateDirectory(string directoryName);
 		static void RunTests();
 		static void OtherTests(Notes &notes);
 		static void SaveArray(int n, double* input, string fileName);
 		static void SaveAudio(Notes& notes, string fileName);
 		static Notes GetSampleNotes();
+
+		static float StandardDeviation(int n, float avg, vector<float> values);
 	};
 }
