@@ -1,4 +1,3 @@
-#include <windows.h>
 #include <list>
 #include <sstream>
 #include <fstream>
@@ -51,17 +50,10 @@ void ExecuteGA(MusicGA& ga, int executionNumber, string resultsDirectory)
 	
 	// Save stats
 	ofstream stats(resultsDirectory + "\\Results.txt", ios_base::app);
-	stats << ga.statistics().current(GAStatistics::Minimum) << "\t" << ga.statistics().current(GAStatistics::Mean) << "\t";
-	stats << ga.statistics().current(GAStatistics::Deviation) << "\t" << runningTime << "\t" << ga.statistics().generationsToFindTheBest << endl;
+	const GAStatistics& gaStats = ga.statistics();
+	stats << gaStats.current(GAStatistics::Minimum) << "\t"  << runningTime << "\t" << gaStats.generationsToFindTheBest << "\t";
+	stats << gaStats.current(GAStatistics::Mean) << "\t" << gaStats.current(GAStatistics::Deviation) << endl;
 	stats.close();
-
-	// Check whether it is elitist
-	if (best.score() > ga.statistics().current(GAStatistics::Minimum))
-	{
-		ofstream notElitist(resultsDirectory + "\\NotElistist.txt", ios_base::app);
-		notElitist << executionNumber << endl;
-		notElitist.close();
-	}
 }
 
 int ParseOption(string option, int argc, char** argv)
@@ -72,9 +64,73 @@ int ParseOption(string option, int argc, char** argv)
 	return -1;
 }
 
+void CrunchNumbers(string resultsDir, int nExec)
+{
+	vector<float> min(nExec), time(nExec), genToBest(nExec);
+	float sumMin = 0, sumTime = 0, best = DBL_MAX, bestTime = DBL_MAX;
+	int sumGen = 0, bestGen = nExec;
+
+	// Read the stats from every execution
+	ifstream execResults(resultsDir + "\\Results.txt");
+	for (int i = 0; i < nExec; i++)
+	{	
+		string line, token;
+		getline(execResults, line);
+		istringstream lineStream(line);
+
+		// Read fitness of the best, time of the execution, and number of generations to find the best
+		lineStream >> token; min[i] = strtod(token.c_str(), NULL);
+		lineStream >> token; time[i] = strtod(token.c_str(), NULL);
+		lineStream >> token; genToBest[i] = strtol(token.c_str(), NULL, 10);
+
+		// Sum the values to calculate the average
+		sumMin += min[i];
+		sumTime += time[i];
+		sumGen += genToBest[i];
+
+		// Update the best execution stats
+		if(min[i] < best)
+		{
+			best = min[i];
+			bestTime = time[i];
+			bestGen = genToBest[i];
+		}
+	}
+	execResults.close();
+
+	// Average and standard deviations
+	float avgMin = sumMin / nExec;
+	float devMin = AmtUtils::StandardDeviation(nExec, avgMin, min);
+	
+	float avgTime = sumTime / nExec;
+	float devTime = AmtUtils::StandardDeviation(nExec, avgTime, time);
+
+	float avgGen = sumGen / nExec;
+	float devGen = AmtUtils::StandardDeviation(nExec, avgGen, genToBest);
+	
+	// Record the results of this bundle of executions
+	ofstream sumResults(resultsDir + "\\Aggregated Results.txt");
+	sumResults << "Min AVG\t" << "Min DEV\t" << "Time AVG\t" << "Time DEV\t" << "Gen AVG\t" << "Gen DEV\t"; 
+	sumResults << "Best\t" << "Time Best\t"<< "Gen Best" << endl;
+
+	stringstream stats;
+	stats << avgMin << "\t" << devMin << "\t" << avgTime << "\t" << devTime << "\t" << avgGen<< "\t" << devGen << "\t";
+	stats << best << "\t" << bestTime << "\t" << bestGen << endl;
+
+	sumResults << stats.str();
+	sumResults.close();
+
+	// Add the summary of this bundle of executions to a general file
+	sumResults.open("Aggregated Results.txt", ios_base::app);
+	sumResults << stats.str();
+	sumResults.close();
+}
+
 int	main(int argc, char** argv)
 {
-	// Parse command line options
+	  //***                               //
+	 //       COMMAND LINE OPTIONS       //
+	//                               ***//    
 	int optionIndex;
 
 	// How many times we want to execute the algorithm
@@ -106,19 +162,38 @@ int	main(int argc, char** argv)
 		AmtUtils::CreateSampleFile(sample, length);
 	}
 	
+	// Check if we should use a different selection
+	int selectionType = SELECTION_REAL_TOURNAMENT;
+	if((optionIndex = ParseOption("selection", argc, argv)) > 0)
+		selectionType = strtol(argv[optionIndex], NULL, 10);
+
+	// Check if the tournament size is specified
+	int tournamentSize = DEFAULT_TOURNAMENT_SIZE;
+	if((optionIndex = ParseOption("tournament_size", argc, argv)) > 0)
+		tournamentSize = strtol(argv[optionIndex], NULL, 10);
+
+	  //***                               //
+	 //           GA EXECUTION           //
+	//                               ***//  
+
 	// Initialize the music evaluator
 	MusicEvaluator musicEvaluator;
 	musicEvaluator.LoadAudioFile(audioFileName);
 
 	// Create the genome and the genetic algorithm instance
 	NotesGenome notesGenome(musicEvaluator);
-	MusicGA ga(notesGenome);
-
+	MusicGA ga(notesGenome, selectionType, tournamentSize);
+	
 	// Check the command line in case we need to replace some parameters
 	ga.parameters(argc, argv);
 	
+	// Save the parameters for future reference
+	ofstream parametersFile(resultsDirectory + "\\Parameters.txt");
+	ga.parameters().write(parametersFile);
+	parametersFile.close();
+		
 	// Prepare the results file
-	CreateDirectoryA(resultsDirectory.c_str(), NULL);
+	AmtUtils::CheckAndCreateDirectory(resultsDirectory);
 	ofstream results(resultsDirectory + "\\Results.txt", ios_base::trunc);
 	results.close();
 
@@ -128,41 +203,8 @@ int	main(int argc, char** argv)
 		ExecuteGA(ga, i, resultsDirectory);	
 	}
 
-	// Produce average results
-	ifstream execResults(resultsDirectory + "\\Results.txt");
-	string line;
-	double min = 0, mean = 0, deviation = 0, runningTime = 0;
-	int genToBest = 0;
-	for (int i = 0; i < numberOfExecutions; i++)
-	{
-		getline(execResults, line);
-		istringstream lineStream(line);
-		string token;
-		lineStream >> token;
-		min += strtod(token.c_str(), NULL);
-		lineStream >> token;
-		mean += strtod(token.c_str(), NULL);
-		lineStream >> token;
-		deviation += strtod(token.c_str(), NULL);
-		lineStream >> token;
-		runningTime += strtod(token.c_str(), NULL);
-		lineStream >> token;
-		genToBest += strtol(token.c_str(), NULL, 10);
-	}
-	execResults.close();
+	// Aggregate statistics
+	CrunchNumbers(resultsDirectory, numberOfExecutions);
 
-	min /= numberOfExecutions;
-	mean /= numberOfExecutions;
-	deviation /= numberOfExecutions;
-	runningTime /= numberOfExecutions;
-	genToBest /= numberOfExecutions;
-
-	ofstream sumResults(resultsDirectory + "\\Aggregated Results.txt");
-	sumResults << min << "\t" << mean << "\t" << deviation << "\t" << runningTime << "\t" << genToBest << endl;
-	sumResults.close();
-
-	sumResults.open("Aggregated Results.txt", ios_base::app);
-	sumResults << min << "\t" << mean << "\t" << deviation << "\t" << runningTime << "\t" << genToBest << endl;
-	sumResults.close();
 	return 0;
 }

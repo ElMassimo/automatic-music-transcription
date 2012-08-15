@@ -13,6 +13,11 @@ using namespace AMT;
 
 MusicEvaluator* NotesGenome::musicEvaluator = NULL;
 
+int NotesGenome::MinimumNoteDuration()
+{
+	return musicEvaluator->FrameSize();
+}
+
 void NotesGenome::DefaultMusicInitializer(GAGenome& g){
 	NotesGenome &genome = (NotesGenome&) g;
 	int duration = GARandomInt(0, musicEvaluator->TotalSamples());		
@@ -40,11 +45,11 @@ int NotesGenome::DefaultMusicMutator(GAGenome& g, float pmut)
 	int mutationCount = 0;
 
 	// New note
-	if(missingSamples > 0){
-		if(genome.size() < 0 || GARandomBit())
+	if(missingSamples > genome.MinimumNoteDuration()){
+		if(genome.size() == 0 || GARandomBit())
 		{
 			// Generate a completely random note
-			Note note(GARandomInt(MIN_NOTE,MAX_NOTE), GARandomInt(musicEvaluator->FrameSize(), missingSamples));
+			Note note(GARandomInt(MIN_NOTE,MAX_NOTE), GARandomInt(genome.MinimumNoteDuration(), missingSamples));
 			genome.AddNote(note);
 		}
 		else
@@ -52,6 +57,10 @@ int NotesGenome::DefaultMusicMutator(GAGenome& g, float pmut)
 			// Copy a note that belongs to the sequence
 			int otherNoteIndex = GARandomInt(0, genome.size() - 1);
 			genome.AddNote(*genome.GetNote(otherNoteIndex));
+
+			// Arbitrary improvement decision
+			if(genome.back().duration < genome.MinimumNoteDuration())
+				genome.MergeRedundantNotes();
 		}
 		genome._evaluated = gaFalse;
 		mutationCount++;
