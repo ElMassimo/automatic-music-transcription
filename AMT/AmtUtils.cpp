@@ -38,6 +38,25 @@ Notes GetCMajorScale(int n)
 	return notes;
 }
 
+Notes GetAdagioSostenuto(int n)
+{
+	// Generate sample audio file
+	Notes notes;
+	notes.AddNote(Note(56,4096 * n));
+	notes.AddNote(Note(61,4096 * n));
+	notes.AddNote(Note(64,4096 * n));
+	notes.AddNote(Note(56,4096 * n));
+	notes.AddNote(Note(61,4096 * n));
+	notes.AddNote(Note(64,4096 * n));
+	notes.AddNote(Note(56,4096 * n));
+	notes.AddNote(Note(61,4096 * n));
+	notes.AddNote(Note(64,4096 * n));
+	notes.AddNote(Note(56,4096 * n));
+	notes.AddNote(Note(61,4096 * n));
+	notes.AddNote(Note(64,4096 * n));
+	return notes;
+}
+
 Notes AmtUtils::GetSampleNotes()
 {
 	// Create an example audio file
@@ -517,10 +536,13 @@ void AmtUtils::CreateSampleFile(int sampleNumber, int length)
 	Notes sample;
 	switch(sampleNumber)
 	{
-		case 0 : sample = GetSampleNotes();
+		case SAMPLE_NOTES : sample = GetSampleNotes();
 		break;
-		case 1 : sample = GetCMajorScale(length);
+		case SAMPLE_CMAJOR : sample = GetCMajorScale(length);
 		break;
+		case SAMPLE_ADAGIOSOSTENUTO : sample = GetAdagioSostenuto(length);
+		break;
+		case SAMPLE_TWONOTES:
 		default: sample = GetTwoNotes(length);
 	}
 	AmtUtils::SaveAudio(sample, "Test");	

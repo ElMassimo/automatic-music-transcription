@@ -9,6 +9,11 @@
 #include "MusicGA.h"
 #include "MusicGA.h"
 
+#define SAMPLE_NOTES 0
+#define SAMPLE_CMAJOR 1
+#define SAMPLE_TWONOTES 2
+#define SAMPLE_ADAGIOSOSTENUTO 3
+
 using namespace AMT;
 using namespace std;
 
