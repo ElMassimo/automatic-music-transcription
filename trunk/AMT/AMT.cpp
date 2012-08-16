@@ -149,7 +149,7 @@ int	main(int argc, char** argv)
 		audioFileName = argv[optionIndex];
 	else
 	{	// Check which sample file we should use
-		int sample = 2;
+		int sample = SAMPLE_TWONOTES;
 		if((optionIndex = ParseOption("sample", argc, argv)) > 0)
 			sample = strtol(argv[optionIndex], NULL, 10);
 
